@@ -24,8 +24,8 @@ export default function Index({ params }: { params: { pack: string } }) {
     switch (currentStep) {
       case 'img-upload':
         return <TrainModelZone packSlug={params.pack} />;
-      // default:
-      //   return <ModelTypeSelector packSlug={params.pack} />;
+      default:
+        return <ModelTypeSelector packSlug={params.pack} />;
     }
   };
 
