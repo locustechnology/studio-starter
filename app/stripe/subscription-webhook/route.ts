@@ -71,6 +71,7 @@ export async function POST(request: Request) {
   }
 
   const rawBody = await streamToString(request.body);
+  console.log(rawBody);
 
   let event;
 
