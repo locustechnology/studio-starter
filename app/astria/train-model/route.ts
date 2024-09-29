@@ -5,14 +5,14 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-
 const astriaApiKey = process.env.ASTRIA_API_KEY;
-const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
+
+const astriaTestModeIsOn = process.env.PADDLE_TEST_MODE === "true";
 const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 // For local development, recommend using an Ngrok tunnel for the domain
 
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
-const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
+const paddleIsConfigured = process.env.NEXT_PUBLIC_PADDLE_IS_ENABLED === "true";
 
 if (!appWebhookSecret) {
   throw new Error("MISSING APP_WEBHOOK_SECRET!");
@@ -62,59 +62,42 @@ export async function POST(request: Request) {
   }
   let _credits = null;
 
-  console.log({ stripeIsConfigured });
-  if (stripeIsConfigured) {
+  console.log({ paddleIsConfigured });
+  if (paddleIsConfigured) {
     const { error: creditError, data: credits } = await supabase
       .from("credits")
       .select("credits")
-      .eq("user_id", user.id);
+      .eq("user_id", user.id)
+      .single();
 
     if (creditError) {
       console.error({ creditError });
       return NextResponse.json(
         {
-          message: "Something went wrong!",
+          message: "Error checking credits. Please try again later.",
         },
         { status: 500 }
       );
     }
 
-    if (credits.length === 0) {
-      // create credits for user.
-      const { error: errorCreatingCredits } = await supabase
-        .from("credits")
-        .insert({
-          user_id: user.id,
-          credits: 0,
-        });
-
-      if (errorCreatingCredits) {
-        console.error({ errorCreatingCredits });
-        return NextResponse.json(
-          {
-            message: "Something went wrong!",
-          },
-          { status: 500 }
-        );
-      }
-
+    if (!credits || credits.credits === 0) {
       return NextResponse.json(
         {
-          message:
-            "Not enough credits, please purchase some credits and try again.",
+          message: "No credits available. Please purchase credits to continue.",
+          redirect: "/get-credits"
         },
-        { status: 500 }
+        { status: 402 }
       );
-    } else if (credits[0]?.credits < 1) {
+    } else if (credits.credits < 1) {
       return NextResponse.json(
         {
-          message:
-            "Not enough credits, please purchase some credits and try again.",
+          message: "Not enough credits. Please purchase more credits to continue.",
+          redirect: "/get-credits"
         },
-        { status: 500 }
+        { status: 402 }
       );
     } else {
-      _credits = credits;
+      _credits = credits.credits;
     }
   }
 
@@ -143,7 +126,6 @@ export async function POST(request: Request) {
   const modelId = data?.id;
 
   try {
-
     const trainWebhook = `https://${process.env.VERCEL_URL}/astria/train-webhook`;
     const trainWebhookWithParams = `${trainWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
@@ -216,7 +198,15 @@ export async function POST(request: Request) {
       if (status === 400) {
         return NextResponse.json(
           {
-            message: "webhookUrl must be a URL address",
+            message: "Invalid request. Please check your input and try again.",
+          },
+          { status }
+        );
+      }
+      if (status === 401) {
+        return NextResponse.json(
+          {
+            message: "Unauthorized. Please check your API key.",
           },
           { status }
         );
@@ -224,7 +214,7 @@ export async function POST(request: Request) {
       if (status === 402) {
         return NextResponse.json(
           {
-            message: "Training models is only available on paid plans.",
+            message: "Payment required. Please check your account status.",
           },
           { status }
         );
@@ -233,7 +223,7 @@ export async function POST(request: Request) {
 
     const { error: samplesError } = await supabase.from("samples").insert(
       images.map((sample: string) => ({
-        modelId: modelId,
+        modelid: modelId, // Changed from modelId to modelid
         uri: sample,
       }))
     );
@@ -242,14 +232,14 @@ export async function POST(request: Request) {
       console.error("samplesError: ", samplesError);
       return NextResponse.json(
         {
-          message: "Something went wrong!",
+          message: "Error saving sample images. Please try again.",
         },
         { status: 500 }
       );
     }
 
-    if (stripeIsConfigured && _credits && _credits.length > 0) {
-      const subtractedCredits = _credits[0].credits - 1;
+    if (paddleIsConfigured && _credits !== null) {
+      const subtractedCredits = _credits - 1;
       const { error: updateCreditError, data } = await supabase
         .from("credits")
         .update({ credits: subtractedCredits })
@@ -263,7 +253,7 @@ export async function POST(request: Request) {
         console.error({ updateCreditError });
         return NextResponse.json(
           {
-            message: "Something went wrong!",
+            message: "Error updating credits. Please contact support.",
           },
           { status: 500 }
         );
@@ -272,12 +262,12 @@ export async function POST(request: Request) {
   } catch (e) {
     console.error(e);
     // Rollback: Delete the created model if something goes wrong
-    if (modelId) {
+    if (modelId) { // Fixed typo: changed modelid to modelId
       await supabase.from("models").delete().eq("id", modelId);
     }
     return NextResponse.json(
       {
-        message: "Something went wrong!",
+        message: "An unexpected error occurred. Please try again later.",
       },
       { status: 500 }
     );
@@ -285,7 +275,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json(
     {
-      message: "success",
+      message: "Model creation successful",
     },
     { status: 200 }
   );

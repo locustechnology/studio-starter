@@ -8,6 +8,8 @@ import hero from "/public/hero.png";
 import { Button } from "@/components/ui/button";
 import ExplainerSection from "@/components/ExplainerSection";
 import PricingSection from "@/components/PricingSection";
+import HeroSection from "@/components/Hero";
+import Footer from "@/components/Footer";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +26,7 @@ export default async function Index() {
 
   return (
     <div className="flex flex-col items-center pt-16">
-      <div className="flex flex-col lg:flex-row items-center gap-8 p-8 max-w-6xl w-full">
+      {/* <div className="flex flex-col lg:flex-row items-center gap-8 p-8 max-w-6xl w-full">
         <div className="flex flex-col space-y-4 lg:w-1/2 w-full">
           <h1 className="text-5xl font-bold">
             Professional AI Headshots in minutes.
@@ -55,9 +57,11 @@ export default async function Index() {
             className="rounded-lg object-cover w-full h-full"
           />
         </div>
-      </div>
+      </div> */}
+      <HeroSection />
       <ExplainerSection />
       <PricingSection />
+      
     </div>
   );
 }

@@ -1,203 +1,87 @@
-import { Database } from "@/types/supabase";
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { streamToString } from "@/lib/utils";
-import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import { Database } from "@/types/supabase";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl) {
-  throw new Error("MISSING NEXT_PUBLIC_SUPABASE_URL!");
-}
-
-if (!supabaseServiceRoleKey) {
-  throw new Error("MISSING SUPABASE_SERVICE_ROLE_KEY!");
-}
-
-const oneCreditPriceId = process.env.STRIPE_PRICE_ID_ONE_CREDIT as string;
-const threeCreditsPriceId = process.env.STRIPE_PRICE_ID_THREE_CREDITS as string;
-const fiveCreditsPriceId = process.env.STRIPE_PRICE_ID_FIVE_CREDITS as string;
-
-const creditsPerPriceId: {
-  [key: string]: number;
-} = {
-  [oneCreditPriceId]: 1,
-  [threeCreditsPriceId]: 3,
-  [fiveCreditsPriceId]: 5,
-};
-
 export async function POST(request: Request) {
-  console.log("Request from: ", request.url);
-  console.log("Request: ", request);
-  const headersObj = headers();
-  const sig = headersObj.get("stripe-signature");
-
-  if (!stripeSecretKey) {
-    return NextResponse.json(
-      {
-        message: `Missing stripeSecretKey`,
-      },
-      { status: 400 }
-    );
-  }
-
-  const stripe = new Stripe(stripeSecretKey, {
-    apiVersion: "2023-08-16",
-    typescript: true,
-  });
-
-  if (!sig) {
-    return NextResponse.json(
-      {
-        message: `Missing signature`,
-      },
-      { status: 400 }
-    );
-  }
-
-  if (!request.body) {
-    return NextResponse.json(
-      {
-        message: `Missing body`,
-      },
-      { status: 400 }
-    );
-  }
-
-  const rawBody = await streamToString(request.body);
-  console.log(rawBody);
-
-  let event;
-
+  console.log('Webhook function started');
+  
   try {
-    event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret!);
-  } catch (err) {
-    const error = err as Error;
-    console.log("Error verifying webhook signature: " + error.message);
-    return NextResponse.json(
-      {
-        message: `Webhook Error: ${error?.message}`,
-      },
-      { status: 400 }
-    );
-  }
+    const payload = await request.json();
+    console.log('Received Paddle webhook:', JSON.stringify(payload, null, 2));
 
-  const supabase = createClient<Database>(
-    supabaseUrl as string,
-    supabaseServiceRoleKey as string,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false,
-      },
+    if (payload.event_type !== 'checkout.completed') {
+      console.log('Unhandled event type:', payload.event_type);
+      return NextResponse.json({ message: 'Unhandled event type' }, { status: 200 });
     }
-  );
 
-  // Handle the event
-  switch (event.type) {
-    case "checkout.session.completed":
-      const checkoutSessionCompleted = event.data
-        .object as Stripe.Checkout.Session;
-      const userId = checkoutSessionCompleted.client_reference_id;
+    const userId = payload.data.custom_data?.user_id;
+    if (!userId) {
+      console.error('Missing user_id in custom_data');
+      return NextResponse.json({ message: 'Missing user_id' }, { status: 400 });
+    }
 
-      if (!userId) {
-        return NextResponse.json(
-          {
-            message: `Missing client_reference_id`,
-          },
-          { status: 400 }
-        );
-      }
+    const priceId = payload.data.items[0].price.id;
+    const quantity = payload.data.items[0].quantity;
 
-      const lineItems = await stripe.checkout.sessions.listLineItems(
-        checkoutSessionCompleted.id
-      );
-      const quantity = lineItems.data[0].quantity;
-      const priceId = lineItems.data[0].price!.id;
-      const creditsPerUnit = creditsPerPriceId[priceId];
-      const totalCreditsPurchased = quantity! * creditsPerUnit;
+    console.log('Price ID:', priceId);
+    console.log('Quantity:', quantity);
 
-      console.log({ lineItems });
-      console.log({ quantity });
-      console.log({ priceId });
-      console.log({ creditsPerUnit });
+    const creditAmounts: { [key: string]: number } = {
+      [process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_ONE_CREDIT!]: 1,
+      [process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_THREE_CREDITS!]: 3,
+      [process.env.NEXT_PUBLIC_PADDLE_PRICE_ID_FIVE_CREDITS!]: 5,
+    };
 
-      console.log("totalCreditsPurchased: " + totalCreditsPurchased);
+    console.log('Credit amounts:', creditAmounts);
 
-      const { data: existingCredits } = await supabase
-        .from("credits")
-        .select("*")
-        .eq("user_id", userId)
-        .single();
+    const creditsToAdd = (creditAmounts[priceId] || 0) * quantity;
 
-      // If user has existing credits, add to it.
-      if (existingCredits) {
-        const newCredits = existingCredits.credits + totalCreditsPurchased;
-        const { data, error } = await supabase
-          .from("credits")
-          .update({
-            credits: newCredits,
-          })
-          .eq("user_id", userId);
+    if (creditsToAdd === 0) {
+      console.error(`Unknown price ID: ${priceId}`);
+      return NextResponse.json({ message: 'Invalid price ID' }, { status: 400 });
+    }
 
-        if (error) {
-          console.log(error);
-          return NextResponse.json(
-            {
-              message: `Error updating credits: ${JSON.stringify(error)}. data=${data}`,
-            },
-            {
-              status: 400,
-            }
-          );
-        }
+    console.log(`Adding ${creditsToAdd} credits for user ${userId}`);
 
-        return NextResponse.json(
-          {
-            message: "success",
-          },
-          { status: 200 }
-        );
-      } else {
-        // Else create new credits row.
-        const { data, error } = await supabase.from("credits").insert({
-          user_id: userId,
-          credits: totalCreditsPurchased,
-        });
+    const supabase = createClient<Database>(supabaseUrl!, supabaseServiceRoleKey!);
 
-        if (error) {
-          console.log(error);
-          return NextResponse.json(
-            {
-              message: `Error creating credits: ${error}\n ${data}`,
-            },
-            {
-              status: 400,
-            }
-          );
-        }
-      }
+    console.log('Calling add_credits RPC function');
+    const { data, error } = await supabase
+      .from('credits')
+      .upsert({ user_id: userId, credits: creditsToAdd }, { onConflict: 'user_id' });
 
-      return NextResponse.json(
-        {
-          message: "success",
-        },
-        { status: 200 }
-      );
+    if (error) {
+      console.error('Error adding credits:', error);
+      console.error('User ID:', userId);
+      console.error('Credits to add:', creditsToAdd);
+      return NextResponse.json({ message: 'Error adding credits', error: error.message }, { status: 500 });
+    }
 
-    default:
-      return NextResponse.json(
-        {
-          message: `Unhandled event type ${event.type}`,
-        },
-        { status: 400 }
-      );
+    console.log('Credits added successfully. RPC function result:', data);
+
+    // Verify credits were added
+    const { data: creditData, error: creditError } = await supabase
+      .from('credits')
+      .select('credits')
+      .eq('user_id', userId)
+      .single();
+
+    if (creditError) {
+      console.error('Error checking credits:', creditError);
+    } else {
+      console.log('Current credits for user:', creditData?.credits);
+    }
+
+    return NextResponse.json({ message: 'Credits added successfully' }, { status: 200 });
+  } catch (error) {
+    console.error('Unexpected error in webhook handler:', error);
+    return NextResponse.json({ message: 'Internal server error', error: error.message }, { status: 500 });
   }
 }
