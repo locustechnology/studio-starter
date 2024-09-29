@@ -3,7 +3,7 @@ import Group from "/public/Group.png";
 import exampl from "/public/exampl.png";
 import resulte from "/public/resulte.png";
 import explanation from "/public/explanation.png"
-
+import card from "/public/card.svg"
 export default function ExplainerSection() {
   return (
     <div >
@@ -68,7 +68,7 @@ export default function ExplainerSection() {
 
         
        <Image
-          src={explanation}
+          src={card}
           alt="AI Headshot result"
         />
     </div>

@@ -10,6 +10,11 @@ import ExplainerSection from "@/components/ExplainerSection";
 import PricingSection from "@/components/PricingSection";
 import HeroSection from "@/components/Hero";
 import Footer from "@/components/Footer";
+import ComparisonPage from "@/components/Comparison";
+import FAQSection from "@/components/Question";
+import MoneyBackGuarantee from "@/components/moneysection";
+import DataSecuritySection from "@/components/container";
+import ReviewPage from "@/components/ReviewPage";
 
 export const dynamic = "force-dynamic";
 
@@ -60,7 +65,13 @@ export default async function Index() {
       </div> */}
       <HeroSection />
       <ExplainerSection />
-      <PricingSection />
+      <MoneyBackGuarantee/>
+      <ComparisonPage/>
+      <ReviewPage/>
+      <DataSecuritySection/>
+      <FAQSection/>
+      <PricingSection initialPlans={[]} initialUser={null} />
+      
       
     </div>
   );

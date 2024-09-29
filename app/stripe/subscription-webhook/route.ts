@@ -52,10 +52,11 @@ export async function POST(request: Request) {
 
     const supabase = createClient<Database>(supabaseUrl!, supabaseServiceRoleKey!);
 
-    console.log('Calling add_credits RPC function');
-    const { data, error } = await supabase
-      .from('credits')
-      .upsert({ user_id: userId, credits: creditsToAdd }, { onConflict: 'user_id' });
+    console.log('Updating credits in the database');
+    const { data, error } = await supabase.rpc('add_credits', {
+      p_user_id: userId,
+      p_credits: creditsToAdd
+    });
 
     if (error) {
       console.error('Error adding credits:', error);
@@ -82,6 +83,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: 'Credits added successfully' }, { status: 200 });
   } catch (error) {
     console.error('Unexpected error in webhook handler:', error);
-    return NextResponse.json({ message: 'Internal server error', error: error.message }, { status: 500 });
+    return NextResponse.json({ message: 'Internal server error', error: (error as Error).message }, { status: 500 });
   }
 }

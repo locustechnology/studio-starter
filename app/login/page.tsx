@@ -1,3 +1,4 @@
+
 // File: app/login/page.tsx
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
@@ -8,6 +9,7 @@ import LoginPage from "./components/Login";
 export const dynamic = "force-dynamic";
 
 export default async function LoginPageWrapper({
+
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
@@ -27,6 +29,7 @@ export default async function LoginPageWrapper({
 
   return (
     <div className="flex flex-col flex-1 w-full h-[calc(100vh-73px)]">
+
       <LoginPage host={host} searchParams={searchParams} />
     </div>
   );

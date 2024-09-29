@@ -5,14 +5,13 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
-const astriaApiKey = process.env.ASTRIA_API_KEY;
 
-const astriaTestModeIsOn = process.env.PADDLE_TEST_MODE === "true";
+const astriaApiKey = process.env.ASTRIA_API_KEY;
+const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
 const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
-// For local development, recommend using an Ngrok tunnel for the domain
 
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
-const paddleIsConfigured = process.env.NEXT_PUBLIC_PADDLE_IS_ENABLED === "true";
+const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
 
 if (!appWebhookSecret) {
   throw new Error("MISSING APP_WEBHOOK_SECRET!");
@@ -62,14 +61,14 @@ export async function POST(request: Request) {
   }
   let _credits = null;
 
-  console.log({ paddleIsConfigured });
-  if (paddleIsConfigured) {
+  console.log({ stripeIsConfigured });
+  if (stripeIsConfigured) {
     const { error: creditError, data: credits } = await supabase
       .from("credits")
       .select("credits")
       .eq("user_id", user.id)
       .single();
-
+    
     if (creditError) {
       console.error({ creditError });
       return NextResponse.json(
@@ -198,6 +197,7 @@ export async function POST(request: Request) {
       if (status === 400) {
         return NextResponse.json(
           {
+
             message: "Invalid request. Please check your input and try again.",
           },
           { status }
@@ -223,7 +223,7 @@ export async function POST(request: Request) {
 
     const { error: samplesError } = await supabase.from("samples").insert(
       images.map((sample: string) => ({
-        modelid: modelId, // Changed from modelId to modelid
+        modelId: modelId,
         uri: sample,
       }))
     );
@@ -238,7 +238,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (paddleIsConfigured && _credits !== null) {
+    if (stripeIsConfigured && _credits !== null) {
       const subtractedCredits = _credits - 1;
       const { error: updateCreditError, data } = await supabase
         .from("credits")
@@ -262,7 +262,7 @@ export async function POST(request: Request) {
   } catch (e) {
     console.error(e);
     // Rollback: Delete the created model if something goes wrong
-    if (modelId) { // Fixed typo: changed modelid to modelId
+    if (modelId) {
       await supabase.from("models").delete().eq("id", modelId);
     }
     return NextResponse.json(

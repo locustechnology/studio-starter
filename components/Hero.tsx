@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useRef } from 'react';
 import { Camera, Clock, Shield, CheckCircle } from 'lucide-react';
 
 interface HeadshotCardProps {
@@ -6,7 +7,7 @@ interface HeadshotCardProps {
 }
 
 const HeadshotCard: React.FC<HeadshotCardProps> = ({ imageUrl }) => (
-  <div className="w-24 h-32 rounded-lg overflow-hidden">
+  <div className="w-24 h-32 rounded-lg overflow-hidden flex-shrink-0">
     <img src={imageUrl} alt="AI Headshot" className="w-full h-full object-cover" />
   </div>
 );
@@ -25,14 +26,38 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ Icon, text }) => (
 
 export default function AIHeadshotsLandingPage() {
   const headshots = [
-    "/api/placeholder/192/256",
-    "/api/placeholder/192/256",
-    "/api/placeholder/192/256",
-    "/api/placeholder/192/256",
-    "/api/placeholder/192/256",
-    "/api/placeholder/192/256",
-    "/api/placeholder/192/256",
+    "/Carosal/image.svg",
+    "/Carosal/image1.svg",
+    "/Carosal/image2.svg",
+    "/Carosal/image3.svg",
+    "/Carosal/image4.svg",
+    "/Carosal/image5.svg",
+    "/Carosal/image.svg",
   ];
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    let scrollPosition = 0;
+    const scrollSpeed = 1; // Adjust this value to change the scroll speed
+    const carouselWidth = carousel.scrollWidth / 2;
+
+    const scroll = () => {
+      scrollPosition += scrollSpeed;
+      if (scrollPosition >= carouselWidth) {
+        scrollPosition = 0;
+      }
+      carousel.scrollLeft = scrollPosition;
+      requestAnimationFrame(scroll);
+    };
+
+    const animation = requestAnimationFrame(scroll);
+
+    return () => cancelAnimationFrame(animation);
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -59,8 +84,8 @@ export default function AIHeadshotsLandingPage() {
         </button>
       </div>
       
-      <div className="flex justify-center space-x-4 overflow-x-auto">
-        {headshots.map((url, index) => (
+      <div ref={carouselRef} className="flex space-x-4 overflow-x-hidden">
+        {[...headshots, ...headshots].map((url, index) => (
           <HeadshotCard key={index} imageUrl={url} />
         ))}
       </div>
