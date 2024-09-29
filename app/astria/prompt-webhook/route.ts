@@ -127,7 +127,7 @@ export async function POST(request: Request) {
   try {
     // Here we join all of the arrays into one.
     const allHeadshots = prompt.images;
-    
+    console.log("working ok")
     const { data: model, error: modelError } = await supabase
       .from("models")
       .select("*")
@@ -141,8 +141,11 @@ export async function POST(request: Request) {
           message: "Something went wrong!",
         },
         { status: 500 }
+        
       );
+
     }
+
 
     await Promise.all(
       allHeadshots.map(async (image) => {
