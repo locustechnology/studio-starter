@@ -65,10 +65,10 @@ const ClientPricingSection: React.FC<ClientPricingSectionProps> = ({ initialPlan
   };
 
   useEffect(() => {
-    if (isCheckoutOpen) {
+    if (isCheckoutOpen && paddleLoaded) {
       openCheckout();
     }
-  }, [isCheckoutOpen]);
+  }, [isCheckoutOpen, paddleLoaded]);
 
   const openCheckout = () => {
     if (!currentPriceId || !user) return;
