@@ -17,7 +17,7 @@ const TrainFlowComponent = () => {
     setCurrentStep(step || '');
   }, [searchParams]);
 
-  const navigateToNextStep = (nextStep) => {
+  const navigateToNextStep = (nextStep: string) => {
     console.log('Navigating to next step:', nextStep);
     router.push(`/overview/models/train/corporate-headshots?step=${nextStep}`);
   };
@@ -33,7 +33,7 @@ const TrainFlowComponent = () => {
   }
 
   // If no step or unknown step, show ModelTypeSelector
-  return <ModelTypeSelector onContinue={() => navigateToNextStep('img-upload')} />;
+  return <ModelTypeSelector packSlug="corporate-headshots" onContinue={() => navigateToNextStep('img-upload')} />;
 };
 
 export default TrainFlowComponent;

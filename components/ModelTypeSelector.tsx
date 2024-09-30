@@ -77,56 +77,63 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
   }, [selectedModel, name, supabase, router, packSlug]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4 space-y-12">
-      <div className="text-center space-y-6">
-        <h1 className="text-4xl font-bold leading-tight">
+    <div className="w-full max-w-6xl mx-auto p-4 md:p-6 space-y-8 md:space-y-12">
+      <div className="text-center space-y-4 md:space-y-6">
+        <h1 className="text-2xl md:text-4xl font-bold leading-tight">
           <span className="text-purple-500">Studio-quality</span> Headshots with <span className="text-black">Gostudio.AI</span>
         </h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-gray-600 text-sm md:text-base max-w-2xl mx-auto">
           Get studio quality headshot in no time and enhance your professional journey.
         </p>
       </div>
 
       <div className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
           <Input
             type="text"
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
-            className="mt-1 block w-full"
+            className="w-full"
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {modelTypes.map((item) => (
             <div
               key={item.value}
               onClick={() => handleSelectModel(item.value)}
-              className={`cursor-pointer rounded-lg overflow-hidden border-2 ${
-                selectedModel === item.value ? 'border-purple-500' : 'border-transparent'
+              className={`cursor-pointer rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                selectedModel === item.value ? 'border-purple-500 shadow-lg' : 'border-transparent hover:border-purple-300'
               }`}
             >
-              <Image src={item.imageSrc} alt={item.label} width={300} height={200} className="w-full h-48 object-cover" />
+              <div className="relative h-32 sm:h-40 md:h-48">
+                <Image 
+                  src={item.imageSrc} 
+                  alt={item.label} 
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
               <div className="p-2 text-center">{item.label}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="text-center space-y-6">
-        {error && <p className="text-red-500">{error}</p>}
+      <div className="text-center space-y-4 md:space-y-6">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <Button 
           onClick={handleContinue}
           disabled={!selectedModel || !name}
-          className="px-10 py-3 rounded-full text-lg font-semibold bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600"
+          className="px-6 py-2 md:px-10 md:py-3 rounded-full text-base md:text-lg font-semibold bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
         >
           Continue
-          <ArrowRight className="ml-2 h-5 w-5" />
+          <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
         </Button>
-        <p className="text-sm text-gray-500">
+        <p className="text-xs md:text-sm text-gray-500">
           By using our AI Tools, you agree to and accept our{' '}
           <Link href="/terms" className="text-purple-500 hover:underline">
             Terms of Use

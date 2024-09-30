@@ -10,7 +10,6 @@ import girl from "@/public/testimonial/girl.svg"
 import boy from "@/public/testimonial/boy.svg"
 import young from "@/public/testimonial/young.svg"
 
-// Change these imports to use Image component instead
 import Ber from "@/public/logo/Ber.svg";
 import Box from "@/public/logo/Box.svg";
 import Dell from "@/public/logo/Dell.svg";
@@ -73,81 +72,81 @@ const ReviewPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 min-h-screen p-4 sm:p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="w-[1274px] h-[116px] mt-[156px] mx-auto mb-12 bg-[#F3F6F9] overflow-hidden">
-          <div ref={carouselRef} className="flex items-center space-x-8 py-[31px] whitespace-nowrap overflow-hidden">
-            {[...brands, ...brands].map((brand, idx) => (
-              <div key={idx} className="w-[100px] flex-shrink-0">
-                <Image 
-                  src={brand.src} 
-                  alt={brand.alt} 
-                  width={100} 
-                  height={100} 
-                  className={`transition-all duration-300 ${
-                    brand.hoverColor === 'multi' 
-                      ? 'hover:filter hover:hue-rotate-90' 
-                      : `hover:${brand.hoverColor === 'light-blue' ? 'text-sky-300' : `text-${brand.hoverColor}-500`}`
-                  }`}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex justify-center mb-12">
-          <div className="flex flex-col sm:flex-row justify-between w-full max-w-3xl">
-            <div className="text-center mb-4 sm:mb-0">
-              <h2 className="text-5xl sm:text-6xl font-bold text-blue-500 mb-2">86000</h2>
-              <p className="text-lg sm:text-xl font-semibold">AI Headshots created</p>
-            </div>
-            <div className="text-center">
-              <h2 className="text-5xl sm:text-6xl font-bold text-blue-500 mb-2">2100</h2>
-              <p className="text-lg sm:text-xl font-semibold">Happy Customers Globally</p>
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-4 text-white flex flex-col justify-between">
-            <div>
-              <h3 className="text-lg font-semibold mb-2">AI Summary</h3>
-              <p className="text-sm mb-3">Customers praise the product's convenience, price and ease of use, especially for selecting styles and AI Feedback on uploading images.</p>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current text-yellow-400" />
-                  ))}
-                </div>
-                <span className="text-sm font-semibold">112</span>
-              </div>
-              <p className="text-xs mt-1">based on 112 written reviews</p>
-            </div>
-          </div>
-          
-          {reviews.map((review, index) => (
-            <div key={index} className="bg-black rounded-lg overflow-hidden">
-              <div className="relative">
-                <Image src={review.image} alt={review.name} width={300} height={128} className="w-full h-32 object-cover" />
-                <div className="absolute top-2 right-2 bg-white bg-opacity-80 rounded-md px-2 py-1 flex items-center space-x-1">
-                  <Image src={Logo} alt="GoStudio.ai" width={16} height={16} className="w-4 h-4" />
-                  <span className="text-xs font-semibold text-gray-800">GoStudio.ai</span>
-                </div>
-              </div>
-              <div className="p-3 text-white">
-                <div className="flex justify-between items-center mb-1">
-                  <h3 className="font-semibold text-sm">{review.name}</h3>
-                  <div className="flex">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-current text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-                <p className="text-xs text-gray-300">{review.comment}</p>
-              </div>
+    <div className="w-full max-w-[1276px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-[30px] sm:gap-[60px]">
+      <div className="w-full overflow-hidden">
+        <div ref={carouselRef} className="flex items-center space-x-8 py-[31px] whitespace-nowrap overflow-hidden">
+          {[...brands, ...brands].map((brand, idx) => (
+            <div key={idx} className="w-[100px] flex-shrink-0">
+              <Image 
+                src={brand.src} 
+                alt={brand.alt} 
+                width={100} 
+                height={100} 
+                className={`transition-all duration-300 ${
+                  brand.hoverColor === 'multi' 
+                    ? 'hover:filter hover:hue-rotate-90' 
+                    : `hover:${brand.hoverColor === 'light-blue' ? 'text-sky-300' : `text-${brand.hoverColor}-500`}`
+                }`}
+              />
             </div>
           ))}
         </div>
+      </div>
+      
+      <div className="flex justify-center">
+        <div className="flex flex-col sm:flex-row justify-between w-full max-w-3xl">
+          <div className="text-center mb-4 sm:mb-0">
+            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2">86000</h2>
+            <p className="text-lg sm:text-xl font-semibold">AI Headshots created</p>
+          </div>
+          <div className="text-center">
+            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2">2100</h2>
+            <p className="text-lg sm:text-xl font-semibold">Happy Customers Globally</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-4 text-white flex flex-col justify-between">
+          <div>
+            <h3 className="text-lg font-semibold mb-2">AI Summary</h3>
+            <p className="text-sm mb-3">Customers praise the product's convenience, price and ease of use, especially for selecting styles and AI Feedback on uploading images.</p>
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-current text-yellow-400" />
+                ))}
+              </div>
+              <span className="text-sm font-semibold">112</span>
+            </div>
+            <p className="text-xs mt-1">based on 112 written reviews</p>
+          </div>
+        </div>
+        
+        {reviews.slice(0, 15).map((review, index) => (
+          <div key={index} className="bg-black rounded-lg overflow-hidden">
+            <div className="relative">
+              <Image src={review.image} alt={review.name} width={300} height={128} className="w-full h-32 object-cover" />
+              <div className="absolute top-2 right-2 bg-white bg-opacity-80 rounded-md px-2 py-1 flex items-center space-x-1">
+                <Image src={Logo} alt="GoStudio.ai" width={16} height={16} className="w-4 h-4" />
+                <span className="text-xs font-semibold text-gray-800">GoStudio.ai</span>
+              </div>
+            </div>
+            <div className="p-3 text-white">
+              <div className="flex justify-between items-center mb-1">
+                <h3 className="font-semibold text-sm">{review.name}</h3>
+                <div className="flex">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star key={i} className="w-3 h-3 fill-current text-yellow-400" />
+                  ))}
+                </div>
+              </div>
+              <p className="text-xs text-gray-300">{review.comment}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -9,9 +9,9 @@ interface FooterColumnProps {
 }
 
 const FooterColumn: React.FC<FooterColumnProps> = ({ title, items }) => (
-  <div className="mb-4 sm:mb-0">
-    <h3 className="font-semibold text-sm mb-2">{title}</h3>
-    <ul className="space-y-1">
+  <div className="mb-8">
+    <h3 className="font-semibold text-sm mb-4">{title}</h3>
+    <ul className="space-y-3">
       {items.map((item) => (
         <li key={item}>
           <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
@@ -44,35 +44,35 @@ const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="bg-white py-8 border-t border-gray-200">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div className="mb-4 md:mb-0">
-            <Link href="/" className="flex items-center">
-              <Image src={logo} alt="Studio.ai logo" width={24} height={24} className="rounded-sm" />
+    <footer className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto xl:max-w-[1440px]">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-start mb-16">
+          <div className="mb-12 lg:mb-0">
+            <div className="flex items-center mb-6">
+              <Image src={logo} alt="Studio.ai logo" width={40} height={40} className="rounded-full" />
               <span className="text-xl font-bold ml-2">Studio.ai</span>
-            </Link>
+            </div>
+            <p className="text-sm text-gray-600 max-w-xs">
+              Professional AI Headshots in 4K quality.
+              <br />
+              Get your headshot in under 60 minutes, no photographer needed. Starting from $29.
+            </p>
           </div>
-          <div className="text-sm text-gray-600 max-w-md">
-            Professional AI Headshots in 4K quality.
-            <br />
-            Get your headshot in under 60 minutes, no photographer needed. Starting from $29.
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-8 gap-y-0 w-full lg:w-auto">
+            {columns.map((column) => (
+              <FooterColumn key={column.title} {...column} />
+            ))}
           </div>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-          {columns.map((column) => (
-            <FooterColumn key={column.title} {...column} />
-          ))}
-        </div>
-        
-        <div className="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
-          <p className="mb-2 sm:mb-0">
-            Copyright© 2024 <Link href="/" className="text-blue-500 hover:text-blue-600">Gostudio.ai</Link>
+        <div className="border-t border-gray-200 pt-8 flex flex-col sm:flex-row justify-between items-center">
+          <p className="text-sm text-gray-600 mb-4 sm:mb-0">
+            Copyright© 2024 <Link href="/" className="text-[#5B16FE] hover:text-blue-600">Gostudio.ai</Link>
           </p>
-          <p>
-            Need help? <Link href="/" className="text-[#5B16FE] hover:text-blue-600">Contact Us</Link>
-          </p>
+          <div className="flex items-center">
+            <span className="text-sm text-gray-600 mr-4">Need help?</span>
+            <Link href="/" className="text-sm text-[#5B16FE] hover:text-blue-600">Contact Us</Link>
+          </div>
         </div>
       </div>
     </footer>

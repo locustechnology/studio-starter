@@ -1,9 +1,11 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import { Toaster } from "@/components/ui/toaster";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
+import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
+import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Headshots AI",
@@ -13,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }: any) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-[#F4F7FA]">
         <section>
           <Suspense
             fallback={
@@ -23,10 +25,9 @@ export default function RootLayout({ children }: any) {
             <Navbar />
           </Suspense>
         </section>
-        <main className="flex flex-1 flex-col items-center py-16">
+        <main className="flex flex-1 flex-col items-center py-16 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
           {children}
         </main>
-      
         <Toaster />
         <Analytics />
       </body>
