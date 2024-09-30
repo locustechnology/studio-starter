@@ -4,18 +4,63 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { FaImages } from "react-icons/fa";
 
-export default function ResponsivePhotoUpload() {
-  const [files, setFiles] = useState([]);
+export default function TrainModelZone() {
+  const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
 
-  const onDrop = useCallback((acceptedFiles) => {
-    setFiles(acceptedFiles);
-    toast({
-      title: "Images selected",
-      description: "The images were successfully selected.",
-      duration: 5000,
-    });
-  }, [files, toast]);
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const newFiles: File[] =
+        acceptedFiles.filter(
+          (file: File) => !files.some((f) => f.name === file.name)
+        ) || [];
+
+      if (newFiles.length + files.length > 10) {
+        toast({
+          title: "Too many images",
+          description: "You can only upload up to 10 images in total. Please try again.",
+          duration: 5000,
+        });
+        return;
+      }
+
+      if (newFiles.length !== acceptedFiles.length) {
+        toast({
+          title: "Duplicate file names",
+          description: "Some of the files you selected were already added. They were ignored.",
+          duration: 5000,
+        });
+      }
+
+      const totalSize = files.reduce((acc, file) => acc + file.size, 0);
+      const newSize = newFiles.reduce((acc, file) => acc + file.size, 0);
+
+      if (totalSize + newSize > 20 * 1024 * 1024) {
+        toast({
+          title: "Images exceed size limit",
+          description: "The total combined size of the images cannot exceed 20MB.",
+          duration: 5000,
+        });
+        return;
+      }
+
+      setFiles([...files, ...newFiles]);
+
+      toast({
+        title: "Images selected",
+        description: "The images were successfully selected.",
+        duration: 5000,
+      });
+    },
+    [files]
+  );
+
+  const removeFile = useCallback(
+    (file: File) => {
+      setFiles(files.filter((f) => f.name !== file.name));
+    },
+    [files]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -25,10 +70,6 @@ export default function ResponsivePhotoUpload() {
       'image/heic': ['.heic'],
     },
   });
-
-  const removeFile = (file) => {
-    setFiles(files.filter((f) => f !== file));
-  };
 
   return (
     <div className="flex flex-col lg:flex-row gap-4 bg-gray-50 w-[1276px] h-[672px] absolute top-[175px] left-[82px] p-[84px_60px_84px_60px] justify-center items-center">
@@ -58,8 +99,6 @@ export default function ResponsivePhotoUpload() {
           </div>
         </div>
       </div>
-
-      {/* Right side: Upload area */}
       <div className="w-[674px] h-[504px] bg-white rounded-3xl flex items-center justify-center relative overflow-hidden" style={{
         border: '3px solid transparent',
         borderRadius: '24px',
@@ -88,7 +127,6 @@ export default function ResponsivePhotoUpload() {
                 <p className="text-lg text-gray-600 mb-2">
                   Drag 'n' drop some files here, or click to select files
                 </p>
-                <p className="text-sm text-gray-500">PNG, JPG, HEIC up to 20MB</p>
               </div>
             )}
           </div>
@@ -105,7 +143,7 @@ export default function ResponsivePhotoUpload() {
                   <div key={index} className="relative group">
                     <img
                       src={URL.createObjectURL(file)}
-                      alt={`Uploaded ${index + 1}`}
+                      alt={file.name}
                       className="w-full h-20 object-cover rounded-lg"
                     />
                     <Button
