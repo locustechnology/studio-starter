@@ -235,12 +235,12 @@ const PricingComponent: React.FC<PricingComponentProps> = ({ user }) => {
             {pricingTiers.map((tier, index) => (
               <div key={tier.name} className={`bg-white rounded-3xl p-8 ${tier.highlight ? 'shadow-xl relative' : ''}`}>
                 {tier.popularTag && (
-                  <div className="absolute top-4 left-4 bg-purple-100 text-purple-600 px-3 py-1 text-xs rounded-full">
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[184px] h-[42px] bg-purple-100 text-purple-600 px-5 py-[9px] text-xs rounded-full border-[1.5px] border-purple-600 flex items-center justify-center">
                     {tier.popularTag}
                   </div>
                 )}
                 {tier.bestValueTag && (
-                  <div className="absolute top-4 right-4 bg-green-100 text-green-600 w-[124px] h-[42px] px-5 py-[9px] gap-[10px] rounded-tl-full border-t-[1.5px] border-l-[1.5px] border-green-600 flex items-center justify-center">
+                  <div className="absolute  bg-green-100 text-green-600 w-[124px] h-[42px] px-5 py-[1px] text-xs rounded-tr-[100px] border-t-[1.5px] border-r-[1.5px] border-green-600 flex items-center justify-center">
                     {tier.bestValueTag}
                   </div>
                 )}
