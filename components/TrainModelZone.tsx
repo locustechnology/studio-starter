@@ -1,180 +1,212 @@
-import React, { useCallback, useState } from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { useState, useCallback } from 'react';
+import { Upload, Trash2 } from 'lucide-react';
+import Image from 'next/image';
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import { FaImages } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
+import { createClient } from '@supabase/supabase-js';
+import Frame from "@/public/Frame.svg"
+// Initialize Supabase client using environment variables
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
-export default function TrainModelZone() {
+const PhotoUpload = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
+  const router = useRouter();
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      const newFiles: File[] =
-        acceptedFiles.filter(
-          (file: File) => !files.some((f) => f.name === file.name)
-        ) || [];
+  const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const acceptedFiles = Array.from(event.target.files || []);
+    
+    const newFiles = acceptedFiles.filter(
+      (file: File) => !files.some((f) => f.name === file.name)
+    );
 
-      if (newFiles.length + files.length > 10) {
-        toast({
-          title: "Too many images",
-          description: "You can only upload up to 10 images in total. Please try again.",
-          duration: 5000,
-        });
-        return;
-      }
-
-      if (newFiles.length !== acceptedFiles.length) {
-        toast({
-          title: "Duplicate file names",
-          description: "Some of the files you selected were already added. They were ignored.",
-          duration: 5000,
-        });
-      }
-
-      const totalSize = files.reduce((acc, file) => acc + file.size, 0);
-      const newSize = newFiles.reduce((acc, file) => acc + file.size, 0);
-
-      if (totalSize + newSize > 20 * 1024 * 1024) {
-        toast({
-          title: "Images exceed size limit",
-          description: "The total combined size of the images cannot exceed 20MB.",
-          duration: 5000,
-        });
-        return;
-      }
-
-      setFiles([...files, ...newFiles]);
-
+    if (newFiles.length + files.length > 10) {
       toast({
-        title: "Images selected",
-        description: "The images were successfully selected.",
+        title: "Too many images",
+        description: "You can only upload up to 10 images in total. Please try again.",
         duration: 5000,
       });
-    },
-    [files]
-  );
+      return;
+    }
 
-  const removeFile = useCallback(
-    (file: File) => {
-      setFiles(files.filter((f) => f.name !== file.name));
-    },
-    [files]
-  );
+    const totalSize = [...files, ...newFiles].reduce((acc, file) => acc + file.size, 0);
+    if (totalSize > 120 * 1024 * 1024) {  // 120MB limit
+      toast({
+        title: "Images exceed size limit",
+        description: "The total combined size of the images cannot exceed 120MB.",
+        duration: 5000,
+      });
+      return;
+    }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'image/png': ['.png'],
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/heic': ['.heic'],
-    },
-  });
+    setFiles(prevFiles => [...prevFiles, ...newFiles]);
+
+    toast({
+      title: "Images selected",
+      description: "The images were successfully selected.",
+      duration: 5000,
+    });
+  }, [files, toast]);
+
+  const handleRemoveFile = (fileToRemove: File) => {
+    setFiles(files.filter(file => file !== fileToRemove));
+  };
+
+  const handleContinue = async () => {
+    if (files.length < 10) {
+      toast({
+        title: "Not enough images",
+        description: "Please upload at least 10 images before continuing.",
+        duration: 5000,
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    const blobUrls = [];
+
+    try {
+      for (const file of files) {
+        const blob = await upload(file.name, file, {
+          access: 'public',
+          handleUploadUrl: '/astria/train-model/image-upload', // Updated URL
+        });
+        blobUrls.push(blob.url);
+      }
+
+      // Store the blob URLs in Supabase
+      const { data, error } = await supabase
+        .from('photos')
+        .insert(blobUrls.map(url => ({ url })));
+
+      if (error) throw error;
+
+      toast({
+        title: "Upload successful",
+        description: "Your photos have been uploaded and saved successfully.",
+        duration: 5000,
+      });
+
+      // Redirect or perform next steps
+      router.push('/next-page');
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload failed",
+        description: "There was an error uploading your photos. Please try again.",
+        duration: 5000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4 bg-gray-50 w-[1276px] h-[672px] absolute top-[175px] left-[82px] p-[84px_60px_84px_60px] justify-center items-center">
-      {/* Left side: Photo examples */}
-      <div className="w-[468px] h-[504px] p-6 bg-[#F2F2F7] rounded-3xl shadow-lg flex flex-col gap-7">
-        <h2 className="text-2xl font-bold">Photo of yourself</h2>
-        <div>
-          <h3 className="text-xl font-semibold mb-2 flex items-center">
-            Good Photo <span className="ml-2 text-2xl">🤩</span>
-          </h3>
-          <p className="text-sm text-gray-600 mb-2">Upload photos of your face only, well-lit and in focus.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={`good-${i}`} className="aspect-square bg-gray-200 rounded-lg"></div>
-            ))}
+    <div className="flex justify-center items-start min-h-screen r">
+      <div className="flex flex-col sm:flex-row mt-8" style={{ gap: '16px' }}>
+        <div className="w-full sm:w-[468px] rounded-3xl p-6 sm:p-[12px_28px] flex flex-col gap-8 sm:gap-5" style={{ height: 'auto', minHeight: '504px', background: 'var(--Backgrounds-Secondary, #F2F2F7)', boxShadow: '0px 8px 48px 0px #00000026' }}>
+          <h2 className="text-2xl font-semibold">Photo of yourself</h2>
+          <div className="w-full h-auto">
+            <Image src={Frame} alt="✅ Good and ❌ Bad Photos" width={412} height={336} layout="responsive" />
           </div>
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold mb-2 flex items-center">
-            Bad Photo <span className="ml-2 text-2xl">🫣</span>
-          </h3>
-          <p className="text-sm text-gray-600 mb-2">Group shot, children, animals, full length, hat, sunglasses, scarf, mask, face covering.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={`bad-${i}`} className="aspect-square bg-gray-200 rounded-lg"></div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="w-[674px] h-[504px] bg-white rounded-3xl flex items-center justify-center relative overflow-hidden" style={{
-        border: '3px solid transparent',
-        borderRadius: '24px',
-        backgroundImage: 'linear-gradient(white, white), linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
-        backgroundOrigin: 'border-box',
-        backgroundClip: 'content-box, border-box',
-        boxShadow: '0px 8px 48px 0px #00000026, 0 0 0 3px transparent'
-      }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] opacity-50" style={{ zIndex: -1 }}></div>
-        <div className="bg-white p-6 rounded-3xl flex flex-col items-center justify-center h-[90%] w-[90%] max-w-[600px]">
-          <h2 className="text-2xl font-bold mb-2 text-center">Start Uploading photos</h2>
-          <p className="text-gray-600 mb-8 text-center" style={{ width: '540px', height: '16px' }}>
-            Select at least 10 of your best photos. Good photos help our AI to give you amazing results!
+          <p className="text-xs text-gray-500 mt-auto">
+            By using our AI Tools, you agree to and accept our <a href="#" className="text-blue-500 hover:underline">Terms of Use</a>
           </p>
-
-          <div
-            {...getRootProps()}
-            className="border-2 border-dashed border-gray-300 rounded-lg p-8 cursor-pointer transition-all duration-300 ease-in-out w-full max-w-md flex flex-col items-center justify-center"
-          >
-            <input {...getInputProps()} />
-            <FaImages size={48} className="text-gray-400 mb-4" />
-            {isDragActive ? (
-              <p className="text-lg text-gray-600">Drop the files here ...</p>
-            ) : (
-              <div className="text-center">
-                <p className="text-lg text-gray-600 mb-2">
-                  Drag 'n' drop some files here, or click to select files
-                </p>
-              </div>
-            )}
-          </div>
-
-          <Button variant="outline" size="lg" className="mt-6">
-            Upload files
-          </Button>
-
-          {files.length > 0 && (
-            <div className="mt-6 w-full">
-              <h3 className="text-xl font-semibold mb-2">Selected Images</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 max-h-[200px] overflow-y-auto">
-                {files.map((file, index) => (
-                  <div key={index} className="relative group">
-                    <img
-                      src={URL.createObjectURL(file)}
-                      alt={file.name}
-                      className="w-full h-20 object-cover rounded-lg"
-                    />
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => removeFile(file)}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-                {[...Array(Math.max(0, 10 - files.length))].map((_, index) => (
-                  <div key={`empty-${index}`} className="w-full h-20 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                    <span className="text-3xl text-gray-300">+</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="mt-auto text-center">
-            <Button size="lg" disabled={files.length === 0}>
-              Continue
-            </Button>
-            <p className="mt-2 text-sm text-gray-500">
-              By using our AI Tools, you agree to and accept our Terms of Use
-            </p>
-          </div>
         </div>
+
+      {/* Right side - Upload functionality */}
+      <div className="w-[674px] h-[504px] rounded-tl-[24px] p-8 bg-white shadow-md border-t-3 border-purple-200 flex flex-col gap-6">
+        <h2 className="text-center mb-4 mx-auto" style={{
+          width: '277px',
+          height: '36px',
+          fontFamily: 'Poppins',
+          fontSize: '24px',
+          fontWeight: 400,
+          lineHeight: '36px'
+        }}>Start Uploading photos</h2>
+        <div className="flex flex-col items-center w-[606px] h-[16px] ">
+        <p className="font-['Poppins'] text-xs font-normal leading-4 text-center text-gray-600">Select at least 10 of your best photos. Good photos help our AI to give you amazing results!</p>
+        </div>
+        
+        {files.length === 0 ? (
+          <div className="border-2 border-dashed border-purple-300 rounded-lg p-12 text-center">
+            <label htmlFor="file-upload" className="cursor-pointer">
+              <div className="bg-purple-500 text-white font-semibold rounded-full inline-flex items-center justify-center text-lg transition duration-300 mb-6 px-8 py-4 hover:bg-purple-600">
+                <Upload size={24} className="mr-3" />
+                <span>Upload files</span>
+              </div>
+              <input 
+                id="file-upload" 
+                type="file" 
+                className="hidden"
+                multiple 
+                onChange={handleFileUpload} 
+                accept="image/*" 
+              />
+            </label>
+            <p className="text-base text-gray-500">Click to upload or drag and drop</p>
+            <p className="text-base text-gray-500">PNG, JPG, HEIC up to 120MB</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-8">
+            {files.map((file, index) => (
+              <div key={index} className="relative group aspect-square">
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt={file.name}
+                  className="w-full h-full object-cover rounded-lg"
+                />
+                <button
+                  onClick={() => handleRemoveFile(file)}
+                  className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <Trash2 size={20} />
+                </button>
+              </div>
+            ))}
+            {Array.from({ length: Math.max(0, 10 - files.length) }).map((_, index) => (
+              <label
+                key={`empty-${index}`}
+                htmlFor="file-upload"
+                className="border-2 border-dashed border-purple-300 rounded-lg flex items-center justify-center cursor-pointer aspect-square"
+              >
+                <span className="text-5xl text-purple-400">+</span>
+              </label>
+            ))}
+            <input 
+              id="file-upload" 
+              type="file" 
+              className="hidden"
+              multiple 
+              onChange={handleFileUpload} 
+              accept="image/*" 
+            />
+          </div>
+        )}
+        
+        <p className="text-[10px] text-gray-500 font-['Poppins'] font-normal leading-[16px] text-center px-4 sm:px-0 -mt-12">
+          By using our AI Tools, you agree to and accept our <a href="#" className="text-blue-500 hover:underline">Terms of Use</a>
+        </p>
+        <button 
+          className={`w-full py-4 rounded-full font-semibold text-lg text-white transition-colors ${
+            files.length >= 10 && !isLoading
+              ? 'bg-purple-500 hover:bg-purple-600'
+              : 'bg-gray-400 cursor-not-allowed'
+          }`}
+          onClick={handleContinue}
+          disabled={files.length < 10 || isLoading}
+        >
+          {isLoading ? 'Uploading...' : 'Continue →'}
+        </button>
       </div>
     </div>
-  );
-}
+  </div>
+);
+};
+
+export default PhotoUpload;

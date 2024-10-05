@@ -1,40 +1,44 @@
 import React from 'react';
 
 const ComparisonPage = () => {
-  const comparisonData = [
-    { icon: '💰', label: 'Value for money', goStudio: '$49', studioPhotoshoot: '$200' },
-    { icon: '⏱️', label: 'Save time', goStudio: '60 minutes', studioPhotoshoot: '2-3 days' },
-    { icon: '💎', label: 'Variety', goStudio: '40 headshots', studioPhotoshoot: '4-5 headshots' },
-    { icon: '👤', label: 'More choices', goStudio: '20 styles', studioPhotoshoot: '1 style' },
-  ];
-
   return (
-    <div className="container mx-auto px-4 py-16 max-w-7xl mx-auto bg-white rounded-3xl">
-      <h1 className="text-sm md:text-xl font-semibold text-center mb-2 text-gray-500">COMPARE</h1>
-      <h2 className="text-2xl md:text-4xl font-bold text-center mb-2 md:mb-4 text-gray-900">Get hassle free professional headshots from anywhere</h2>
-      <p className="text-sm md:text-lg text-center text-gray-600 mb-6 md:mb-12">People choose us because we serve the best for everyone at best price.</p>
-      
-      <div className="grid grid-cols-3 gap-2 mb-4 text-sm">
-        <div></div>
-        <div className="text-center font-semibold bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">Go Studio.ai</div>
-        <div className="text-center font-semibold text-gray-600">Studio Photoshoot</div>
-      </div>
+    <div className="bg-white min-h-screen flex items-center justify-center p-4 rounded-[60px] font-['Poppins']">
+      <div className="w-full max-w-md md:max-w-7xl bg-white p-8 md:p-20">
+        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold text-center mb-6 md:mb-8 font-['Plus Jakarta Sans']">COMPARE</h1>
+        <h2 className="text-xl md:text-2xl lg:text-4xl font-bold text-center mb-6 md:mb-8 font-['Plus Jakarta Sans']">
+          Get hassle free professional headshots from anywhere
+        </h2>
+        <p className="text-center text-gray-600 text-sm md:text-base mb-10 md:mb-12 font-['Poppins']">
+          People choose us because we serve the best for everyone at best price.
+        </p>
 
-      {comparisonData.map((item, index) => (
-        <div key={index} className="grid grid-cols-3 gap-2 mb-4 items-center">
-          <div className="flex items-center">
-            <span className="mr-2 text-xl md:text-2xl">{item.icon}</span>
-            <span className="text-xs md:text-base text-gray-600">{item.label}</span>
-          </div>
-          <div className="text-center font-bold text-sm md:text-base">{item.goStudio}</div>
-          <div className="text-center text-gray-500 text-sm md:text-base">{item.studioPhotoshoot}</div>
+        <div className="grid grid-cols-3 gap-4 mb-8 font-['Poppins']">
+          <div></div>
+          <div className="font-semibold text-purple-600 text-sm md:text-base">Go Studio.ai</div>
+          <div className="font-semibold text-sm md:text-base">Studio Photoshoot</div>
         </div>
-      ))}
-      
-      <div className="text-center mt-6 md:mt-12">
-        <button className="bg-purple-600 text-white font-bold py-3 px-8 rounded-full text-sm md:text-base w-full md:w-auto md:px-12">
-          Get Started →
-        </button>
+
+        {[
+          { label: 'Value for money', icon: '💰', goStudio: '$49', studio: '$200' },
+          { label: 'Save time', icon: '⏱️', goStudio: '60 minutes', studio: '2-3 days' },
+          { label: 'Variety', icon: '📚', goStudio: '40 headshots', studio: '4-5 headshots' },
+          { label: 'More choices', icon: '👤', goStudio: '20 styles', studio: '1 style' },
+        ].map((item, index) => (
+          <div key={index} className="grid grid-cols-3 gap-4 mb-8 items-center text-sm md:text-base font-['Poppins']">
+            <div className="flex items-center">
+              <span className="mr-2 text-2xl">{item.icon}</span>
+              <span className="hidden md:inline">{item.label}</span>
+            </div>
+            <div className="font-bold">{item.goStudio}</div>
+            <div className="text-gray-500">{item.studio}</div>
+          </div>
+        ))}
+
+        <div className="flex justify-center mt-10 md:mt-12">
+          <button className="bg-[#5B16FE] text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-semibold text-sm md:text-base hover:bg-[#4A12CC] transition-colors font-['Poppins'] w-[287px]">
+            Get Started →
+          </button>
+        </div>
       </div>
     </div>
   );

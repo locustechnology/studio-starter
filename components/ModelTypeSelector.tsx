@@ -6,19 +6,22 @@ import { ArrowRight, Check } from "lucide-react";
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Image from 'next/image';
+import woman from "@/public/testimonial/women.svg"
+import men from "@/public/testimonial/men.svg"
+import kid from "@/public/testimonial/kid.svg"
 
 type ModelType = 'woman' | 'man' | 'kids';
 
 interface ModelOption {
   value: ModelType;
   label: string;
-  imageSrc: string;
+  imageSrc: any;
 }
 
 const modelTypes: ModelOption[] = [
-  { value: 'woman', label: 'Female', imageSrc: '/path-to-woman-image.jpg' },
-  { value: 'man', label: 'Male', imageSrc: '/path-to-man-image.jpg' },
-  { value: 'kids', label: 'Kids', imageSrc: '/path-to-kid-image.jpg' },
+  { value: 'woman', label: 'Female', imageSrc: men },
+  { value: 'man', label: 'Male', imageSrc: kid },
+  { value: 'kids', label: 'Kids', imageSrc: woman },
 ];
 
 export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
@@ -73,7 +76,7 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
     <div className="w-full max-w-md mx-auto p-4 sm:max-w-2xl md:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
       <div className="text-center space-y-2 sm:space-y-4">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight">
-          <span className="text-purple-500">Studio-quality</span>{' '}
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">Studio-quality</span>{' '}
           <span className="text-black">Headshots with Gostudio.AI</span>
         </h1>
         <p className="text-gray-600 text-xs sm:text-sm md:text-base max-w-2xl mx-auto">
@@ -137,10 +140,10 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
         <Button 
           onClick={handleContinue}
           disabled={!selectedModel || !name}
-          className="w-full sm:w-auto px-4 py-2 sm:px-6 sm:py-3 rounded-full text-sm sm:text-base font-semibold bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-[195px] h-[48px] bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] rounded-[50px] text-sm sm:text-base font-semibold text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-[10px] mx-auto"
         >
           Continue
-          <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+          <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </Button>
       </div>
     </div>

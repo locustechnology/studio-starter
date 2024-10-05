@@ -1,19 +1,19 @@
 'use client'
 import React, { useState } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const FAQItem = ({ question, answer, isOpen, toggleOpen }) => (
-  <div className={`mb-4 overflow-hidden rounded-lg shadow-md ${isOpen ? 'bg-white' : 'bg-gray-100'}`}>
+  <div className={`mb-4 overflow-hidden rounded-lg ${isOpen ? 'bg-white shadow-md' : 'bg-gray-50'}`}>
     <button
       className="flex justify-between items-center w-full text-left p-4"
       onClick={toggleOpen}
     >
-      <span className={`text-lg ${isOpen ? 'text-indigo-600' : 'text-gray-900'}`}>{question}</span>
+      <span className={`text-lg font-medium ${isOpen ? 'text-indigo-600' : 'text-gray-900'}`}>{question}</span>
       <div className={`${isOpen ? 'bg-black' : 'bg-indigo-600'} rounded-full p-1`}>
         {isOpen ? (
-          <Minus className="h-5 w-5 text-white" />
+          <ChevronUp className="h-5 w-5 text-white" />
         ) : (
-          <Plus className="h-5 w-5 text-white" />
+          <ChevronDown className="h-5 w-5 text-white" />
         )}
       </div>
     </button>
@@ -25,7 +25,7 @@ const FAQItem = ({ question, answer, isOpen, toggleOpen }) => (
   </div>
 );
 
-const FAQSection = () => {
+const PurpleAccentFAQSection = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   const faqs = [
@@ -76,9 +76,9 @@ const FAQSection = () => {
   ];
 
   return (
-    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8 rounded-[2rem]">
+    <div className="bg-white py-12 px-4 sm:px-6 lg:px-8 rounded-3xl">
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
           Frequently Asked Questions
         </h2>
         <div>
@@ -97,4 +97,4 @@ const FAQSection = () => {
   );
 };
 
-export default FAQSection;
+export default PurpleAccentFAQSection;

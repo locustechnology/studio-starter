@@ -27,14 +27,14 @@ const reviews = [
   { name: "Cherry Cho", comment: "GoStudio.ai is now my go-to for professional photos.", rating: 5, image: boy },
   { name: "Amalia Müller", comment: "Very satisfied with the quick service and quality.", rating: 5, image: young },
   { name: "Hannah Lee", comment: "Quick, easy, and surprisingly professional.", rating: 5, image: old },
-  { name: "Caleb Wright", comment: "These AI headshots are next level.", rating: 5, image: oldmen},
-  { name: "Luke Anderson", comment: "Blown away. The future of photography is here.", rating: 5, image: wome },
-  { name: "Andrew Robins", comment: "Effective, fast, and easy. Great service!", rating: 5, image: girl },
-  { name: "Owen Harris", comment: "Professional photos in minutes. Amazing!", rating: 5, image: boy},
-  { name: "Cherry Cho", comment: "GoStudio.ai is now my go-to for professional photos.", rating: 5, image: young },
-  { name: "Amalia Müller", comment: "Very satisfied with the quick service and quality.", rating: 5, image: old },
-  { name: "Hannah Lee", comment: "Quick, easy, and surprisingly professional.", rating: 5, image: oldmen },
-  { name: "Hannah Lee", comment: "Quick, easy, and surprisingly professional.", rating: 5, image: wome },
+  { name: "Mia Yang", comment: "Go studio.ai is now my go-to site for professional photo.", rating: 5, image: wome },
+  { name: "Jenny Brown", comment: "Very affordable and amazed by the results.", rating: 5, image: girl },
+  { name: "Chris", comment: "Quick service and variety of headshots at this price.", rating: 5, image: oldmen },
+  { name: "Camille", comment: "It just Amazin'", rating: 5, image: young },
+  { name: "Kevin", comment: "Saved my time and money. My new headshot looks fantastic!", rating: 5, image: old },
+  { name: "Sarah", comment: "It transformed my selfie into a polished, professional headshot in minutes.", rating: 5, image: wome },
+  { name: "Janet", comment: "A perfect solution for a last-minute headshot. Top notch quality.", rating: 5, image: girl },
+  { name: "Alex", comment: "Impressed by how professional my headshot turned out", rating: 5, image: boy },
 ];
 
 const brands = [
@@ -48,7 +48,7 @@ const brands = [
   { src: Shp, alt: "SHP", hoverColor: "green" },
 ];
 
-const ReviewPage: React.FC = () => {
+const ReviewPage = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,6 +73,7 @@ const ReviewPage: React.FC = () => {
 
   return (
     <div className="w-full max-w-[1276px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-[30px] sm:gap-[60px]">
+      {/* Brands carousel */}
       <div className="w-full overflow-hidden">
         <div ref={carouselRef} className="flex items-center space-x-8 py-[31px] whitespace-nowrap overflow-hidden">
           {[...brands, ...brands].map((brand, idx) => (
@@ -93,57 +94,66 @@ const ReviewPage: React.FC = () => {
         </div>
       </div>
       
+      {/* Stats */}
       <div className="flex justify-center">
-        <div className="flex flex-col sm:flex-row justify-between w-full max-w-3xl">
-          <div className="text-center mb-4 sm:mb-0">
-            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2">86000</h2>
-            <p className="text-lg sm:text-xl font-semibold">AI Headshots created</p>
+        <div className="flex flex-row justify-between w-full max-w-xs sm:max-w-3xl">
+          <div className="text-center">
+            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2 font-['Plus Jakarta Sans']">86000</h2>
+            <p className="text-xs sm:text-lg font-semibold font-['Poppins']">AI Headshots created</p>
           </div>
           <div className="text-center">
-            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2">2100</h2>
-            <p className="text-lg sm:text-xl font-semibold">Happy Customers Globally</p>
+            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2 font-['Plus Jakarta Sans']">2100</h2>
+            <p className="text-xs sm:text-lg font-semibold font-['Poppins']">Happy Customers Globally</p>
           </div>
         </div>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-4 text-white flex flex-col justify-between">
+      {/* Reviews */}
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {/* AI Summary */}
+        <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-3 text-white flex flex-col justify-between aspect-[4/3]">
           <div>
-            <h3 className="text-lg font-semibold mb-2">AI Summary</h3>
-            <p className="text-sm mb-3">Customers praise the product's convenience, price and ease of use, especially for selecting styles and AI Feedback on uploading images.</p>
+            <h3 className="text-base sm:text-xl font-semibold mb-1 sm:mb-2 font-['Plus Jakarta Sans']">AI Summary</h3>
+            <p className="text-[10px] sm:text-xs mb-1 sm:mb-2 font-['Poppins'] line-clamp-3 sm:line-clamp-none">Customers praise the product's convenience, price and ease of use, especially for selecting styles and AI Feedback on uploading images.</p>
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 mb-1">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-current text-yellow-400" />
+                  <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current text-yellow-400" />
                 ))}
               </div>
-              <span className="text-sm font-semibold">112</span>
+              <span className="text-xs sm:text-sm font-semibold font-['Poppins']">112</span>
             </div>
-            <p className="text-xs mt-1">based on 112 written reviews</p>
+            <p className="text-[10px] sm:text-xs font-['Poppins']">based on 112 written reviews</p>
           </div>
         </div>
         
-        {reviews.slice(0, 15).map((review, index) => (
-          <div key={index} className="bg-black rounded-lg overflow-hidden">
-            <div className="relative">
-              <Image src={review.image} alt={review.name} width={300} height={128} className="w-full h-32 object-cover" />
-              <div className="absolute top-2 right-2 bg-white bg-opacity-80 rounded-md px-2 py-1 flex items-center space-x-1">
-                <Image src={Logo} alt="GoStudio.ai" width={16} height={16} className="w-4 h-4" />
-                <span className="text-xs font-semibold text-gray-800">GoStudio.ai</span>
-              </div>
+        {/* Review cards */}
+        {reviews.map((review, index) => (
+          <div key={index} className="relative rounded-lg overflow-hidden aspect-[4/3]">
+            <Image 
+              src={review.image} 
+              alt={review.name} 
+              layout="fill" 
+              objectFit="cover" 
+              className="w-full h-full"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+            <div className="absolute top-2 left-2 bg-white/80 rounded-full px-2 py-1 flex items-center space-x-1">
+              <Image src={Logo} alt="GoStudio.ai" width={12} height={12} className="w-3 h-3" />
+              <span className="text-[8px] sm:text-[10px] font-semibold text-gray-800 font-['Poppins']">GoStudio.ai</span>
             </div>
-            <div className="p-3 text-white">
-              <div className="flex justify-between items-center mb-1">
-                <h3 className="font-semibold text-sm">{review.name}</h3>
+            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-white">
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="font-semibold text-xs sm:text-sm font-['Plus Jakarta Sans']">{review.name}</h3>
                 <div className="flex">
                   {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-current text-yellow-400" />
+                    <Star key={i} className="w-2 h-2 sm:w-3 sm:h-3 fill-current text-yellow-400" />
                   ))}
                 </div>
               </div>
-              <p className="text-xs text-gray-300">{review.comment}</p>
+              <p className="text-[8px] sm:text-xs text-gray-200 line-clamp-2 font-['Poppins']">{review.comment}</p>
             </div>
           </div>
         ))}

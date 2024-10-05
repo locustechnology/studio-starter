@@ -26,6 +26,7 @@ export default function RootLayout({ children }: any) {
           </Suspense>
         </section>
         <main className="flex flex-1 flex-col items-center py-16 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+      
           {children}
         </main>
         <Toaster />

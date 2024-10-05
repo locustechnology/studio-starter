@@ -20,8 +20,8 @@ const SecurityFeature: React.FC<SecurityFeatureProps> = ({ imageSrc, title, desc
       </div>
     </div>
     <div>
-      <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
-      <p className="text-gray-300 text-sm">{description}</p>
+      <h3 className="text-lg font-semibold text-white mb-1 font-['Plus Jakarta Sans']">{title}</h3>
+      <p className="text-gray-300 text-sm font-['Poppins']">{description}</p>
     </div>
   </div>
 );
@@ -30,10 +30,10 @@ const DataSecuritySection: React.FC = () => {
   return (
     <div className="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8 rounded-3xl">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-transparent bg-clip-text" style={{fontFamily: 'Plus Jakarta Sans', lineHeight: '60.48px'}}>
+        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-transparent bg-clip-text font-['Plus Jakarta Sans']" style={{lineHeight: '60.48px'}}>
           We prioritize your data security
         </h2>
-        <p className="text-center text-gray-400 mb-12">
+        <p className="text-center text-gray-400 mb-12 font-['Poppins']">
           Trusted by the professionals of CXO and Leadership teams<br/>
           of Fortune 500 companies and other reputed enterprise professionals
         </p>
@@ -62,7 +62,7 @@ const DataSecuritySection: React.FC = () => {
         </div>
         
         <div className="text-center">
-          <button className="px-8 py-3 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-white font-semibold rounded-full hover:opacity-90 transition duration-300">
+          <button className="px-8 py-3 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-white font-semibold rounded-full hover:opacity-90 transition duration-300 font-['Poppins']">
             Create Your Headshot →
           </button>
         </div>

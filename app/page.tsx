@@ -36,7 +36,8 @@ export default async function Index() {
       <DataSecuritySection />
       <FAQSection />
       <HeadshotContainer />
-      <Footer />
+      <Footer/>
+      
     </div>
   );
 }

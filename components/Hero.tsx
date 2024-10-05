@@ -11,8 +11,8 @@ interface HeadshotCardProps {
 }
 
 const HeadshotCard: React.FC<HeadshotCardProps> = ({ imageUrl }) => (
-  <div className="w-[120px] sm:w-[162px] h-[180px] sm:h-[246px] rounded-[18.69px] overflow-hidden flex-shrink-0 relative">
-    <img src={imageUrl} alt="AI Headshot" className="w-full h-full object-cover" />
+  <div className="w-[162px] h-[246px] rounded-[18.69px] overflow-hidden flex-shrink-0 relative">
+    <Image src={imageUrl} alt="AI Headshot" layout="fill" objectFit="cover" />
   </div>
 );
 
@@ -24,19 +24,20 @@ interface FeatureItemProps {
 const FeatureItem: React.FC<FeatureItemProps> = ({ Icon, text }) => (
   <div className="flex items-center space-x-2">
     <Image src={Icon} alt="Feature icon" width={20} height={20} />
-    <span className="text-xs sm:text-sm text-gray-600">{text}</span>
+    <span className="text-xs sm:text-sm text-gray-600 font-['Poppins']">{text}</span>
   </div>
 );
 
 export default function AIHeadshotsLandingPage() {
   const headshots = [
-    "/Carosal/image.svg",
     "/Carosal/image1.svg",
     "/Carosal/image2.svg",
     "/Carosal/image3.svg",
     "/Carosal/image4.svg",
     "/Carosal/image5.svg",
-    "/Carosal/image.svg",
+    "/Carosal/image6.svg",
+    "/Carosal/image7.svg",
+    "/Carosal/image8.svg",
   ];
 
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -53,8 +54,10 @@ export default function AIHeadshotsLandingPage() {
       scrollPosition += scrollSpeed;
       if (scrollPosition >= carouselWidth) {
         scrollPosition = 0;
+        carousel.scrollLeft = 0;
+      } else {
+        carousel.scrollLeft = scrollPosition;
       }
-      carousel.scrollLeft = scrollPosition;
       requestAnimationFrame(scroll);
     };
 
@@ -66,10 +69,10 @@ export default function AIHeadshotsLandingPage() {
   return (
     <div className="w-full flex flex-col items-center justify-between py-4 sm:py-8 gap-6 sm:gap-12 px-4 sm:px-8">
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 opacity-100">
-        <h1 className="text-2xl sm:text-4xl font-bold leading-tight">
+        <h1 className="text-2xl sm:text-4xl font-bold leading-tight font-['Plus Jakarta Sans']">
           Professional Headshots done with AI<br className="hidden sm:inline" /> at your home.
         </h1>
-        <p className="text-base sm:text-xl text-gray-600 leading-relaxed">
+        <p className="text-base sm:text-xl text-gray-600 leading-relaxed font-['Poppins']">
           Transform your photos into high-quality, professional<br className="hidden sm:inline" /> headshots effortlessly.
         </p>
       </div>
@@ -80,18 +83,25 @@ export default function AIHeadshotsLandingPage() {
         <FeatureItem Icon={tick} text="Guaranteed results" />
       </div>
       <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 w-full">
-        <button className="bg-indigo-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-indigo-700 transition text-sm sm:text-base">
+        <button className="bg-[#5B16FE] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#4A12CC] transition text-sm sm:text-base font-['Poppins']">
           Get Started For Free →
         </button>
-        <button className="bg-gray-200 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-gray-300 transition text-sm sm:text-base">
+        <button className="bg-gray-200 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-gray-300 transition text-sm sm:text-base font-['Poppins']">
           Watch Video Demo
         </button>
       </div>
       
-      <div ref={carouselRef} className="flex overflow-x-hidden w-full px-2 sm:px-4 pt-1 pb-0">
-        {[...headshots, ...headshots].map((url, index) => (
-          <HeadshotCard key={index} imageUrl={url} />
-        ))}
+      <div className="relative w-full h-[247px] overflow-hidden">
+        <div 
+          ref={carouselRef} 
+          className="flex overflow-x-hidden w-full h-full px-0 sm:px-[46px] py-[1px] gap-[10px] sm:gap-[20px]"
+        >
+          {[...headshots, ...headshots].map((url, index) => (
+            <HeadshotCard key={index} imageUrl={url} />
+          ))}
+        </div>
+        <div className="absolute top-0 left-0 w-[200px] sm:w-[405.5px] h-full bg-gradient-to-r from-white to-transparent pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-[200px] sm:w-[405.5px] h-full bg-gradient-to-l from-white to-transparent pointer-events-none"></div>
       </div>
     </div>
   );
