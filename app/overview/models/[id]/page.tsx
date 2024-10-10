@@ -56,7 +56,7 @@ export default async function Index({ params }: { params: { id: string } }) {
               variant={model.status === "finished" ? "default" : "secondary"}
               className="text-xs font-medium"
             >
-              {model.status === "processing" ? "training" : model.status }
+              {model.status === "processing" ? "training" : model.status}
               {model.status === "processing" && (
                 <Icons.spinner className="h-4 w-4 animate-spin ml-2 inline-block" />
               )}
