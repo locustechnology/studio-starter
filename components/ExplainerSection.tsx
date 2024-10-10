@@ -14,7 +14,7 @@ const ExplainerSection = () => {
           <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold">1</div>
         </div>
         <div className="space-y-4">
-          <h3 className="text-3xl sm:text-4xl font-bold font-jakarta">Upload a few photos</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold font-jakarta text-center">Upload a few photos</h3>
           <p className="text-lg sm:text-xl text-gray-600">Upload a few photos of yourself to let AI learn about you</p>
         </div>
         <div className="w-full">
@@ -35,7 +35,7 @@ const ExplainerSection = () => {
           <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold">2</div>
         </div>
         <div className="space-y-4">
-          <h3 className="text-3xl sm:text-4xl font-bold font-jakarta">AI trained personally for you</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold font-jakarta text-center">AI trained personally for you</h3>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
             AI creates a private, personalized model just for you—ensuring headshots that reflect your unique style and identity
           </p>
@@ -58,7 +58,7 @@ const ExplainerSection = () => {
           <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8371FF] to-[#01C7E4] flex items-center justify-center text-white text-xl font-bold">3</div>
         </div>
         <div className="space-y-4">
-          <h3 className="text-3xl sm:text-4xl font-bold font-jakarta">Download favourite Headshots</h3>
+          <h3 className="text-2xl sm:text-3xl font-bold font-jakarta text-center">Download favourite Headshots</h3>
           <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
             You'll receive a variety of backgrounds, poses, and styles, giving you
             the perfect AI-crafted Headshots to elevate your business

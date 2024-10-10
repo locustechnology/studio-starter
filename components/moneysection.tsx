@@ -27,15 +27,15 @@ const MoneyBackGuarantee = () => {
           
           <div className="text-center w-full md:w-1/2 lg:w-2/5 mx-auto px-4">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 font-jakarta">
-              <span className="text-purple-600">Money-</span>
-              <span className="text-blue-500">back</span>
+              <span className="text-purple-600" style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 15.54%, #01C7E4 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Money-</span>
+              <span className="text-blue-500" style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 15.54%, #01C7E4 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>back</span>
             </h2>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4 font-jakarta">Guarantee</h3>
             <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
               Try Gostudio.ai with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
             </p>
             <div className="flex justify-center">
-              <button className="bg-[rgba(91,22,254,1)] text-white w-full sm:w-[287px] h-[48px] rounded-[50px] px-[25px] py-[12px] font-semibold hover:bg-[rgba(91,22,254,0.9)] transition duration-300 text-sm sm:text-base flex items-center justify-center gap-[10px]">
+              <button className="bg-[#5B16FE] text-white w-full sm:w-[287px] h-[48px] rounded-[50px] px-[25px] py-[12px] font-semibold hover:bg-[#5B16FE] transition duration-300 text-sm sm:text-base flex items-center justify-center gap-[10px]">
                 <span>Get Started For Free</span>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />

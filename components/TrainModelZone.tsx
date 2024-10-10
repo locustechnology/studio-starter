@@ -14,7 +14,7 @@ const supabase = createClient(
 );
 
 const PhotoUpload = () => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<{ file: File; preview: string }[]>([]); // Changed this line
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<Set<string>>(new Set());
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
@@ -25,7 +25,7 @@ const PhotoUpload = () => {
     const acceptedFiles = Array.from(event.target.files || []);
     
     const newFiles = acceptedFiles.filter(
-      (file: File) => !files.some((f) => f.name === file.name)
+      (file: File) => !files.some((f) => f.file.name === file.name)
     );
 
     if (files.length + newFiles.length < 4) {
@@ -56,7 +56,12 @@ const PhotoUpload = () => {
       return;
     }
 
-    setFiles(prevFiles => [...prevFiles, ...newFiles]);
+    const newFileObjects = newFiles.map(file => ({
+      file,
+      preview: URL.createObjectURL(file)
+    }));
+
+    setFiles(prevFiles => [...prevFiles, ...newFileObjects]);
 
     toast({
       title: "Images selected",
@@ -65,8 +70,9 @@ const PhotoUpload = () => {
     });
   }, [files, toast]);
 
-  const handleRemoveFile = (fileToRemove: File) => {
-    setFiles(files.filter(file => file !== fileToRemove));
+  const handleRemoveFile = (fileToRemove: { file: File; preview: string }) => {
+    setFiles(files.filter(file => file.file !== fileToRemove.file));
+    URL.revokeObjectURL(fileToRemove.preview);
   };
 
   const handleContinue = async () => {
@@ -83,7 +89,7 @@ const PhotoUpload = () => {
     const blobUrls: string[] = [];
 
     try {
-      const uploadPromises = files.map(async (file) => {
+      const uploadPromises = files.map(async ({ file }) => {
         try {
           const blob = await upload(file.name, file, {
             access: 'public',
@@ -134,14 +140,14 @@ const PhotoUpload = () => {
     <div className="flex justify-center items-center min-h-screen font-poppins bg-gray-100 p-4 lg:p-0">
       <div className="w-full max-w-md lg:max-w-none lg:w-[1276px] lg:h-[672px] bg-white rounded-2xl p-6 lg:p-[84px_60px] flex flex-col lg:flex-row gap-8 shadow-lg">
         {/* Left side - Photo guidelines */}
-        <div className="w-full lg:w-[468px] rounded-3xl lg:p-6 flex flex-col gap-8 bg-[#F2F2F7] shadow-lg">
+        <div className="w-full lg:w-[468px] rounded-3xl lg:p-6 flex flex-col gap-8 bg-[#F2F2F7] shadow-[0px_8px_48px_0px_#00000026]">
           <div className="flex justify-between items-center lg:hidden" onClick={toggleDropdown}>
-            <h2 className="text-2xl font-semibold font-jakarta">Photo of yourself (Do's & Don't)</h2>
+            <h2 className="text-xl font-semibold font-jakarta">Photo of yourself (Do's & Don't)</h2>
             {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
           </div>
           {(isDropdownOpen || window.innerWidth >= 1024) && (
             <>
-              <h2 className="text-2xl font-semibold font-jakarta hidden lg:block">Photo of yourself (Do's & Don't)</h2>
+              <h2 className=" font-semibold font-jakarta hidden lg:block">Photo of yourself (Do's & Don't)</h2>
               <div className="w-full h-auto">
                 <Image src={Frame} alt="✅ Good and ❌ Bad Photos" width={412} height={336} layout="responsive" />
               </div>
@@ -153,17 +159,17 @@ const PhotoUpload = () => {
         </div>
 
         {/* Right side - Upload functionality */}
-        <div className="w-full lg:w-[580px] rounded-3xl p-6 lg:p-8 flex flex-col justify-between bg-white lg:border-4 lg:border-purple-400 lg:border-blue-400 lg:border-teal-400 lg:shadow-[0px_8px_48px_0px_#00000026]">
-          <div className="space-y-6">
-            <h2 className="text-2xl font-semibold text-black text-center lg:text-left">Start Uploading photos</h2>
-            <p className="text-sm text-black text-center lg:text-left">
+        <div className="w-full lg:w-[580px] rounded-3xl p-6 lg:p-8 flex flex-col justify-between bg-white lg:border-4 lg:border-purple-400 lg:shadow-[0px_8px_48px_0px_#00000026]">
+          <div className="space-y-6 text-center">
+            <h2 className="text-xl font-semibold text-black">Start Uploading photos</h2>
+            <p className="text-sm text-black">
               Select at least 10 of your best photos. Good photos help our AI to give you amazing results!
             </p>
             
             {files.length === 0 ? (
               <div className="w-full border-2 border-dashed border-purple-300 rounded-2xl p-4 sm:p-8 flex flex-col items-center justify-center gap-4 mb-8 bg-white">
                 <label htmlFor="file-upload" className="cursor-pointer w-full lg:w-auto">
-                  <div className="bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-white font-semibold rounded-full flex items-center justify-center text-base sm:text-lg px-4 sm:px-8 py-3 hover:opacity-90 transition-opacity lg:px-6 lg:py-2 lg:w-auto lg:mx-auto">
+                  <div className="bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] text-white font-semibold rounded-full flex items-center justify-center text-base sm:text-lg px-4 sm:px-8 py-3 hover:opacity-90 transition-opacity lg:px-6 lg:py-2 lg:w-auto lg:mx-auto">
                     <Upload size={20} className="mr-2" />
                     <span>Upload files</span>
                   </div>
@@ -187,15 +193,15 @@ const PhotoUpload = () => {
               </div>
             ) : (
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-8">
-                {files.map((file, index) => (
+                {files.map(({ file, preview }, index) => (
                   <div key={index} className="relative group aspect-square">
                     <img
-                      src={URL.createObjectURL(file)}
+                      src={preview}
                       alt={file.name}
                       className="w-full h-full object-cover rounded-lg"
                     />
                     <button
-                      onClick={() => handleRemoveFile(file)}
+                      onClick={() => handleRemoveFile({ file, preview })}
                       className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <Trash2 size={20} />
@@ -228,7 +234,7 @@ const PhotoUpload = () => {
             <button 
               className={`w-full lg:w-auto lg:px-12 py-2 sm:py-3 rounded-full font-semibold text-base sm:text-lg text-white transition-colors ${
                 files.length >= 10 && !isLoading
-                  ? 'bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] hover:opacity-90'
+                  ? 'bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] hover:opacity-90'
                   : 'bg-gray-400 cursor-not-allowed'
               } lg:mx-auto lg:block`}
               onClick={handleContinue}

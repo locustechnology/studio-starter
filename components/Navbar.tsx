@@ -6,7 +6,8 @@ import { Database } from "@/types/supabase";
 import NavItems from "./Navitems"; 
 import MobileMenu from "./MobileMenu"; 
 import UserMenu from "./UserMenu"; 
-import logo from "/public/98.png";
+import final_Logo from "/public/final_Logo.svg";
+
 import ClientSideCredits from "./realtime/ClientSideCredits";
 
 export const dynamic = "force-dynamic";
@@ -32,10 +33,9 @@ export default async function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center">
-            <div className="bg-purple-600 rounded-lg p-1 mr-2">
-              <Image src={logo} alt="Studio.ai logo" width={20} height={20} className="rounded-sm" />
+            <div className=" rounded-lg p-1 mr-2">
+              <Image src={final_Logo} alt="Studio.ai logo"  className="rounded-sm" />
             </div>
-            <span className="font-bold py-2 rounded font-jakarta">Studio.ai</span>
           </Link>
           
           {user ? (

@@ -12,6 +12,7 @@ import logo from "/public/98.png";
 import login from "/public/login.svg";
 import { WaitingForMagicLink } from './WaitingForMagicLink';
 import { useRouter } from 'next/navigation';
+import final_Logo from "/public/final_Logo.svg";
 
 type Inputs = {
   email: string;
@@ -117,8 +118,7 @@ const LoginPage: React.FC = () => {
           <div>
             <div className="flex flex-col items-center mb-8">
               <div className="flex items-center mb-4">
-                <Image src={logo} alt="Studio.ai logo" width={32} height={32} />
-                <span className="font-bold text-lg ml-3 font-jakarta">Studio.ai</span>
+              <Image src={final_Logo} alt="Studio.ai logo"  className="rounded-sm" />
               </div>
               <h2 className="text-2xl font-semibold text-gray-800 mt-4 font-jakarta">Log in / Sign up</h2>
             </div>
@@ -171,8 +171,8 @@ const LoginPage: React.FC = () => {
             </form>
             
             <div className="text-center mt-6">
-              <p className="text-sm text-gray-500">
-                Click the button, you will receive a one time code in your inbox.
+              <p className="w-[314.95px] h-[34px] text-xs text-gray-500 font-poppins font-normal leading-[18px] mx-auto">
+                Click the button, you will receive a one time code in<br />your inbox.
               </p>
             </div>
           </div>

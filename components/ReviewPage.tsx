@@ -80,16 +80,16 @@ const ReviewPage = () => {
       <div className="w-[358px] sm:w-full max-w-[1276px] mx-auto bg-white rounded-[24px] sm:rounded-[60px] py-[18px] sm:py-20 px-4 sm:px-8 lg:px-10">
         <div className="flex flex-col gap-[5px] sm:gap-[60px]">
           <div>
-            <h2 className="text-center text-xl sm:text-3xl font-bold mb-4 sm:mb-8 font-jakarta">TESTIMONIALS</h2>
+            <h2 className="text-center text-xl sm:text-3xl font-bold mb-4 sm:mb-8 font-jakarta" style={{ background: '#0A1727CC', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>TESTIMONIALS</h2>
             
             {/* Stats */}
             <div className="flex justify-center space-x-8 sm:space-x-16 mb-4 sm:mb-6">
               <div className="text-center">
-                <h2 className="text-3xl sm:text-5xl font-bold text-[#8371FF] mb-1 font-jakarta">86000</h2>
+                <h2 className="text-3xl sm:text-5xl font-bold mb-1 font-jakarta" style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>86000</h2>
                 <p className="text-xs sm:text-base font-semibold text-gray-600">AI Headshots created</p>
               </div>
               <div className="text-center">
-                <h2 className="text-3xl sm:text-5xl font-bold text-[#8371FF] mb-1 font-jakarta">2100</h2>
+                <h2 className="text-3xl sm:text-5xl font-bold mb-1 font-jakarta" style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>2100</h2>
                 <p className="text-xs sm:text-base font-semibold text-gray-600">Happy Customers Globally</p>
               </div>
             </div>
@@ -139,7 +139,7 @@ const ReviewPage = () => {
             
             {/* Review cards */}
             {reviews.slice(0, 11).map((review, index) => (
-              <div key={index} className="relative rounded-[11.2px] sm:rounded-[20px] overflow-hidden w-[156.75px] h-[111.4px] sm:w-full sm:h-[201px]">
+              <div key={index} className="relative rounded-[11.2px] sm:rounded-[20px] overflow-hidden w-[156.75px] h-[111.4px] sm:w-full sm:h-[201px] mt-auto mr-auto">
                 <Image 
                   src={review.image} 
                   alt={review.name} 

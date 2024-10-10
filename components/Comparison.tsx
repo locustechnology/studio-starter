@@ -12,7 +12,6 @@ const ComparisonPage = () => {
     },
     { 
       label: 'Save time', 
-      subLabel: 'Time to get photos',
       icon: Clock, 
       goStudio: '30 minutes', 
       studio: '2-3 days', 
@@ -20,7 +19,6 @@ const ComparisonPage = () => {
     },
     { 
       label: 'Variety', 
-      subLabel: 'Number of photos',
       icon: Layers, 
       goStudio: '30 headshots', 
       studio: '4-5 headshots', 
@@ -28,7 +26,6 @@ const ComparisonPage = () => {
     },
     { 
       label: 'More choices', 
-      subLabel: 'Styling options',
       icon: User, 
       goStudio: '20 styles', 
       studio: '1 style', 
@@ -65,18 +62,11 @@ const ComparisonPage = () => {
               <div className="font-bold">{item.goStudio}</div>
               <div className="text-gray-400">{item.studio}</div>
             </div>
-            {item.subLabel && (
-              <div className="grid grid-cols-3 gap-1 sm:gap-4 items-center text-[10px] sm:text-xs text-gray-500 font-poppins">
-                <div className="pl-8 sm:pl-11">{item.subLabel}</div>
-                <div></div>
-                <div></div>
-              </div>
-            )}
           </div>
         ))}
 
         <div className="flex justify-center mt-3 sm:mt-8">
-          <button className="w-full sm:w-[287px] h-[40px] sm:h-[48px] rounded-[50px] bg-[#7F56D9] text-white font-semibold text-sm sm:text-base flex items-center justify-center px-4 sm:px-[25px] py-2 sm:py-[12px] hover:opacity-90 transition-opacity font-poppins">
+          <button className="w-full sm:w-[287px] h-[40px] sm:h-[48px] rounded-[50px] bg-[#5B16FE] text-white font-semibold text-sm sm:text-base flex items-center justify-center px-4 sm:px-[25px] py-2 sm:py-[12px] hover:opacity-90 transition-opacity font-poppins">
             <span>Get Started</span>
             <svg className="ml-2 sm:ml-[10px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

@@ -84,7 +84,7 @@ const PricingComponent = () => {
                 {(tier.popularTag || tier.bestValueTag) && (
                   <div className="absolute top-[-12px] left-1/2 transform -translate-x-1/2">
                     <span className={`inline-block px-4 py-1 rounded-full text-sm font-poppins ${
-                      tier.highlight ? 'bg-gradient-to-r from-purple-400 to-blue-500 text-white' : 'bg-purple-100 text-purple-600'
+                      tier.highlight ? 'bg-gradient-to-r from-purple-400 to-blue-500 text-white border-2 border-image-source: linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%);' : 'bg-purple-100 text-purple-600'
                     }`}>
                       {tier.popularTag || tier.bestValueTag}
                     </span>
@@ -114,8 +114,8 @@ const PricingComponent = () => {
                   <button 
                     onClick={handlePayment}
                     className={`w-full h-[48px] rounded-[50px] border-2 px-[25px] py-[12px] transition flex items-center justify-center gap-[10px] font-poppins ${
-                      tier.highlight ? 'bg-purple-600 text-white hover:bg-purple-700 border-purple-600' : 'bg-white text-purple-600 hover:bg-purple-50 border-purple-600'
-                    }`}
+                      tier.highlight ? 'bg-[#5B16FE] text-white hover:bg-[#5B16FE]' : 'bg-white text-purple-600 hover:bg-purple-50'
+                    } border-[#5B16FE]`}
                   >
                     <span className="font-medium">{tier.buttonText}</span>
                     <ArrowRight className="h-5 w-5" />

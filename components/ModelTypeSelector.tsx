@@ -71,34 +71,34 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
   }, [selectedModel, name, supabase, router, packSlug]);
 
   return (
-    <div className="min-h-screen  flex items-start sm:items-center justify-center pt-4 sm:pt-0">
+    <div className="min-h-screen flex items-start sm:items-center justify-center pt-4 sm:pt-0">
       <div className="w-full max-w-[382px] sm:max-w-none sm:w-[1275px] bg-white rounded-[24px] sm:rounded-[16px] shadow-lg p-4 sm:p-8 font-poppins">
-        <div className="w-full sm:w-[1011px] mx-auto space-y-3 sm:space-y-6">
+        <div className="w-full sm:w-[1011px] mx-auto space-y-4 sm:space-y-6">
           <div className="text-center space-y-1 sm:space-y-4">
-            <h1 className="text-xl sm:text-4xl font-bold leading-tight font-jakarta">
+            <h1 className="text-2xl sm:text-4xl font-bold leading-tight font-jakarta">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">Studio-quality</span>{' '}
               <span className="text-black">Headshots with Gostudio.AI</span>
             </h1>
-            <p className="text-xs sm:text-lg text-gray-600">
+            <p className="text-xs sm:text-lg text-gray-600 px-4 sm:px-0">
               Get studio quality headshot in no time and enhance your professional journey.
             </p>
           </div>
 
-          <div className="space-y-1 sm:space-y-2">
-            <label htmlFor="name" className="block text-20px sm:text-20px font-500 text-gray-700 font-poppins leading-30px">Name</label>
-            <div className="flex justify-center">
-              <Input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
-                className="w-[612px] h-[74px] rounded-[16px] border-[1px] border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-sm sm:text-base py-1 sm:py-2 px-3 sm:px-4"
-              />
-            </div>
+          <div className="flex flex-col items-start w-full sm:w-[612px] mx-auto px-4 sm:px-0">
+            <label htmlFor="name" className="block text-base sm:text-20px font-medium sm:font-500 text-gray-700 font-poppins leading-30px mb-1 sm:mb-2">
+              Name
+            </label>
+            <Input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              className="w-full h-[50px] rounded-[16px] border-[1px] border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-base sm:text-base py-2 px-4"
+            />
           </div>
 
-          <div className="flex justify-center gap-3 sm:gap-[41px]">
+          <div className="flex justify-center gap-4 sm:gap-[41px] mt-4 sm:mt-6">
             {modelTypes.map((item) => (
               <div key={item.value} className="flex flex-col items-center">
                 <div
@@ -125,33 +125,33 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
                     />
                     {selectedModel === item.value && (
                       <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-white rounded-full p-0.5 sm:p-1">
-                        <Check className="h-2 w-2 sm:h-4 sm:w-4 text-purple-500" />
+                        <Check className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
                       </div>
                     )}
                   </div>
                 </div>
-                <div className="mt-1 sm:mt-2 text-center text-xs sm:text-sm font-medium font-jakarta">
+                <div className="mt-2 text-center text-sm sm:text-sm font-medium font-jakarta">
                   {item.label}
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="text-center space-y-2 sm:space-y-4">
-            <p className="text-[8px] sm:text-xs text-gray-500">
+          <div className="text-center space-y-3 sm:space-y-4 mt-4 sm:mt-6 px-4 sm:px-0">
+            <p className="text-[10px] sm:text-xs text-gray-500">
               By using our AI Tools, you agree to and accept our{' '}
               <Link href="/terms" className="text-purple-500 hover:underline">
                 Terms of Use
               </Link>
             </p>
-            <div className="flex justify-center"> {/* Added this wrapper div */}
+            <div className="flex justify-center">
               <Button 
                 onClick={handleContinue}
                 disabled={!selectedModel || !name}
-                className="w-full sm:w-[240px] h-[40px] sm:h-[50px] bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] rounded-full text-xs sm:text-base font-semibold disabled:cursor-not-allowed flex items-center justify-center gap-2 font-jakarta"
+                className="w-[240px] h-[50px] bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] rounded-full text-sm sm:text-base font-semibold disabled:cursor-not-allowed flex items-center justify-center gap-2 font-jakarta"
               >
                 Continue
-                <ArrowRight className="h-3 w-3 sm:h-5 sm:w-5" />
+                <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
               </Button>
             </div>
           </div>
@@ -160,5 +160,6 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
     </div>
   );
 };
+  
 
 export default ModelTypeSelector;
