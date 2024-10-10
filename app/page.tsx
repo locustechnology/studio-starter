@@ -1,7 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import HeroSection from "@/components/Hero";
+import AIHeadshotsLandingPage from "@/components/Hero";
 import ExplainerSection from "@/components/ExplainerSection";
 import ComparisonPage from "@/components/Comparison";
 import ReviewPage from "@/components/ReviewPage";
@@ -10,7 +10,6 @@ import MoneyBackGuarantee from "@/components/moneysection";
 import DataSecuritySection from "@/components/container";
 import FAQSection from "@/components/Question";
 import HeadshotContainer from "@/components/Banner";
-import Footer from "@/components/Footer";
 
 export const dynamic = "force-dynamic";
 
@@ -26,18 +25,22 @@ export default async function Index() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-8">
-      <HeroSection />
-      <ExplainerSection />
-      <ComparisonPage />
-      <ReviewPage />
-      <PricingSection user={user} />
-      <MoneyBackGuarantee />
-      <DataSecuritySection />
-      <FAQSection />
-      <HeadshotContainer />
-      <Footer/>
-      
+    <div className="w-full bg-[#F4F7FA] min-h-screen font-poppins">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[82px] pt-10">
+        <div className="w-full max-w-[1276px] mx-auto space-y-12">
+          <AIHeadshotsLandingPage />
+          <ExplainerSection />
+          <ComparisonPage />
+          <ReviewPage />
+          <MoneyBackGuarantee />
+          <PricingSection user={user} />
+          <DataSecuritySection />
+          <FAQSection />
+          <HeadshotContainer />
+         
+       
+        </div>
+      </div>
     </div>
   );
 }

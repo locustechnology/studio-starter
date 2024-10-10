@@ -28,14 +28,14 @@ export default async function Navbar() {
 
 
   return (
-    <nav className="bg-white-100 shadow-sm rounded-full mx-4 my-2">
+    <nav className="bg-white-100 shadow-sm rounded-full mx-4 my-2 font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center">
             <div className="bg-purple-600 rounded-lg p-1 mr-2">
               <Image src={logo} alt="Studio.ai logo" width={20} height={20} className="rounded-sm" />
             </div>
-            <span className="font-bold py-2 rounded">Studio.ai</span>
+            <span className="font-bold py-2 rounded font-jakarta">Studio.ai</span>
           </Link>
           
           {user ? (
@@ -48,7 +48,7 @@ export default async function Navbar() {
               </>
           ) : (
             <Link href="/login">
-              <button className="  font-bold py-2 px-4 rounded">
+              <button className="  font-bold py-2 px-4 rounded font-jakarta">
                 Login / Sign Up
               </button>
             </Link>

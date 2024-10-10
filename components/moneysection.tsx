@@ -3,43 +3,48 @@ import moneyone from "/public/moneyone.svg";
 import moneytwo from "/public/moneytwo.svg";
 
 const CompositeProfileImage = ({ src, alt }: { src: string; alt: string }) => (
-  <div className="hidden md:block w-24 sm:w-28 md:w-32 lg:w-40 xl:w-48 transition-all duration-300 ease-in-out">
+  <div className="hidden md:block w-[186px] h-[495px] rounded-[10px] overflow-hidden">
     <Image 
       src={src} 
       alt={alt} 
-      width={192} 
-      height={512} 
-      className="object-contain w-full h-auto"
+      width={186} 
+      height={495} 
+      className="object-cover w-full h-full"
       placeholder="blur"
-      blurDataURL={`data:image/svg+xml;base64,${btoa('<svg xmlns="http://www.w3.org/2000/svg" width="192" height="512" viewBox="0 0 192 512"><rect width="100%" height="100%" fill="#f3f4f6"/></svg>')}`}
+      blurDataURL={`data:image/svg+xml;base64,${btoa('<svg xmlns="http://www.w3.org/2000/svg" width="186" height="495" viewBox="0 0 186 495"><rect width="100%" height="100%" fill="#f3f4f6"/></svg>')}`}
     />
   </div>
 );
 
 const MoneyBackGuarantee = () => {
   return (
-    <section className="bg-white py-8 sm:py-12 lg:py-16 overflow-hidden rounded-[60px]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+    <section className="w-full max-w-[1276px] mx-auto p-4 font-poppins">
+      <div className="flex flex-col gap-[10px]">
         <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="md:w-1/4 flex justify-center md:justify-end mb-6 md:mb-0">
+          <div className="md:w-1/4 flex justify-center md:justify-end mb-4 md:mb-0">
             <CompositeProfileImage src={moneyone.src} alt="Left Profiles" />
           </div>
           
           <div className="text-center w-full md:w-1/2 lg:w-2/5 mx-auto px-4">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 font-['Plus Jakarta Sans']">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-4 font-jakarta">
               <span className="text-purple-600">Money-</span>
               <span className="text-blue-500">back</span>
             </h2>
-            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4 font-['Plus Jakarta Sans']">Guarantee</h3>
-            <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base font-['Poppins']">
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4 font-jakarta">Guarantee</h3>
+            <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
               Try Gostudio.ai with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
             </p>
-            <button className="bg-[#5B16FE] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full font-semibold hover:bg-[#4A12CC] transition duration-300 text-xs sm:text-sm font-['Poppins']">
-              Get Started For Free →
-            </button>
+            <div className="flex justify-center">
+              <button className="bg-[rgba(91,22,254,1)] text-white w-full sm:w-[287px] h-[48px] rounded-[50px] px-[25px] py-[12px] font-semibold hover:bg-[rgba(91,22,254,0.9)] transition duration-300 text-sm sm:text-base flex items-center justify-center gap-[10px]">
+                <span>Get Started For Free</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
           </div>
           
-          <div className="md:w-1/4 flex justify-center md:justify-start mt-6 md:mt-0">
+          <div className="md:w-1/4 flex justify-center md:justify-start mt-4 md:mt-0">
             <CompositeProfileImage src={moneytwo.src} alt="Right Profiles" />
           </div>
         </div>

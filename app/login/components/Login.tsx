@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 font-poppins">
       <div className="w-full max-w-4xl h-screen lg:h-[90vh] bg-white rounded-none lg:rounded-xl shadow-lg overflow-hidden flex flex-col lg:flex-row">
         <div className="lg:w-1/2 relative hidden lg:block">
           <Image 
@@ -108,7 +108,7 @@ const LoginPage: React.FC = () => {
           />
           <div className="absolute bottom-4 left-4 bg-white p-3 rounded-lg shadow-md max-w-[220px]">
             <div className="absolute -bottom-2 -left-2 text-indigo-500 text-xl">★</div>
-            <p className="text-sm font-bold mb-1">"Photos came out better than some studios I've tried."</p>
+            <p className="text-sm font-bold mb-1 font-jakarta">"Photos came out better than some studios I've tried."</p>
             <p className="text-xs text-indigo-600">— Hanna Su.</p>
           </div>
         </div>
@@ -118,13 +118,13 @@ const LoginPage: React.FC = () => {
             <div className="flex flex-col items-center mb-8">
               <div className="flex items-center mb-4">
                 <Image src={logo} alt="Studio.ai logo" width={32} height={32} />
-                <span className="font-bold text-lg ml-3">Studio.ai</span>
+                <span className="font-bold text-lg ml-3 font-jakarta">Studio.ai</span>
               </div>
-              <h2 className="text-2xl font-semibold text-gray-800 mt-4">Log in / Sign up</h2>
+              <h2 className="text-2xl font-semibold text-gray-800 mt-4 font-jakarta">Log in / Sign up</h2>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 font-jakarta">
                   Email
                 </label>
                 <Input

@@ -1,8 +1,8 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
-import { Star } from 'lucide-react';
+import React from 'react';
+import { Star, Heart, ThumbsUp } from 'lucide-react';
 import Image from 'next/image';
-import Logo from "/public/98.png";
+import Logo from "/public/logo/AI.svg";
 import old from "@/public/testimonial/old.svg"
 import oldmen from "@/public/testimonial/oldmen.svg"
 import wome from "@/public/testimonial/wome.svg"
@@ -31,132 +31,142 @@ const reviews = [
   { name: "Jenny Brown", comment: "Very affordable and amazed by the results.", rating: 5, image: girl },
   { name: "Chris", comment: "Quick service and variety of headshots at this price.", rating: 5, image: oldmen },
   { name: "Camille", comment: "It just Amazin'", rating: 5, image: young },
-  { name: "Kevin", comment: "Saved my time and money. My new headshot looks fantastic!", rating: 5, image: old },
-  { name: "Sarah", comment: "It transformed my selfie into a polished, professional headshot in minutes.", rating: 5, image: wome },
-  { name: "Janet", comment: "A perfect solution for a last-minute headshot. Top notch quality.", rating: 5, image: girl },
-  { name: "Alex", comment: "Impressed by how professional my headshot turned out", rating: 5, image: boy },
+ 
 ];
 
 const brands = [
-  { src: Ber, alt: "Ber", hoverColor: "light-blue" },
-  { src: Box, alt: "Box", hoverColor: "blue" },
-  { src: Dell, alt: "Dell", hoverColor: "blue" },
-  { src: ebay, alt: "eBay", hoverColor: "multi" },
-  { src: Ncr, alt: "NCR", hoverColor: "black" },
-  { src: Over, alt: "Over", hoverColor: "black" },
-  { src: Roger, alt: "Roger", hoverColor: "red" },
-  { src: Shp, alt: "SHP", hoverColor: "green" },
+  { src: Ber, alt: "Ber", hoverColor: "#3B82F6" },
+  { src: Box, alt: "Box", hoverColor: "#2563EB" },
+  { src: Dell, alt: "Dell", hoverColor: "#2563EB" },
+  { src: ebay, alt: "eBay", hoverColor: "#EF4444" },
+  { src: Ncr, alt: "NCR", hoverColor: "#1F2937" },
+  { src: Over, alt: "Over", hoverColor: "#1F2937" },
+  { src: Roger, alt: "Roger", hoverColor: "#EF4444" },
+  { src: Shp, alt: "SHP", hoverColor: "#10B981" },
 ];
 
 const ReviewPage = () => {
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (carousel) {
-      const scrollWidth = carousel.scrollWidth;
-      const viewportWidth = carousel.offsetWidth;
-
-      const animateScroll = () => {
-        if (carousel.scrollLeft >= scrollWidth - viewportWidth) {
-          carousel.scrollLeft = 0;
-        } else {
-          carousel.scrollLeft += 1;
-        }
-      };
-
-      const intervalId = setInterval(animateScroll, 30);
-
-      return () => clearInterval(intervalId);
-    }
-  }, []);
-
   return (
-    <div className="w-full max-w-[1276px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-[30px] sm:gap-[60px]">
-      {/* Brands carousel */}
-      <div className="w-full overflow-hidden">
-        <div ref={carouselRef} className="flex items-center space-x-8 py-[31px] whitespace-nowrap overflow-hidden">
+    <div className="w-full max-w-[1440px] mx-auto font-poppins">
+      {/* Logo Carousel */}
+      <div className="w-full overflow-hidden mb-8">
+        <div className="flex animate-scroll">
           {[...brands, ...brands].map((brand, idx) => (
-            <div key={idx} className="w-[100px] flex-shrink-0">
+            <div key={idx} className="w-[80px] sm:w-[100px] flex-shrink-0 mx-2 sm:mx-4">
               <Image 
                 src={brand.src} 
                 alt={brand.alt} 
-                width={100} 
-                height={100} 
-                className={`transition-all duration-300 ${
-                  brand.hoverColor === 'multi' 
-                    ? 'hover:filter hover:hue-rotate-90' 
-                    : `hover:${brand.hoverColor === 'light-blue' ? 'text-sky-300' : `text-${brand.hoverColor}-500`}`
-                }`}
+                width={80}
+                height={80}
+                className="transition-all duration-300 grayscale hover:grayscale-0"
+                style={{ filter: 'grayscale(100%)' }}
+                onMouseEnter={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.style.filter = 'grayscale(0%)';
+                  target.style.fill = brand.hoverColor;
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  target.style.filter = 'grayscale(100%)';
+                  target.style.fill = '';
+                }}
               />
             </div>
           ))}
         </div>
       </div>
-      
-      {/* Stats */}
-      <div className="flex justify-center">
-        <div className="flex flex-row justify-between w-full max-w-xs sm:max-w-3xl">
-          <div className="text-center">
-            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2 font-['Plus Jakarta Sans']">86000</h2>
-            <p className="text-xs sm:text-lg font-semibold font-['Poppins']">AI Headshots created</p>
-          </div>
-          <div className="text-center">
-            <h2 className="text-4xl sm:text-6xl font-bold text-blue-500 mb-2 font-['Plus Jakarta Sans']">2100</h2>
-            <p className="text-xs sm:text-lg font-semibold font-['Poppins']">Happy Customers Globally</p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Reviews */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {/* AI Summary */}
-        <div className="bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg p-3 text-white flex flex-col justify-between aspect-[4/3]">
+
+      {/* Main content */}
+      <div className="w-[358px] sm:w-full max-w-[1276px] mx-auto bg-white rounded-[24px] sm:rounded-[60px] py-[18px] sm:py-20 px-4 sm:px-8 lg:px-10">
+        <div className="flex flex-col gap-[5px] sm:gap-[60px]">
           <div>
-            <h3 className="text-base sm:text-xl font-semibold mb-1 sm:mb-2 font-['Plus Jakarta Sans']">AI Summary</h3>
-            <p className="text-[10px] sm:text-xs mb-1 sm:mb-2 font-['Poppins'] line-clamp-3 sm:line-clamp-none">Customers praise the product's convenience, price and ease of use, especially for selecting styles and AI Feedback on uploading images.</p>
-          </div>
-          <div>
-            <div className="flex items-center gap-1 mb-1">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current text-yellow-400" />
-                ))}
+            <h2 className="text-center text-xl sm:text-3xl font-bold mb-4 sm:mb-8 font-jakarta">TESTIMONIALS</h2>
+            
+            {/* Stats */}
+            <div className="flex justify-center space-x-8 sm:space-x-16 mb-4 sm:mb-6">
+              <div className="text-center">
+                <h2 className="text-3xl sm:text-5xl font-bold text-[#8371FF] mb-1 font-jakarta">86000</h2>
+                <p className="text-xs sm:text-base font-semibold text-gray-600">AI Headshots created</p>
               </div>
-              <span className="text-xs sm:text-sm font-semibold font-['Poppins']">112</span>
+              <div className="text-center">
+                <h2 className="text-3xl sm:text-5xl font-bold text-[#8371FF] mb-1 font-jakarta">2100</h2>
+                <p className="text-xs sm:text-base font-semibold text-gray-600">Happy Customers Globally</p>
+              </div>
             </div>
-            <p className="text-[10px] sm:text-xs font-['Poppins']">based on 112 written reviews</p>
+            
+            <p className="text-xs sm:text-base text-gray-600 text-center max-w-2xl mx-auto mb-4 sm:mb-8">
+              Not made in a studio. Created by AI. Don't just take our word for it. Our AI turns everyday photos into professional headshots, that reflect your confidence & credibility.
+            </p>
           </div>
-        </div>
-        
-        {/* Review cards */}
-        {reviews.map((review, index) => (
-          <div key={index} className="relative rounded-lg overflow-hidden aspect-[4/3]">
-            <Image 
-              src={review.image} 
-              alt={review.name} 
-              layout="fill" 
-              objectFit="cover" 
-              className="w-full h-full"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-            <div className="absolute top-2 left-2 bg-white/80 rounded-full px-2 py-1 flex items-center space-x-1">
-              <Image src={Logo} alt="GoStudio.ai" width={12} height={12} className="w-3 h-3" />
-              <span className="text-[8px] sm:text-[10px] font-semibold text-gray-800 font-['Poppins']">GoStudio.ai</span>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3 text-white">
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="font-semibold text-xs sm:text-sm font-['Plus Jakarta Sans']">{review.name}</h3>
-                <div className="flex">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <Star key={i} className="w-2 h-2 sm:w-3 sm:h-3 fill-current text-yellow-400" />
-                  ))}
+          
+          {/* Reviews */}
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5px] sm:gap-6">
+            {/* AI Summary */}
+            <div className="bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] rounded-[11.2px] sm:rounded-[20px] p-3 sm:p-4 text-white w-full h-[111.4px] sm:h-[201px] flex flex-col justify-between col-span-1 sm:col-span-1">
+              <div>
+                <h3 className="text-base sm:text-2xl font-semibold mb-1 sm:mb-2 flex items-center font-jakarta">
+                  <span className="mr-1 sm:mr-2">✨</span>
+                  AI Summary
+                </h3>
+                <p className="text-[10px] sm:text-sm leading-tight line-clamp-3 sm:line-clamp-none">
+                  Customers praise the product's realistic results, price, ease of use, loved the provided styles and poses and AI Feedback on uploading images.
+                </p>
+              </div>
+              <div className="hidden sm:block">
+                <div className="flex items-center space-x-2 mb-1">
+                  <div className="bg-white bg-opacity-20 rounded-full p-1">
+                    <Heart size={16} className="text-white" />
+                  </div>
+                  <div className="bg-white bg-opacity-20 rounded-full p-1">
+                    <ThumbsUp size={16} className="text-white" />
+                  </div>
+                  <div className="bg-black bg-opacity-20 rounded-full px-2 py-0.5 text-xs font-semibold">
+                    +112
+                  </div>
+                </div>
+                <p className="text-xs">based on 112 written reviews</p>
+              </div>
+              <div className="sm:hidden flex items-center justify-between mt-1">
+                <div className="flex items-center space-x-1">
+                  <Heart size={12} className="text-white" />
+                  <ThumbsUp size={12} className="text-white" />
+                </div>
+                <div className="text-[8px]">
+                  +112 based on 112 written reviews
                 </div>
               </div>
-              <p className="text-[8px] sm:text-xs text-gray-200 line-clamp-2 font-['Poppins']">{review.comment}</p>
             </div>
+            
+            {/* Review cards */}
+            {reviews.slice(0, 11).map((review, index) => (
+              <div key={index} className="relative rounded-[11.2px] sm:rounded-[20px] overflow-hidden w-[156.75px] h-[111.4px] sm:w-full sm:h-[201px]">
+                <Image 
+                  src={review.image} 
+                  alt={review.name} 
+                  layout="fill" 
+                  objectFit="cover" 
+                  className="w-full h-full"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                <div className="absolute top-2 right-3 sm:top-2 sm:right-1 bg-[rgba(228,228,231,0.8)] backdrop-blur-[8px] rounded-full px-1 py-0.5 sm:px-2 sm:py-1 flex items-center space-x-1">
+                  <div className="w-3 h-3 sm:w-5 sm:h-5 rounded-full bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
+                    <span className="text-white text-[8px] sm:text-xs">✦</span>
+                  </div>
+                  <span className="text-[8px] sm:text-sm font-semibold text-gray-700 font-jakarta">GoStudio.ai</span>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 text-white">
+                  <h3 className="font-semibold text-xs sm:text-lg font-jakarta mb-0.5 sm:mb-1">{review.name}</h3>
+                  <p className="text-[8px] sm:text-sm text-gray-200 mb-1 sm:mb-2 line-clamp-2">{review.comment}</p>
+                  <div className="flex">
+                    {[...Array(review.rating)].map((_, i) => (
+                      <Star key={i} className="w-2 h-2 sm:w-4 sm:h-4 fill-current text-yellow-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

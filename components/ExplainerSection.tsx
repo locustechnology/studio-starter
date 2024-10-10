@@ -1,110 +1,83 @@
-
-      {/* <h2 className="text-3xl font-bold text-center mb-8">How It Works</h2>
-
-      {/* Step 1: Upload your images */}
-      {/* <div className="space-y-4">
-        <div className="flex items-center justify-center space-x-4">
-          <div className="text-3xl font-bold text-blue-600 bg-white border-2 border-blue-600 rounded-full w-10 h-10 flex items-center justify-center">
-            1
-          </div>
-          <h3 className="text-2xl font-semibold">Upload a few photos</h3>
-        </div>
-        <p className="text-sm text-gray-600 text-center">
-        Upload a few photos of yourself, and we'll take care of the rest.
-        </p>
-        <Image
-          src={resulte}
-          alt="AI Headshot example"
-          className="rounded-lg object-cover w-full md:w-3/4 lg:w-1/2 mx-auto"
-        />
-      </div> */}
-
-      {/* Step 2: Train your model */}
-      {/* <div className="space-y-4">
-        <div className="flex items-center justify-center space-x-4">
-          <div className="text-3xl font-bold text-blue-600 bg-white border-2 border-blue-600 rounded-full w-10 h-10 flex items-center justify-center">
-            2
-          </div>
-          <h3 className="text-2xl font-semibold">Our AI gets to work</h3>
-        </div>
-        <p className="text-sm text-gray-600 text-center">
-        <p className="text-sm text-gray-600 text-center">
-        We use cutting-edge technology built by AI researchers <br/>from
-        Meta and Microsoft to create your headshots.        </p>
-        </p>
-        <Image
-          src={Group}
-          alt="AI Headshot blur"
-          className="rounded-lg object-cover w-full md:w-3/4 lg:w-1/2 mx-auto"
-        />
-      </div> */}
-
-      {/* Step 3: Generate images */}
-      {/* <div className="space-y-4">
-        <div className="flex items-center justify-center space-x-4">
-          <div className="text-3xl font-bold text-blue-600 bg-white border-2 border-blue-600 rounded-full w-10 h-10 flex items-center justify-center">
-            3
-          </div>
-          <h3 className="text-2xl font-semibold">Download favourite Headshots</h3>
-        </div>
-        <p className="text-sm text-gray-600 text-center">
-        You'll receive different backgrounds, poses, and styles to choose<br/>
-        the perfect AI headshot. Ready for all use cases, from personal<br/>
-        to the most professional.        </p>
-        <Image
-          src={exampl}
-          alt="AI Headshot result"
-          className="rounded-lg object-cover w-full md:w-3/4 lg:w-1/2 mx-auto"
-        />
-      </div> */} 
-
 import React from 'react';
 import Image from 'next/image';
 import step1 from "@/public/Step1.svg"
-import step3 from "@/public/step3.svg"
 import blur from "@/public/blur.svg"
+import step3 from "@/public/step3.svg"
 
-const AIHeadshotPage = () => {
+const ExplainerSection = () => {
   return (
-    <div className="w-full min-h-screen bg-white text-black rounded-[60px]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32">
-        <div className="space-y-20 sm:space-y-32 lg:space-y-48">
-          {/* Section 1: Upload Photos */}
-          <section className="space-y-8">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl lg:text-5xl font-bold font-['Plus Jakarta Sans']">Upload a few photos</h2>
-              <p className="text-xl text-gray-600 font-['Poppins']">Upload a few photos of yourself, and we'll take care of the rest.</p>
-            </div>
-            <div className="w-full">
-              <Image src={step1} alt="Upload photos" layout="responsive" width={500} height={300} />
-            </div>
-          </section>
-
-          {/* Section 2: AI Processing */}
-          <section className="space-y-8">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl lg:text-5xl font-bold font-['Plus Jakarta Sans']">Our AI gets to work</h2>
-              <p className="text-xl text-gray-600 font-['Poppins']">We use cutting-edge technology built by AI researchers from Meta and Microsoft to create your headshots.</p>
-            </div>
-            <div className="w-full">
-              <Image src={blur} alt="AI processing" layout="responsive" width={500} height={300} />
-            </div>
-          </section>
-
-          {/* Section 3: Download Headshots */}
-          <section className="space-y-8">
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl lg:text-5xl font-bold font-['Plus Jakarta Sans']">Download favourite Headshots</h2>
-              <p className="text-xl text-gray-600 font-['Poppins']">You'll receive different backgrounds, poses, and styles to choose the perfect AI headshot. Ready for all use cases, from personal to the most professional.</p>
-            </div>
-            <div className="w-full">
-              <Image src={step3} alt="Download headshots" layout="responsive" width={500} height={300} />
-            </div>
-          </section>
+    <div className="w-full max-w-[1276px] mx-auto bg-white text-black rounded-[24px] px-4 sm:px-6 lg:px-20 py-16 space-y-24 font-poppins">
+      <h2 className="text-2xl sm:text-3xl font-normal font-jakarta text-center mb-16 mx-auto whitespace-nowrap px-4" style={{ opacity: '70%' }}>HOW IT WORKS</h2>      
+      {/* Section 1: Upload Photos */}
+      <section className="relative w-full max-w-[960px] mx-auto pt-8 space-y-8 text-center">
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold">1</div>
         </div>
-      </div>
+        <div className="space-y-4">
+          <h3 className="text-3xl sm:text-4xl font-bold font-jakarta">Upload a few photos</h3>
+          <p className="text-lg sm:text-xl text-gray-600">Upload a few photos of yourself to let AI learn about you</p>
+        </div>
+        <div className="w-full">
+          <Image 
+            src={step1} 
+            alt="Upload photos process" 
+            width={960}
+            height={476}
+            layout="responsive"
+            className="object-contain"
+          />
+        </div>
+      </section>
+
+      {/* Section 2: AI Processing */}
+      <section className="relative w-full max-w-[960px] mx-auto pt-8 space-y-8 text-center">
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center text-white text-xl font-bold">2</div>
+        </div>
+        <div className="space-y-4">
+          <h3 className="text-3xl sm:text-4xl font-bold font-jakarta">AI trained personally for you</h3>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+            AI creates a private, personalized model just for you—ensuring headshots that reflect your unique style and identity
+          </p>
+        </div>
+        <div className="w-full">
+          <Image 
+            src={blur} 
+            alt="AI processing" 
+            width={960}
+            height={516}
+            layout="responsive"
+            className="object-contain"
+          />
+        </div>
+      </section>
+
+      {/* Section 3: Download Headshots */}
+      <section className="relative w-full max-w-[960px] mx-auto pt-8 space-y-8 text-center">
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#8371FF] to-[#01C7E4] flex items-center justify-center text-white text-xl font-bold">3</div>
+        </div>
+        <div className="space-y-4">
+          <h3 className="text-3xl sm:text-4xl font-bold font-jakarta">Download favourite Headshots</h3>
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+            You'll receive a variety of backgrounds, poses, and styles, giving you
+            the perfect AI-crafted Headshots to elevate your business
+            professional profile
+          </p>
+        </div>
+        <div className="w-full max-w-[862px] mx-auto">
+          <Image 
+            src={step3} 
+            alt="Download headshots" 
+            width={862}
+            height={450}
+            layout="responsive"
+            className="object-contain rounded-3xl"
+          />
+        </div>
+      </section>
     </div>
   );
 };
 
-export default AIHeadshotPage;
+export default ExplainerSection;

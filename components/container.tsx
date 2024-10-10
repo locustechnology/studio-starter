@@ -10,62 +10,67 @@ interface SecurityFeatureProps {
   imageSrc: string | StaticImageData;
   title: string;
   description: string;
+  lineCount: 2 | 3;
 }
 
-const SecurityFeature: React.FC<SecurityFeatureProps> = ({ imageSrc, title, description }) => (
-  <div className="flex items-center space-x-4">
-    <div className="flex-shrink-0">
-      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-400 to-cyan-400 flex items-center justify-center overflow-hidden">
-        <Image src={imageSrc} alt={title} width={40} height={40} className="object-cover" />
-      </div>
+const SecurityFeature: React.FC<SecurityFeatureProps> = ({ imageSrc, title, description, lineCount }) => (
+  <div className="flex items-start space-x-4 mb-6 sm:mb-0">
+    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0 overflow-hidden bg-gradient-to-br from-purple-400 to-blue-400 mt-1">
+      <Image src={imageSrc} alt={title} width={64} height={64} className="object-cover" />
     </div>
-    <div>
-      <h3 className="text-lg font-semibold text-white mb-1 font-['Plus Jakarta Sans']">{title}</h3>
-      <p className="text-gray-300 text-sm font-['Poppins']">{description}</p>
+    <div className="flex-grow">
+      <h3 className="text-white text-sm sm:text-lg font-semibold mb-1 font-jakarta">{title}</h3>
+      <p className={`text-gray-400 text-xs sm:text-sm ${lineCount === 2 ? 'line-clamp-2' : 'line-clamp-3'}`}>{description}</p>
     </div>
   </div>
 );
 
 const DataSecuritySection: React.FC = () => {
   return (
-    <div className="bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8 rounded-3xl">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-5xl font-bold text-center mb-4 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-transparent bg-clip-text font-['Plus Jakarta Sans']" style={{lineHeight: '60.48px'}}>
-          We prioritize your data security
-        </h2>
-        <p className="text-center text-gray-400 mb-12 font-['Poppins']">
-          Trusted by the professionals of CXO and Leadership teams<br/>
-          of Fortune 500 companies and other reputed enterprise professionals
+    <div className="w-full max-w-[1276px] mx-auto bg-[#1E1E1E] rounded-3xl overflow-hidden relative p-6 sm:p-12 font-poppins">
+      <div className="flex flex-col items-center">
+        <h2 className="text-sm sm:text-base uppercase text-gray-400 mb-2 sm:mb-4 tracking-wider w-full text-center font-jakarta">PRIVACY</h2>
+        <h1 className="text-2xl sm:text-5xl font-bold mb-3 sm:mb-6 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent text-center font-jakarta">
+          We value Data Privacy
+        </h1>
+        <p className="text-gray-400 text-sm sm:text-lg mb-8 sm:mb-12 text-center max-w-2xl">
+          Trusted by Fortune 500 Leaders and Top professionals.<br className="hidden sm:inline" />
+          Reputed enterprise organisations and teams trust us with their data.
         </p>
         
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
+        <div className="w-full grid sm:grid-cols-2 gap-y-6 sm:gap-x-16 sm:gap-y-12">
           <SecurityFeature
             imageSrc={Borderone}
-            title="WE NEVER SELL YOUR DATA."
-            description="GoStudio.ai will never sell your data to any third party."
+            title="NO DATA SELLING, NO SHARING"
+            description="We will never sell your data or share with the third party websites."
+            lineCount={2}
           />
           <SecurityFeature
             imageSrc={Bordertwo}
-            title="YOU'RE IN CONTROL"
-            description="We will never use your photos to train new AI models without your permission"
+            title="YOUR PHOTOS, YOUR CONTROL"
+            description="We won't use your photos to train AI without your permissions."
+            lineCount={2}
           />
           <SecurityFeature
             imageSrc={Borderthird}
-            title="LIVE SUPPORT"
-            description="Contact us anytime from to receive assistance from our live customer support."
+            title="AUTO DELETION OF DATA"
+            description="The system automatically deletes all your images after 90 days. You choose to keep the setting your way."
+            lineCount={3}
           />
           <SecurityFeature
             imageSrc={Borderfour}
-            title="ADVANCED ENCRYPTION"
-            description="Your data deserves the best protection. We encrypt all sensitive user data."
+            title="TOP-NOTCH SECURITY"
+            description="We encrypt all sensitive user data. We use industry's best trusted software for your data."
+            lineCount={3}
           />
         </div>
         
-        <div className="text-center">
-          <button className="px-8 py-3 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] text-white font-semibold rounded-full hover:opacity-90 transition duration-300 font-['Poppins']">
-            Create Your Headshot →
-          </button>
-        </div>
+        <button className="w-full sm:w-auto py-3 px-6 sm:px-8 bg-gradient-to-r from-[#8371FF] to-[#01C7E4] text-white font-semibold rounded-full hover:opacity-90 transition duration-300 flex items-center justify-center text-base sm:text-lg mt-8 sm:mt-12">
+          Create Your Headshot
+          <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
     </div>
   );

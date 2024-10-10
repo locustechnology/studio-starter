@@ -2,40 +2,38 @@ import React from 'react';
 import Image from 'next/image';
 import Union from '/public/Union.png'
 
-const HeadshotContainer = () => {
+const Banner = () => {
   return (
-    <div className="flex items-center justify-center w-full max-w-[1160px] mx-auto">
-      <div className="w-full bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] rounded-[48px] shadow-xl relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row h-full relative">
+    <div className="w-full max-w-[1276px] mx-auto rounded-[13.64px] sm:rounded-[48px] overflow-hidden mb-6 sm:mb-12 font-poppins">
+      <div className="w-full h-[149px] sm:h-[459px] relative bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">
+        <div className="absolute inset-0 backdrop-blur-sm"></div>
+        <div className="flex flex-row h-full relative z-10">
           {/* Logo - hidden on small screens */}
-          <div className="hidden lg:block lg:w-2/5 relative overflow-hidden lg:pl-0 lg:h-[459px]">
-            <div className="absolute inset-0">
-              <Image
-                src={Union}
-                alt="Go logo"
-                layout="fill"
-                objectFit="cover"
-                className="object-right lg:object-right-top"
-              />
-            </div>
+          <div className="hidden sm:block sm:w-2/5 relative overflow-hidden">
+            <Image
+              src={Union}
+              alt="Go logo"
+              layout="fill"
+              objectFit="cover"
+              className="object-center"
+            />
           </div>
           {/* Content */}
-          <div className="w-full lg:w-3/5 p-8 lg:p-12 flex flex-col justify-center">
-            <div className="relative mb-4 lg:mb-6">
-              <span className="bg-white text-[#8371FF] text-xs px-3 py-1 rounded-full absolute -top-6 right-0 lg:right-12 font-['Poppins']">on average</span>
+          <div className="w-full sm:w-3/5 p-4 sm:p-12 flex flex-col justify-center">
+            <div className="relative mb-2 sm:mb-6">
+              <span className="bg-white text-[#8371FF] text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full absolute -top-3 sm:-top-6 right-0 sm:right-12 whitespace-nowrap">on average</span>
             </div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-white leading-tight mb-4 lg:mb-6 font-['Plus Jakarta Sans']">
+            <h1 className="text-lg sm:text-4xl font-bold text-white leading-tight mb-2 sm:mb-6 font-jakarta">
               Save 87% on your professional photos.
-              <br />
+              <br className="hidden sm:inline" />
               Whenever, wherever you are.
             </h1>
-            <p className="text-base lg:text-xl text-white mb-8 font-['Poppins']">
-              Get studio-quality, 4K images in a variety of outfits
-              & settings in less than an hour.
+            <p className="text-xs sm:text-xl text-white mb-3 sm:mb-8">
+              Get studio-quality, 4K images in a variety of outfits & settings in less than an hour.
             </p>
-            <button className="bg-indigo-700 text-white text-base lg:text-lg font-semibold py-3 px-6 rounded-full hover:bg-indigo-800 transition duration-300 self-start flex items-center font-['Poppins']">
+            <button className="w-[200px] sm:w-[318px] h-[36px] sm:h-[48px] bg-purple-500 text-white text-xs sm:text-lg font-semibold rounded-full sm:rounded-[50px] px-4 sm:px-[25px] py-1 sm:py-[12px] hover:bg-purple-700 transition duration-300 flex items-center justify-center gap-2 sm:gap-[10px]">
               Get your Headshot Now
-              <svg className="w-5 h-5 ml-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-3 h-3 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
@@ -46,4 +44,4 @@ const HeadshotContainer = () => {
   );
 };
 
-export default HeadshotContainer;
+export default Banner;
