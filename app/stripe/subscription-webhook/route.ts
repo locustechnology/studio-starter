@@ -50,7 +50,16 @@ export async function POST(request: Request) {
 
     console.log(`Adding ${creditsToAdd} credits for user ${userId}`);
 
-    const supabase = createClient<Database>(supabaseUrl!, supabaseServiceRoleKey!);
+    // Define the type for the add_credits function
+    type AddCreditsFunction = {
+      (args: { p_user_id: string; p_credits: number }): Promise<{ data: any; error: any }>
+    };
+
+    // Create a properly typed Supabase client
+    const supabase = createClient<{ rpc: { add_credits: AddCreditsFunction } }>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
 
     console.log('Updating credits in the database');
     const { data, error } = await supabase.rpc('add_credits', {
