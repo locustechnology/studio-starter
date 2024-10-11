@@ -10,6 +10,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
+interface TrainModelZoneProps {
+  packSlug: string;
+}
+
+const TrainModelZoneComponent: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
+  // ... component logic ...
+};
+
 export default function Index({ params }: { params: { pack: string } }) {
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState('');
@@ -23,7 +31,7 @@ export default function Index({ params }: { params: { pack: string } }) {
   const renderStep = () => {
     switch (currentStep) {
       case 'img-upload':
-        return <TrainModelZone packSlug={params.pack} />;
+        return <TrainModelZoneComponent packSlug={params.pack} />;
       default:
         return <ModelTypeSelector packSlug={params.pack} />;
     }
