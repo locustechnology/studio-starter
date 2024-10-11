@@ -162,7 +162,6 @@ const LoginPage: React.FC = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                variant="outline"
                 className="w-[339.5px] h-[46px] px-[16.5px] py-[13px] bg-white text-gray-700 font-medium rounded-[50px] border-t border-l hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center"
               >
                 Get code on E-mail

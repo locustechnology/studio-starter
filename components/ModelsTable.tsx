@@ -49,7 +49,7 @@ export default async function ModelsTable({ models }: ModelsTableProps) {
                 <div>
                   <Badge
                     className="flex gap-2 items-center w-min font-jakarta"
-                    variant={
+                    type={
                       model.status === "finished" ? "default" : "secondary"
                     }
                   >
@@ -69,7 +69,7 @@ export default async function ModelsTable({ models }: ModelsTableProps) {
                     </Avatar>
                   ))}
                   {model.samples.length > 3 && (
-                    <Badge className="rounded-full h-10 font-jakarta" variant={"outline"}>
+                    <Badge className="rounded-full h-10 font-jakarta" type={"outline"}>
                       +{model.samples.length - 3}
                     </Badge>
                   )}
