@@ -10,20 +10,21 @@ import { FaArrowLeft } from "react-icons/fa";
 
 const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
-interface TrainModelZoneProps {
-  packSlug: string;
-}
+// Remove this interface and component as they're not being used
+// interface TrainModelZoneProps {
+//   packSlug: string;
+// }
 
-const TrainModelZoneComponent: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
-  // ... component logic ...
+// const TrainModelZoneComponent: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
+//   // ... component logic ...
 
-  return (
-    <div>
-      {/* Your component JSX goes here */}
-      <p>Train Model Zone for pack: {packSlug}</p>
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       {/* Your component JSX goes here */}
+//       <p>Train Model Zone for pack: {packSlug}</p>
+//     </div>
+//   );
+// };
 
 export default function Index({ params }: { params: { pack: string } }) {
   const searchParams = useSearchParams();
@@ -50,14 +51,14 @@ export default function Index({ params }: { params: { pack: string } }) {
         id="train-model-container"
         className="flex flex-1 flex-col gap-2 px-2"
       >
-        {/* Uncomment if you want to include the back button
-        <Link href={packsIsEnabled ? "/overview/packs" : "/overview"} className="text-sm w-fit">
-          <Button variant={"outline"}>
-            <FaArrowLeft className="mr-2" />
-            Go Back
-          </Button>
-        </Link>
-        */}
+        {packsIsEnabled && (
+          <Link href="/overview/packs" className="text-sm w-fit">
+            <Button variant="outline">
+              <FaArrowLeft className="mr-2" />
+              Go Back
+            </Button>
+          </Link>
+        )}
         
         <div className="mt-6">
           {renderStep()}
