@@ -46,19 +46,12 @@ export default async function ModelsTable({ models }: ModelsTableProps) {
             >
               <TableCell className="font-medium">{model.name}</TableCell>
               <TableCell>
-                <div>
-                  <Badge
-                    className="flex gap-2 items-center w-min font-jakarta"
-                    type={
-                      model.status === "finished" ? "default" : "secondary"
-                    }
-                  >
-                    {model.status === "processing" ? "training" : model.status }
-                    {model.status === "processing" && (
-                      <Icons.spinner className="h-4 w-4 animate-spin" />
-                    )}
-                  </Badge>
-                </div>
+                <span className="flex gap-2 items-center w-min font-jakarta text-sm">
+                  {model.status === "processing" ? "training" : model.status}
+                  {model.status === "processing" && (
+                    <Icons.spinner className="h-4 w-4 animate-spin" />
+                  )}
+                </span>
               </TableCell>
               <TableCell className="font-medium">{model.type}</TableCell>
               <TableCell>
@@ -69,9 +62,9 @@ export default async function ModelsTable({ models }: ModelsTableProps) {
                     </Avatar>
                   ))}
                   {model.samples.length > 3 && (
-                    <Badge className="rounded-full h-10 font-jakarta" type={"outline"}>
+                    <span className="rounded-full h-10 font-jakarta px-2 py-1 bg-gray-200 text-gray-700">
                       +{model.samples.length - 3}
-                    </Badge>
+                    </span>
                   )}
                 </div>
               </TableCell>
