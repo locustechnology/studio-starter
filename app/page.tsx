@@ -33,7 +33,7 @@ export default async function Index() {
           <ComparisonPage />
           <ReviewPage />
           <MoneyBackGuarantee />
-          <PricingSection user={user} />
+          <PricingSection />
           <DataSecuritySection />
           <FAQSection />
           <HeadshotContainer />
