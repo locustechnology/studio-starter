@@ -13,8 +13,12 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-const PhotoUpload = () => {
-  const [files, setFiles] = useState<{ file: File; preview: string }[]>([]); // Changed this line
+interface TrainModelZoneProps {
+  packSlug: string;
+}
+
+const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
+  const [files, setFiles] = useState<{ file: File; preview: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<Set<string>>(new Set());
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
@@ -249,4 +253,4 @@ const PhotoUpload = () => {
   );
 };
 
-export default PhotoUpload;
+export default TrainModelZone;
