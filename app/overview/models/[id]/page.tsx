@@ -54,7 +54,7 @@ export default async function ModelPage({ params }: { params: { id: string } }) 
           <div>
             <Badge
               className="text-xs font-medium"
-              type={model.status === "finished" ? "default" : "secondary"}
+              variant={model.status === "finished" ? "default" : "secondary"}
             >
               {model.status === "processing" ? "training" : model.status}
               {model.status === "processing" && (
