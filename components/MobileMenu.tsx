@@ -42,7 +42,7 @@ export default function MobileMenu({ user, credits }: MobileMenuProps) {
           />
 
           {/* Menu */}
-          <div className="fixed top-16 left-0 right-0 bottom-0 bg-white shadow-md py-2 z-50 overflow-y-auto">
+          <div className="fixed top-16 left-0 right-0 bottom-0 bg-white shadow-md py-2 z-50 overflow-y-auto font-poppins">
             <div className="flex flex-col space-y-2 px-4">
               <NavItems />
               <UserMenu user={user} credits={credits} />

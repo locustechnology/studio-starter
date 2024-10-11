@@ -80,9 +80,9 @@ const PricingComponent = () => {
           
           <div className="flex flex-col lg:flex-row lg:justify-center space-y-8 lg:space-y-0 lg:space-x-8 mt-12">
             {pricingTiers.map((tier, index) => (
-              <div key={tier.name} className="flex-1 max-w-[362px] mx-auto lg:mx-0 relative">
+              <div key={tier.name} className="flex-1 max-w-[362px] mx-auto lg:mx-0 relative pt-6"> {/* Added pt-6 for padding top */}
                 {(tier.popularTag || tier.bestValueTag) && (
-                  <div className="absolute top-[-12px] left-1/2 transform -translate-x-1/2">
+                  <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 w-full text-center ${tier.popularTag ? 'text-sm' : ''}`}>
                     <span className={`inline-block px-4 py-1 rounded-full text-sm font-poppins ${
                       tier.highlight ? 'bg-gradient-to-r from-purple-400 to-blue-500 text-white border-2 border-image-source: linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%);' : 'bg-purple-100 text-purple-600'
                     }`}>
