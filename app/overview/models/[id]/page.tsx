@@ -44,7 +44,7 @@ export default async function ModelPage({ params }: { params: { id: string } }) 
     <div id="train-model-container" className="w-full h-full">
       <div className="flex flex-row gap-4">
         <Link href="/overview" className="text-xs w-fit">
-          <Button variant={"outline"} className="text-xs" size="sm">
+          <Button className="text-xs" size="sm">
             <FaArrowLeft className="mr-2" />
             Go Back
           </Button>
@@ -53,8 +53,8 @@ export default async function ModelPage({ params }: { params: { id: string } }) 
           <h1 className="text-xl">{model.name}</h1>
           <div>
             <Badge
-              variant={model.status === "finished" ? "default" : "secondary"}
               className="text-xs font-medium"
+              type={model.status === "finished" ? "default" : "secondary"}
             >
               {model.status === "processing" ? "training" : model.status}
               {model.status === "processing" && (
