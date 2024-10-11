@@ -52,15 +52,18 @@ export default async function ModelPage({ params }: { params: { id: string } }) 
         <div className="flex flex-row gap-2 align-middle text-center items-center pb-4">
           <h1 className="text-xl">{model.name}</h1>
           <div>
-            <Badge
-              className="text-xs font-medium"
-              badgeStyle={model.status === "finished" ? "default" : "secondary"}
+            <span
+              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                model.status === "finished"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
             >
               {model.status === "processing" ? "training" : model.status}
               {model.status === "processing" && (
                 <Icons.spinner className="h-4 w-4 animate-spin ml-2 inline-block" />
               )}
-            </Badge>
+            </span>
           </div>
         </div>
       </div>
