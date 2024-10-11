@@ -1,4 +1,4 @@
-import Login from "@/app/login/page";
+import Login from "@/app/login/components/Login";
 import { Icons } from "@/components/icons";
 import ClientSideModel from "@/components/realtime/ClientSideModel";
 import { Badge } from "@/components/ui/badge";
@@ -12,14 +12,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 export const dynamic = "force-dynamic";
 
-export default async function Index({ params }: { params: { id: string } }) {
+export default async function ModelPage({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return <Login />;
+    return <Login params={{ slug: params.id }} />;
   }
 
   const { data: model } = await supabase
