@@ -16,6 +16,13 @@ interface TrainModelZoneProps {
 
 const TrainModelZoneComponent: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
   // ... component logic ...
+
+  return (
+    <div>
+      {/* Your component JSX goes here */}
+      <p>Train Model Zone for pack: {packSlug}</p>
+    </div>
+  );
 };
 
 export default function Index({ params }: { params: { pack: string } }) {
@@ -31,7 +38,7 @@ export default function Index({ params }: { params: { pack: string } }) {
   const renderStep = () => {
     switch (currentStep) {
       case 'img-upload':
-        return <TrainModelZoneComponent packSlug={params.pack} />;
+        return <TrainModelZone packSlug={params.pack} />;
       default:
         return <ModelTypeSelector packSlug={params.pack} />;
     }
