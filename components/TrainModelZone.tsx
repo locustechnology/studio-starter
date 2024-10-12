@@ -13,9 +13,9 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export interface TrainModelZoneProps {
+interface TrainModelZoneProps {
   packSlug: string;
-  onContinue?: () => void; // Make this optional if it's not always needed
+  onContinue: () => void;
 }
 
 const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue }) => {

@@ -1,11 +1,11 @@
+'use client';
+
 import PricingComponent from '@/components/PricingSection';
 
-export default async function GetCreditsPage() {
-
+export default function GetCreditsPage() {
   return (
     <div>
-     
-      <PricingComponent /* credits={credits} */ />
+      <PricingComponent />
     </div>
   );
 }

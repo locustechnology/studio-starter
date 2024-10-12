@@ -22,7 +22,12 @@ const modelTypes: ModelOption[] = [
   { value: 'man', label: 'Male', imageSrc: malegender },
 ];
 
-export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
+interface ModelTypeSelectorProps {
+  packSlug: string;
+  onContinue: () => void;
+}
+
+export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ packSlug, onContinue }) => {
   const [name, setName] = useState('');
   const [selectedModel, setSelectedModel] = useState<ModelType | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -160,6 +165,5 @@ export const ModelTypeSelector = ({ packSlug }: { packSlug: string }) => {
     </div>
   );
 };
-  
 
 export default ModelTypeSelector;
