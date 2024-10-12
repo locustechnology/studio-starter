@@ -1,4 +1,4 @@
-import Login from "@/app/login/page";
+import Login from "@/app/login/components/Login";
 import { Icons } from "@/components/icons";
 import ClientSideModel from "@/components/realtime/ClientSideModel";
 import { Badge } from "@/components/ui/badge";
@@ -12,14 +12,14 @@ import { FaArrowLeft } from "react-icons/fa";
 
 export const dynamic = "force-dynamic";
 
-export default async function Index({ params }: { params: { id: string } }) {
+export default async function ModelPage({ params }: { params: { id: string } }) {
   const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return <Login />;
+    return <Login params={{ slug: params.id }} />;
   }
 
   const { data: model } = await supabase
@@ -44,7 +44,7 @@ export default async function Index({ params }: { params: { id: string } }) {
     <div id="train-model-container" className="w-full h-full">
       <div className="flex flex-row gap-4">
         <Link href="/overview" className="text-xs w-fit">
-          <Button variant={"outline"} className="text-xs" size="sm">
+          <Button className="text-xs" size="sm">
             <FaArrowLeft className="mr-2" />
             Go Back
           </Button>
@@ -52,15 +52,18 @@ export default async function Index({ params }: { params: { id: string } }) {
         <div className="flex flex-row gap-2 align-middle text-center items-center pb-4">
           <h1 className="text-xl">{model.name}</h1>
           <div>
-            <Badge
-              variant={model.status === "finished" ? "default" : "secondary"}
-              className="text-xs font-medium"
+            <span
+              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                model.status === "finished"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-yellow-100 text-yellow-800"
+              }`}
             >
-              {model.status === "processing" ? "training" : model.status }
+              {model.status === "processing" ? "training" : model.status}
               {model.status === "processing" && (
                 <Icons.spinner className="h-4 w-4 animate-spin ml-2 inline-block" />
               )}
-            </Badge>
+            </span>
           </div>
         </div>
       </div>

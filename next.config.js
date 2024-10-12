@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
   experimental: {
-    esmExternals: "loose",
+    // Remove or comment out the appDir line
+    // appDir: true,
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

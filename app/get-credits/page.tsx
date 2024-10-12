@@ -1,22 +1,11 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import StripePricingTable from "@/components/stripe/StripeTable";
+'use client';
 
-export const dynamic = "force-dynamic";
+import PricingComponent from '@/components/PricingSection';
 
-export default async function Index() {
-  const supabase = createServerComponentClient({ cookies });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect("/login");
-  }
-
+export default function GetCreditsPage() {
   return (
-    <StripePricingTable user={user} />
+    <div>
+      <PricingComponent />
+    </div>
   );
 }
