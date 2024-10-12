@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import ModelTypeSelector from "@/components/ModelTypeSelector";
@@ -26,7 +27,7 @@ const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 //   );
 // };
 
-export default function Index({ params }: { params: { pack: string } }) {
+const Page = ({ params }: { params: { pack: string } }) => {
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState('');
 
@@ -66,4 +67,6 @@ export default function Index({ params }: { params: { pack: string } }) {
       </div>
     </div>
   );
-}
+};
+
+export default Page;

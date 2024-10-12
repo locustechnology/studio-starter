@@ -14,10 +14,11 @@ const supabase = createClient(
 );
 
 export interface TrainModelZoneProps {
-  onContinue: () => void;
+  packSlug: string;
+  onContinue?: () => void; // Make this optional if it's not always needed
 }
 
-const TrainModelZone: React.FC<TrainModelZoneProps> = ({ onContinue }) => {
+const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue }) => {
   const [files, setFiles] = useState<{ file: File; preview: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<Set<string>>(new Set());
@@ -126,7 +127,12 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ onContinue }) => {
       router.push('/next-page');
 
       // Call the onContinue prop when the upload is successful
-      onContinue();
+      if (onContinue) {
+        onContinue();
+      } else {
+        // Default behavior if onContinue is not provided
+        router.push('/next-page');
+      }
     } catch (error) {
       console.error('Upload error:', error);
       toast({
