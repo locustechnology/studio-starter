@@ -25,7 +25,10 @@ const TrainFlowComponent: React.FC = () => {
   console.log('Rendering component for step:', currentStep);
 
   if (currentStep === 'img-upload') {
-    return <TrainModelZone onContinue={() => navigateToNextStep('get-credits')} />;
+    return <TrainModelZone 
+      packSlug="corporate-headshots" 
+      onContinue={() => navigateToNextStep('get-credits')} 
+    />;
   }
 
   if (currentStep === 'get-credits') {
