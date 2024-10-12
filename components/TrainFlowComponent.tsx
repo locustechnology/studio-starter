@@ -1,15 +1,15 @@
 'use client'
+import React, { useState } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import { ModelTypeSelector } from '@/components/ModelTypeSelector';
 import TrainModelZone from '@/components/TrainModelZone';
 import GetCreditsPage from '@/app/get-credits/page';
 
-const TrainFlowComponent = () => {
+const TrainFlowComponent: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const [currentStep, setCurrentStep] = useState('');
+  const [currentStep, setCurrentStep] = useState('img-upload');
 
   useEffect(() => {
     const step = searchParams.get('step');

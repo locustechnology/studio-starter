@@ -13,11 +13,11 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-interface TrainModelZoneProps {
-  packSlug: string;
+export interface TrainModelZoneProps {
+  onContinue: () => void;
 }
 
-const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
+const TrainModelZone: React.FC<TrainModelZoneProps> = ({ onContinue }) => {
   const [files, setFiles] = useState<{ file: File; preview: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<Set<string>>(new Set());
@@ -124,6 +124,9 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
 
       // Redirect or perform next steps
       router.push('/next-page');
+
+      // Call the onContinue prop when the upload is successful
+      onContinue();
     } catch (error) {
       console.error('Upload error:', error);
       toast({
