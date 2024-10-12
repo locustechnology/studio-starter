@@ -51,7 +51,8 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
       return;
     }
 
-    const totalSize = [...files, ...newFiles].reduce((acc, file) => acc + file.size, 0);
+    const totalSize = [...files, ...newFiles].reduce((acc, file) => 
+      acc + ('size' in file ? file.size : file.file.size), 0);
     if (totalSize > 120 * 1024 * 1024) {  // 120MB limit
       toast({
         title: "Images exceed size limit",

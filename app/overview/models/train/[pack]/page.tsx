@@ -37,12 +37,18 @@ const Page = ({ params }: { params: { pack: string } }) => {
     setCurrentStep(step || '');
   }, [searchParams]);
 
+  const navigateToNextStep = (nextStep: string) => {
+    // Implement navigation logic here
+    console.log(`Navigating to ${nextStep}`);
+    setCurrentStep(nextStep);
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 'img-upload':
-        return <TrainModelZone packSlug={params.pack} />;
+        return <TrainModelZone packSlug={params.pack} onContinue={() => navigateToNextStep('next-step')} />;
       default:
-        return <ModelTypeSelector packSlug={params.pack} />;
+        return <ModelTypeSelector packSlug={params.pack} onContinue={() => {}} />;
     }
   };
 
