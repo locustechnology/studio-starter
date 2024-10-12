@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { ModelTypeSelector } from '@/components/ModelTypeSelector';
 import TrainModelZone from '@/components/TrainModelZone';
