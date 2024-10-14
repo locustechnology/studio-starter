@@ -9,7 +9,7 @@ import Image from 'next/image';
 import gender from "@/public/gender.svg"
 import malegender from "@/public/malegenedr.svg"
 
-type ModelType = 'woman' | 'man' | 'kids';
+type ModelType = 'woman' | 'man';
 
 interface ModelOption {
   value: ModelType;
@@ -22,12 +22,7 @@ const modelTypes: ModelOption[] = [
   { value: 'man', label: 'Male', imageSrc: malegender },
 ];
 
-interface ModelTypeSelectorProps {
-  packSlug: string;
-  onContinue: () => void;
-}
-
-export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ packSlug, onContinue }) => {
+export const ModelTypeSelector: React.FC = () => {
   const [name, setName] = useState('');
   const [selectedModel, setSelectedModel] = useState<ModelType | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -50,22 +45,14 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ packSlug, 
           return;
         }
 
-        const { error } = await supabase
-          .from('models')
-          .insert({
-            name: name,
-            type: selectedModel,
-            user_id: user.id,
-            status: 'processing'
-          });
+        // Instead of inserting to the database, we'll store the info in localStorage
+        localStorage.setItem('modelInfo', JSON.stringify({
+          name: name,
+          type: selectedModel,
+          user_id: user.id,
+        }));
 
-        if (error) {
-          console.error('Supabase error:', error);
-          setError('An error occurred while saving. Please try again.');
-          return;
-        }
-
-        router.push(`/overview/models/train/${packSlug}?step=img-upload`);
+        router.push(`/overview/models/train/corporate-headshots?step=img-upload`);
       } catch (error) {
         console.error('Unexpected error:', error);
         setError('An unexpected error occurred. Please try again.');
@@ -73,7 +60,7 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ packSlug, 
     } else {
       setError('Please enter your name and select a model type before continuing.');
     }
-  }, [selectedModel, name, supabase, router, packSlug]);
+  }, [selectedModel, name, supabase, router]);
 
   return (
     <div className="min-h-screen flex items-start sm:items-center justify-center pt-4 sm:pt-0">

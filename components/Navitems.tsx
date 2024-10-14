@@ -1,19 +1,20 @@
-import { Button } from "./ui/button";
-import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 export default function NavItems() {
   return (
     <>
-      <Button className="text-gray-700 text-sm">
-        AI Headshots <ChevronDown className="ml-1 h-3 w-3" />
-      </Button>
-      <Button className="text-gray-700 text-sm">
-        Testimonial <ChevronDown className="ml-1 h-3 w-3" />
-      </Button>
-      <Button className="text-gray-700 text-sm">Pricing</Button>
-      <Button className="text-gray-700 text-sm">
-        FAQ <ChevronDown className="ml-1 h-3 w-3" />
-      </Button>
+      <Link href="#" className="text-gray-700 text-sm font-bold py-2 px-4 rounded font-jakarta">
+        AI Headshots
+      </Link>
+      <Link href="#" className="text-gray-700 text-sm font-bold py-2 px-4 rounded font-jakarta">
+        Testimonial
+      </Link>
+      <Link href="#" className="text-gray-700 text-sm font-bold py-2 px-4 rounded font-jakarta">
+        Pricing
+      </Link>
+      <Link href="#" className="text-gray-700 text-sm font-bold py-2 px-4 rounded font-jakarta">
+        FAQ
+      </Link>
     </>
   );
 }

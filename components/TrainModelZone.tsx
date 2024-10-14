@@ -1,30 +1,25 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Upload, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
-import { createClient } from '@supabase/supabase-js';
 import Frame from "@/public/Frame.svg"
 
-// Initialize Supabase client using environment variables
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
-interface TrainModelZoneProps {
-  packSlug: string;
-  onContinue: () => void;
-}
-
-const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue }) => {
+const TrainModelZone: React.FC = () => {
   const [files, setFiles] = useState<{ file: File; preview: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [uploadedFiles, setUploadedFiles] = useState<Set<string>>(new Set());
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
+  const [modelInfo, setModelInfo] = useState<{ name: string; type: string; user_id: string } | null>(null);
   const { toast } = useToast();
   const router = useRouter();
+
+  useEffect(() => {
+    const storedModelInfo = localStorage.getItem('modelInfo');
+    if (storedModelInfo) {
+      setModelInfo(JSON.parse(storedModelInfo));
+    }
+  }, []);
 
   const handleFileUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const acceptedFiles = Array.from(event.target.files || []);
@@ -82,10 +77,10 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
   };
 
   const handleContinue = async () => {
-    if (files.length < 4) {
+    if (files.length < 4 || !modelInfo) {
       toast({
-        title: "Not enough images",
-        description: "Please upload at least 4 images before continuing.",
+        title: "Not enough information",
+        description: "Please upload at least 4 images and ensure model information is available.",
         duration: 5000,
       });
       return;
@@ -95,6 +90,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
     const blobUrls: string[] = [];
 
     try {
+      console.log('Starting file upload process');
       const uploadPromises = files.map(async ({ file }) => {
         try {
           const blob = await upload(file.name, file, {
@@ -102,7 +98,6 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
             handleUploadUrl: '/astria/train-model/image-upload',
           });
           blobUrls.push(blob.url);
-          setUploadedFiles(prev => new Set(prev).add(file.name));
         } catch (error) {
           console.error(`Error uploading file ${file.name}:`, error);
           throw error;
@@ -110,35 +105,69 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
       });
 
       await Promise.all(uploadPromises);
+      console.log('Files uploaded successfully, blob URLs:', blobUrls);
 
-      // Store the blob URLs in Supabase
-      const { error } = await supabase
-        .from('photos')
-        .insert(blobUrls.map(url => ({ url })));
+      // Prepare data for the API call
+      const apiData = {
+        urls: blobUrls,
+        name: modelInfo.name,
+        type: modelInfo.type,
+      };
+      console.log('Data being sent to /astria/train-model:', apiData);
 
-      if (error) throw error;
+      // Send data to the /astria/train-model endpoint
+      const response = await fetch("/astria/train-model", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(apiData),
+      });
+
+      const result = await response.json();
+      console.log('Response from /astria/train-model:', result);
+
+      if (!response.ok) {
+        if (response.status === 402) {
+          console.log('Not enough credits, redirecting to:', result.redirect);
+          toast({
+            title: "Not enough credits",
+            description: "Redirecting to purchase credits page...",
+            duration: 3000,
+          });
+          setTimeout(() => {
+            router.push('/get-credits');
+          }, 3000);
+          return;
+        }
+        throw new Error(result.message || "An error occurred during model training");
+      }
+
+      // Save all information to localStorage
+      const dataToSave = {
+        modelInfo: {
+          name: modelInfo.name,
+          type: modelInfo.type,
+          user_id: modelInfo.user_id
+        },
+        imageUrls: blobUrls
+      };
+      console.log('Data being saved to localStorage:', dataToSave);
+      localStorage.setItem('trainModelData', JSON.stringify(dataToSave));
 
       toast({
         title: "Upload successful",
-        description: "Your photos have been uploaded and saved successfully.",
+        description: "Your photos and model information have been saved successfully.",
         duration: 5000,
       });
 
-      // Redirect or perform next steps
-      router.push('/next-page');
-
-      // Call the onContinue prop when the upload is successful
-      if (onContinue) {
-        onContinue();
-      } else {
-        // Default behavior if onContinue is not provided
-        router.push('/next-page');
-      }
+      console.log('Redirecting to summary page');
+      router.push('/summary');
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error('Upload or model training error:', error);
       toast({
-        title: "Upload failed",
-        description: "There was an error uploading your photos. Please try again.",
+        title: "Process failed",
+        description: error.message || "There was an error processing your request. Please try again.",
         duration: 5000,
       });
     } finally {
@@ -161,7 +190,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
           </div>
           {(isDropdownOpen || window.innerWidth >= 1024) && (
             <>
-              <h2 className=" font-semibold font-jakarta hidden lg:block">Photo of yourself (Do's & Don't)</h2>
+              <h2 className="font-semibold font-jakarta hidden lg:block">Photo of yourself (Do's & Don't)</h2>
               <div className="w-full h-auto">
                 <Image src={Frame} alt="✅ Good and ❌ Bad Photos" width={412} height={336} layout="responsive" />
               </div>
@@ -177,7 +206,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
           <div className="space-y-6 text-center">
             <h2 className="text-xl font-semibold text-black">Start Uploading photos</h2>
             <p className="text-sm text-black">
-              Select at least 10 of your best photos. Good photos help our AI to give you amazing results!
+              Select at least 4 of your best photos. Good photos help our AI to give you amazing results!
             </p>
             
             {files.length === 0 ? (
@@ -247,12 +276,12 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
             </p>
             <button 
               className={`w-full lg:w-auto lg:px-12 py-2 sm:py-3 rounded-full font-semibold text-base sm:text-lg text-white transition-colors ${
-                files.length >= 10 && !isLoading
+                files.length >= 4 && !isLoading
                   ? 'bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] hover:opacity-90'
                   : 'bg-gray-400 cursor-not-allowed'
               } lg:mx-auto lg:block`}
               onClick={handleContinue}
-              disabled={files.length < 10 || isLoading}
+              disabled={files.length < 4 || isLoading}
             >
               {isLoading ? 'Uploading...' : 'Continue →'}
             </button>

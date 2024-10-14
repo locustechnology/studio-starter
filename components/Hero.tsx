@@ -6,6 +6,7 @@ import circul from "@/public/logo/circul.svg"
 import mdi from "@/public/logo/mdi.svg"
 import tick from "@/public/logo/tick.svg"
 import AI  from "@/public/logo/AI.svg"
+import { Sparkles } from 'lucide-react'; // Import the Sparkles icon or use an appropriate icon from your icon set
 
 interface HeadshotCardProps {
   imageUrl: string;
@@ -71,10 +72,33 @@ export default function AIHeadshotsLandingPage() {
 
   return (
     <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] flex flex-col items-center justify-between bg-gray-100 px-4 py-8 sm:px-6 lg:px-8 font-poppins">
-      <div className="flex items-center space-x-2 bg-blue-100 text-blue-600 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
-        <Image src={mdi} alt="mdi icon" width={20} height={20} className="w-4 h-4 sm:w-5 sm:h-5" />
-        <span className="hidden sm:inline">We just upgraded our HeadShot Quality with Flux Model</span>
-        <span className="sm:hidden">Upgraded HeadShot Quality</span>
+      <div className="inline-flex items-center w-[408px] h-[44px] rounded-[148px] text-[#0085FF] relative overflow-hidden font-poppins">
+        <div className="absolute inset-0 rounded-[148px]" style={{
+          border: '1px solid transparent',
+          backgroundImage: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
+          backgroundOrigin: 'border-box',
+          WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'destination-out',
+          maskComposite: 'exclude',
+        }}></div>
+        <div className="flex items-center space-x-[10px] px-3 py-2 bg-[#ECF9FF] w-full h-full">
+          <div className="flex items-center justify-center bg-[#3B82F6] rounded-full w-7 h-7 flex-shrink-0">
+            <Image src={mdi} alt="mdi icon" width={18} height={18} className="w-4.5 h-4.5" />
+          </div>
+          <div className="w-[341px] h-[20px] overflow-hidden">
+            <p className="text-xs leading-5 font-medium">
+              We just upgraded our 
+              <span className="font-bold" style={{
+                background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>
+                HeadShot Quality
+              </span> 
+              with Flux Model!
+            </p>
+          </div>
+        </div>
       </div>
       
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
@@ -95,7 +119,7 @@ export default function AIHeadshotsLandingPage() {
       </div>
       
       <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 w-full mt-6 sm:mt-8">
-        <button className="w-full sm:w-[269px] h-[48px] rounded-[50px] bg-purple-600 text-white font-semibold hover:bg-indigo-700 transition-colors duration-300 px-6 sm:px-[25px] py-3 sm:py-[12px] flex items-center justify-center gap-2 sm:gap-[10px] text-sm sm:text-base">
+        <button className="w-full sm:w-[269px] h-[48px] rounded-[50px] bg-[#5B16FE] text-white font-semibold hover:bg-[linear-gradient(0deg,#5B16FE,#5B16FE),linear-gradient(0deg,rgba(0,0,0,0.1),rgba(0,0,0,0.1))] transition-colors duration-300 px-6 sm:px-[25px] py-3 sm:py-[12px] flex items-center justify-center gap-2 sm:gap-[10px] text-sm sm:text-base">
           Get Started
           <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />

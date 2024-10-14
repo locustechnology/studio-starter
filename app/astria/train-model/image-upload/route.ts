@@ -11,7 +11,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+    
   try {
     const jsonResponse = await handleUpload({
       body,

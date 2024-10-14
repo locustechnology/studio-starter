@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import step1 from "@/public/Step1.svg"
 import blur from "@/public/blur.svg"
-import step3 from "@/public/step3.svg"
+import AI from "@/public/AI.svg"
 
 const ExplainerSection = () => {
   return (
@@ -67,7 +67,7 @@ const ExplainerSection = () => {
         </div>
         <div className="w-full max-w-[862px] mx-auto">
           <Image 
-            src={step3} 
+            src={AI} 
             alt="Download headshots" 
             width={862}
             height={450}

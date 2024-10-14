@@ -1,14 +1,31 @@
 'use client'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
+const PayPalScriptProvider = dynamic(
+  () => import('@paypal/react-paypal-js').then(mod => mod.PayPalScriptProvider),
+  { ssr: false }
+);
+const PayPalButtons = dynamic(
+  () => import('@paypal/react-paypal-js').then(mod => mod.PayPalButtons),
+  { ssr: false }
+);
+
 const PricingComponent = () => {
+  const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const pricingTiers = [
     {
       name: 'BASIC',
-      price: '$10',
+      price: '10',
       originalPrice: '$29',
       features: [
         '📸 20 high-quality headshots',
@@ -20,7 +37,7 @@ const PricingComponent = () => {
     },
     {
       name: 'STANDARD',
-      price: '$19',
+      price: '19',
       originalPrice: '$45',
       features: [
         '📸 60 high-quality headshots',
@@ -34,7 +51,7 @@ const PricingComponent = () => {
     },
     {
       name: 'PREMIUM',
-      price: '$29',
+      price: '29',
       originalPrice: '$75',
       features: [
         '📸 100 high-quality headshots',
@@ -47,24 +64,85 @@ const PricingComponent = () => {
     },
   ];
 
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const response = await fetch('/api/user');
-        const user = await response.json();
-        if (!user) {
-          router.push('/login');
-        }
-      } catch (error) {
-        console.error('Error checking user:', error);
-        // Handle the error appropriately
+  const handlePayment = async (amount) => {
+    try {
+      console.log('Creating PayPal order for amount:', amount);
+      const response = await fetch('/astria/paypal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount,
+          currency: 'USD',
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error response:', errorData);
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
       }
-    };
-    checkUser();
-  }, [router]);
+      
+      const order = await response.json();
+      console.log('PayPal order created:', order);
+      return order.id;
+    } catch (error) {
+      console.error('Error creating PayPal order:', error);
+      toast.error(`Failed to create order: ${error.message}`);
+      throw error;
+    }
+  };
 
-  const handlePayment = () => {
-    window.open('https://www.paypal.com/ncp/payment/NEHN97VWMDYPE', '_blank');
+  const handlePaymentSuccess = async (data) => {
+    try {
+      console.log('Payment approved:', { orderID: data.orderID });
+      
+      const response = await fetch('/astria/paypal', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderID: data.orderID,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error response:', errorData);
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
+      }
+
+      const result = await response.json();
+      console.log('Payment captured:', result);
+
+      // Retrieve the model data from localStorage
+      const storedModelData = localStorage.getItem('trainModelData');
+      if (storedModelData) {
+        const modelData = JSON.parse(storedModelData);
+        console.log('Model data retrieved from localStorage:', modelData);
+        
+        // Update the model data with the payment information
+        modelData.paymentInfo = {
+          orderId: data.orderID,
+          captureId: result.captureID,
+          status: result.status,
+        };
+        
+        // Save the updated model data back to localStorage
+        localStorage.setItem('trainModelData', JSON.stringify(modelData));
+      } else {
+        console.warn('No model data found in localStorage');
+      }
+
+      toast.success('Payment successful! Redirecting to summary page.');
+      
+      router.push('/summary');
+    } catch (error) {
+      console.error('Error capturing payment:', error);
+      toast.error(`Failed to process payment: ${error.message}`);
+    }
   };
 
   return (
@@ -80,7 +158,7 @@ const PricingComponent = () => {
           
           <div className="flex flex-col lg:flex-row lg:justify-center space-y-8 lg:space-y-0 lg:space-x-8 mt-12">
             {pricingTiers.map((tier, index) => (
-              <div key={tier.name} className="flex-1 max-w-[362px] mx-auto lg:mx-0 relative pt-6"> {/* Added pt-6 for padding top */}
+              <div key={tier.name} className="flex-1 max-w-[362px] mx-auto lg:mx-0 relative pt-6">
                 {(tier.popularTag || tier.bestValueTag) && (
                   <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 w-full text-center ${tier.popularTag ? 'text-sm' : ''}`}>
                     <span className={`inline-block px-4 py-1 rounded-full text-sm font-poppins ${
@@ -99,7 +177,7 @@ const PricingComponent = () => {
                     {tier.name}
                   </h2>
                   <div className="mb-2">
-                    <span className="text-4xl font-bold font-jakarta">{tier.price}</span>
+                    <span className="text-4xl font-bold font-jakarta">${tier.price}</span>
                     <span className="text-lg text-gray-400 line-through ml-2 font-poppins">{tier.originalPrice}</span>
                   </div>
                   <p className="text-gray-600 mb-6 font-poppins">One Time Payment</p>
@@ -111,15 +189,49 @@ const PricingComponent = () => {
                       </li>
                     ))}
                   </ul>
-                  <button 
-                    onClick={handlePayment}
-                    className={`w-full h-[48px] rounded-[50px] border-2 px-[25px] py-[12px] transition flex items-center justify-center gap-[10px] font-poppins ${
-                      tier.highlight ? 'bg-[#5B16FE] text-white hover:bg-[#5B16FE]' : 'bg-white text-purple-600 hover:bg-purple-50'
-                    } border-[#5B16FE]`}
-                  >
-                    <span className="font-medium">{tier.buttonText}</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </button>
+                  {isClient && (
+                    <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
+                      <PayPalButtons
+                        createOrder={() => handlePayment(tier.price)}
+                        onApprove={async (data, actions) => {
+                          try {
+                            const trainModelData = JSON.parse(localStorage.getItem('trainModelData'));
+                            console.log('Payment approved:', { orderID: data.orderID, trainModelData });
+                            
+                            const response = await fetch('/astria/paypal', {
+                              method: 'PUT',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({
+                                orderID: data.orderID,
+                              }),
+                            });
+
+                            if (!response.ok) {
+                              const errorData = await response.json();
+                              console.error('Error response:', errorData);
+                              throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
+                            }
+
+                            const result = await response.json();
+                            console.log('Payment captured:', result);
+                            toast.success('Payment successful! Redirecting to summary page.');
+                            
+                            router.push('/summary');
+                          } catch (error) {
+                            console.error('Error capturing payment:', error);
+                            toast.error(`Failed to process payment: ${error.message}`);
+                          }
+                        }}
+                        onError={(err) => {
+                          console.error('PayPal Checkout onError', err);
+                          toast.error(`Payment error: ${err.message || 'Unknown error'}`);
+                        }}
+                        style={{ layout: "vertical", shape: "rect" }}
+                      />
+                    </PayPalScriptProvider>
+                  )}
                   <p className="mt-4 text-sm text-center text-gray-500 font-poppins">No subscription required</p>
                 </div>
               </div>

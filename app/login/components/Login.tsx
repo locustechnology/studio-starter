@@ -14,17 +14,11 @@ import { WaitingForMagicLink } from './WaitingForMagicLink';
 import { useRouter } from 'next/navigation';
 import final_Logo from "/public/final_Logo.svg";
 
-interface Inputs {
+type Inputs = {
   email: string;
-}
+};
 
-interface LoginPageProps {
-  params?: { slug: string };
-  host?: string | null;
-  searchParams?: { [key: string]: string | string[] | undefined; };
-}
-
-const LoginPage: React.FC<LoginPageProps> = ({ params, host, searchParams }) => {
+const LoginPage: React.FC = () => {
   const supabase = createClientComponentClient<Database>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWaiting, setShowWaiting] = useState(false);
@@ -92,7 +86,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ params, host, searchParams }) => 
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        router.push('/dashboard');
+        router.push('/overview');
       }
     };
 
@@ -168,6 +162,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ params, host, searchParams }) => 
               <Button
                 type="submit"
                 disabled={isSubmitting}
+                variant="outline"
                 className="w-[339.5px] h-[46px] px-[16.5px] py-[13px] bg-white text-gray-700 font-medium rounded-[50px] border-t border-l hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center justify-center"
               >
                 Get code on E-mail
