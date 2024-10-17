@@ -109,9 +109,7 @@ const PricingComponent = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Error response:', errorData);
-        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
@@ -119,25 +117,16 @@ const PricingComponent = () => {
 
       // Retrieve the model data from localStorage
       const storedModelData = localStorage.getItem('trainModelData');
-      if (storedModelData) {
-        const modelData = JSON.parse(storedModelData);
-        console.log('Model data retrieved from localStorage:', modelData);
-        
-        // Update the model data with the payment information
-        modelData.paymentInfo = {
-          orderId: data.orderID,
-          captureId: result.captureID,
-          status: result.status,
-        };
-        
-        // Save the updated model data back to localStorage
-        localStorage.setItem('trainModelData', JSON.stringify(modelData));
-      } else {
-        console.warn('No model data found in localStorage');
-      }
+      let modelData = storedModelData ? JSON.parse(storedModelData) : { modelInfo: {}, imageUrls: [] };
+      modelData.paymentInfo = {
+        orderId: data.orderID,
+        captureId: result.captureID,
+        status: result.status,
+      };
+      localStorage.setItem('trainModelData', JSON.stringify(modelData));
+      console.log('Updated model data in localStorage:', modelData);
 
       toast.success('Payment successful! Redirecting to summary page.');
-      
       router.push('/summary');
     } catch (error) {
       console.error('Error capturing payment:', error);

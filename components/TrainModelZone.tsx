@@ -90,7 +90,7 @@ const TrainModelZone: React.FC = () => {
     const blobUrls: string[] = [];
 
     try {
-      console.log('Starting file upload process');
+      // Upload files and get blob URLs
       const uploadPromises = files.map(async ({ file }) => {
         try {
           const blob = await upload(file.name, file, {
@@ -107,64 +107,23 @@ const TrainModelZone: React.FC = () => {
       await Promise.all(uploadPromises);
       console.log('Files uploaded successfully, blob URLs:', blobUrls);
 
-      // Prepare data for the API call
-      const apiData = {
-        urls: blobUrls,
-        name: modelInfo.name,
-        type: modelInfo.type,
-      };
-      console.log('Data being sent to /astria/train-model:', apiData);
-
-      // Send data to the /astria/train-model endpoint
-      const response = await fetch("/astria/train-model", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(apiData),
-      });
-
-      const result = await response.json();
-      console.log('Response from /astria/train-model:', result);
-
-      if (!response.ok) {
-        if (response.status === 402) {
-          console.log('Not enough credits, redirecting to:', result.redirect);
-          toast({
-            title: "Not enough credits",
-            description: "Redirecting to purchase credits page...",
-            duration: 3000,
-          });
-          setTimeout(() => {
-            router.push('/get-credits');
-          }, 3000);
-          return;
-        }
-        throw new Error(result.message || "An error occurred during model training");
-      }
-
-      // Save all information to localStorage
+      // Store all information in localStorage
       const dataToSave = {
-        modelInfo: {
-          name: modelInfo.name,
-          type: modelInfo.type,
-          user_id: modelInfo.user_id
-        },
+        modelInfo: modelInfo,
         imageUrls: blobUrls
       };
-      console.log('Data being saved to localStorage:', dataToSave);
       localStorage.setItem('trainModelData', JSON.stringify(dataToSave));
+      console.log('Data saved in TrainModelZone:', JSON.parse(localStorage.getItem('trainModelData')));
 
       toast({
         title: "Upload successful",
-        description: "Your photos and model information have been saved successfully.",
+        description: "Your photos and model information have been saved. Proceeding to pricing.",
         duration: 5000,
       });
 
-      console.log('Redirecting to summary page');
       router.push('/get-credits');
     } catch (error) {
-      console.error('Upload or model training error:', error);
+      console.error('Upload error:', error);
       toast({
         title: "Process failed",
         description: error.message || "There was an error processing your request. Please try again.",

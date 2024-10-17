@@ -53,7 +53,6 @@ const TrainFlowComponent: React.FC = () => {
   if (currentStep === 'img-upload') {
     return (
       <TrainModelZone 
-        packSlug="corporate-headshots" 
         onContinue={async () => {
           await checkCredits();
           if (hasEnoughCredits) {
@@ -76,7 +75,7 @@ const TrainFlowComponent: React.FC = () => {
   }
 
   // If no step or unknown step, show ModelTypeSelector
-  return <ModelTypeSelector packSlug="corporate-headshots" onContinue={() => navigateToNextStep('img-upload')} />;
+  return <ModelTypeSelector onContinue={() => navigateToNextStep('img-upload')} />;
 };
 
 export default TrainFlowComponent;

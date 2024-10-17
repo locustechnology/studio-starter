@@ -32,10 +32,7 @@ export async function POST(request: Request) {
   try {
     const payload = await request.json();
     console.log("Received payload:", payload);
-    const images = payload.urls;
-    const type = payload.type;
-    const name = payload.name;
- 
+    const { modelInfo, imageUrls, paymentInfo } = payload;
 
     const supabase = createRouteHandlerClient<Database>({ cookies });
 
@@ -60,8 +57,29 @@ export async function POST(request: Request) {
       .single();
 
     if (creditError) {
-      console.error("Error fetching credits:", creditError);
-      return NextResponse.json({ message: "Failed to check credits" }, { status: 500 });
+      if (creditError.code === 'PGRST116') {
+        // No credits entry found for the user
+        console.log("No credits entry found for the user. Creating one with 0 credits.");
+        const { error: insertError } = await supabase
+          .from("credits")
+          .insert({ user_id: user.id, credits: 0 });
+        
+        if (insertError) {
+          console.error("Error creating credits entry:", insertError);
+          return NextResponse.json({ message: "Failed to create credits entry" }, { status: 500 });
+        }
+        
+        return NextResponse.json(
+          {
+            message: "Not enough credits, please purchase some credits and try again.",
+            redirect: "/get-credits"
+          },
+          { status: 402 }
+        );
+      } else {
+        console.error("Error fetching credits:", creditError);
+        return NextResponse.json({ message: "Failed to check credits" }, { status: 500 });
+      }
     }
 
     if (!credits || credits.credits < 1) {
@@ -86,7 +104,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (images?.length < 4) {
+    if (imageUrls?.length < 4) {
       return NextResponse.json(
         {
           message: "Upload at least 4 sample images",
@@ -157,13 +175,13 @@ export async function POST(request: Request) {
       console.log("PayPal is not configured. Skipping credit check.");
     }
 
-    // create a model row in supabase
+    // Create a model row in supabase
     const { error: modelError, data } = await supabase
       .from("models")
       .insert({
         user_id: user.id,
-        name,
-        type,
+        name: modelInfo.name,
+        type: modelInfo.type,
       })
       .select("id")
       .single();
@@ -178,7 +196,6 @@ export async function POST(request: Request) {
       );
     }
     
-    // Get the modelId from the created model
     const modelId = data?.id;
 
     try {
@@ -194,23 +211,23 @@ export async function POST(request: Request) {
       // Create a fine tuned model using Astria tune API
       const tuneBody = {
         tune: {
-          title: name,
+          title: modelInfo.name,
           // Hard coded tune id of Realistic Vision v5.1 from the gallery - https://www.astria.ai/gallery/tunes
           // https://www.astria.ai/gallery/tunes/690204/prompts
           base_tune_id: 690204,
-          name: type,
+          name: modelInfo.type,
           branch: astriaTestModeIsOn ? "fast" : "sd15",
           token: "ohwx",
-          image_urls: images,
+          image_urls: imageUrls,
           callback: trainWebhookWithParams,
           prompts_attributes: [
             {
-              text: `portrait of ohwx ${type} wearing a business suit, professional photo, white background, Amazing Details, Best Quality, Masterpiece, dramatic lighting highly detailed, analog photo, overglaze, 80mm Sigma f/1.4 or any ZEISS lens`,
+              text: `portrait of ohwx ${modelInfo.type} wearing a business suit, professional photo, white background, Amazing Details, Best Quality, Masterpiece, dramatic lighting highly detailed, analog photo, overglaze, 80mm Sigma f/1.4 or any ZEISS lens`,
               callback: promptWebhookWithParams,
               num_images: 8,
             },
             {
-              text: `8k close up linkedin profile picture of ohwx ${type}, professional jack suite, professional headshots, photo-realistic, 4k, high-resolution image, workplace settings, upper body, modern outfit, professional suit, business, blurred background, glass building, office window`,
+              text: `8k close up linkedin profile picture of ohwx ${modelInfo.type}, professional jack suite, professional headshots, photo-realistic, 4k, high-resolution image, workplace settings, upper body, modern outfit, professional suit, business, blurred background, glass building, office window`,
               callback: promptWebhookWithParams,
               num_images: 8,
             },
@@ -221,18 +238,18 @@ export async function POST(request: Request) {
       // Create a fine tuned model using Astria packs API
       const packBody = {
         tune: {
-          title: name,
-          name: type,
+          title: modelInfo.name,
+          name: modelInfo.type,
           callback: trainWebhookWithParams,
           prompt_attributes: {
             callback: promptWebhookWithParams,
           },
-          image_urls: images,
+          image_urls: imageUrls,
         },
       };
 
       const response = await axios.post(
-        DOMAIN + (packsIsEnabled ? `/p/${pack}/tunes` : "/tunes"),
+        DOMAIN + (packsIsEnabled ? `/p/${packBody.tune.name}/tunes` : "/tunes"),
         packsIsEnabled ? packBody : tuneBody,
         {
           headers: {
@@ -269,8 +286,9 @@ export async function POST(request: Request) {
         }
       }
 
+      // Insert sample images
       const { error: samplesError } = await supabase.from("samples").insert(
-        images.map((sample: string) => ({
+        imageUrls.map((sample: string) => ({
           modelId: modelId,
           uri: sample,
         }))

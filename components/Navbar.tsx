@@ -20,8 +20,8 @@ export default function Navbar() {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
       if (user) {
-        const { data: credits } = await supabase.from('credits').select('credits').eq('user_id', user.id).single();
-        setCredits(credits);
+        const { data: creditsData } = await supabase.from('credits').select('credits').eq('user_id', user.id).single();
+        setCredits(creditsData);
       }
     };
 

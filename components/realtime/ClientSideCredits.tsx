@@ -16,7 +16,7 @@ export default function ClientSideCredits({
 }: ClientSideCreditsProps) {
 
   if (!creditsRow) return (
-    <p style={{ fontFamily: 'Arial, sans-serif' }}>Credits: 0</p>
+    <p style={{ fontFamily: 'Poppins, sans-serif' }}>Credits: 0</p>
   )
 
   const supabase = createClient<Database>(
@@ -45,6 +45,6 @@ export default function ClientSideCredits({
   if (!credits) return null;
 
   return (
-    <p style={{ fontFamily: 'Arial, sans-serif' }}>Credits: {credits.credits}</p>
+    <p style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>Credits: {credits.credits}</p>
   );
 }

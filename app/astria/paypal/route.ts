@@ -34,10 +34,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ id: response.result.id });
   } catch (error) {
     console.error('Error creating PayPal order:', error);
-    if (error instanceof paypal.HttpError) {
-      return NextResponse.json({ error: error.message }, { status: error.statusCode });
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -62,41 +61,57 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Update user's credits
+    // Fetch or create user's credits
     const { data: creditData, error: creditError } = await supabase
       .from("credits")
       .select("credits")
       .eq("user_id", user.id)
       .single();
 
+    let newCredits = 1; // Start with 1 credit for the current purchase
+
     if (creditError) {
-      console.error('Error fetching user credits:', creditError);
-      return NextResponse.json({ error: "Failed to fetch user credits" }, { status: 500 });
+      if (creditError.code === 'PGRST116') {
+        // No credit entry found, create a new one
+        const { error: insertError } = await supabase
+          .from("credits")
+          .insert({ user_id: user.id, credits: newCredits });
+
+        if (insertError) {
+          console.error('Error creating user credits:', insertError);
+          return NextResponse.json({ error: "Failed to create user credits" }, { status: 500 });
+        }
+        console.log('New credit entry created for user');
+      } else {
+        console.error('Error fetching user credits:', creditError);
+        return NextResponse.json({ error: "Failed to fetch user credits" }, { status: 500 });
+      }
+    } else {
+      // Credit entry exists, update it
+      newCredits += creditData.credits;
+      const { error: updateCreditError } = await supabase
+        .from("credits")
+        .update({ credits: newCredits })
+        .eq("user_id", user.id);
+
+      if (updateCreditError) {
+        console.error('Error updating user credits:', updateCreditError);
+        return NextResponse.json({ error: "Failed to update user credits" }, { status: 500 });
+      }
     }
 
-    const newCredits = (creditData?.credits || 0) + 1; // Assuming 1 credit per purchase
-    const { error: updateCreditError } = await supabase
-      .from("credits")
-      .update({ credits: newCredits })
-      .eq("user_id", user.id);
-
-    if (updateCreditError) {
-      console.error('Error updating user credits:', updateCreditError);
-      return NextResponse.json({ error: "Failed to update user credits" }, { status: 500 });
-    }
-
-    console.log('User credits updated successfully');
+    console.log('User credits updated successfully. New credit balance:', newCredits);
 
     return NextResponse.json({ 
       captureID: response.result.id,
       status: response.result.status,
+      credits: newCredits,
       redirect: '/summary'
     });
   } catch (error) {
     console.error('Error processing payment and saving data:', error);
-    if (error instanceof paypal.HttpError) {
-      return NextResponse.json({ error: error.message }, { status: error.statusCode });
+    if (error instanceof Error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

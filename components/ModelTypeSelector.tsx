@@ -45,7 +45,7 @@ export const ModelTypeSelector: React.FC = () => {
           return;
         }
 
-        // Instead of inserting to the database, we'll store the info in localStorage
+        // Store the model info in localStorage
         localStorage.setItem('modelInfo', JSON.stringify({
           name: name,
           type: selectedModel,
@@ -99,7 +99,7 @@ export const ModelTypeSelector: React.FC = () => {
                     cursor-pointer rounded-2xl overflow-hidden transition-all duration-300
                     w-[120px] h-[120px] sm:w-[188px] sm:h-[188px] relative
                     ${selectedModel === item.value 
-                      ? 'ring-2 ring-[#11CAE5]' 
+                      ? 'ring-2 ring-[#11CAE5] shadow-blue' 
                       : 'hover:ring-2 hover:ring-[#11CAE5]'}
                   `}
                 >

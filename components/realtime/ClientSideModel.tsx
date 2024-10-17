@@ -45,11 +45,11 @@ export default function ClientSideModel({
   }, [supabase, model, setModel]);
 
   return (
-    <div id="train-model-container" className="w-full h-full">
+    <div id="train-model-container" className="w-full h-full" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
       <div className="flex flex-col w-full mt-4 gap-8">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
           {samples && (
-            <div className="flex w-full lg:w-1/2 flex-col gap-2">
+            <div className="flex w-full lg:w-1/2 flex-col gap-2" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
               <h2 className="text-xl font-poppins">Training Data</h2>
               <div className="flex flex-row gap-4 flex-wrap">
                 {samples.map((sample) => (
@@ -62,7 +62,7 @@ export default function ClientSideModel({
               </div>
             </div>
           )}
-          <div className="flex flex-col w-full lg:w-1/2 rounded-md">
+          <div className="flex flex-col w-full lg:w-1/2 rounded-md" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
             {model.status === "finished" && (
               <div className="flex flex-1 flex-col gap-2">
                 <h1 className="text-xl font-poppins">Results</h1>
