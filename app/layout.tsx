@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "@/styles/fonts.css"; // Make sure this line is present
+import "@/styles/fonts.css";
 import { Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
-import Footer from "@/components/Footer";
+import FooterWrapper from "@/components/FooterWrapper";
 
 export const metadata = {
   title: "Headshots AI",
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: any) {
         <main className="flex-1 flex flex-col w-full">
           {children}
         </main>
-        <Footer />
+        <FooterWrapper />
         <Toaster />
         <Analytics />
       </body>

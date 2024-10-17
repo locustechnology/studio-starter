@@ -13,7 +13,7 @@ import HeadshotContainer from "@/components/Banner";
 
 export const dynamic = "force-dynamic";
 
-export default async function Index() {
+export default async function HomePage() {
   const supabase = createServerComponentClient({ cookies });
 
   const {
@@ -28,17 +28,23 @@ export default async function Index() {
     <div className="w-full bg-[#F4F7FA] min-h-screen font-poppins">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[82px] pt-10">
         <div className="w-full max-w-[1276px] mx-auto space-y-12">
-          <AIHeadshotsLandingPage />
+          <div id="ai-headshots">
+            <AIHeadshotsLandingPage />
+          </div>
           <ExplainerSection />
           <ComparisonPage />
-          <ReviewPage />
+          <div id="testimonial">
+            <ReviewPage />
+          </div>
           <MoneyBackGuarantee />
-          <PricingSection />
+          <div id="pricing">
+            <PricingSection />
+          </div>
           <DataSecuritySection />
-          <FAQSection />
+          <div id="faq">
+            <FAQSection />
+          </div>
           <HeadshotContainer />
-         
-       
         </div>
       </div>
     </div>

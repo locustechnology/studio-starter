@@ -64,7 +64,7 @@ const PricingComponent = () => {
     },
   ];
 
-  const handlePayment = async (amount) => {
+  const handlePayment = async (amount: string) => {
     try {
       console.log('Creating PayPal order for amount:', amount);
       const response = await fetch('/astria/paypal', {
@@ -94,7 +94,7 @@ const PricingComponent = () => {
     }
   };
 
-  const handlePaymentSuccess = async (data) => {
+  const handlePaymentSuccess = async (data: { orderID: string }) => {
     try {
       console.log('Payment approved:', { orderID: data.orderID });
       
@@ -160,20 +160,22 @@ const PricingComponent = () => {
             {pricingTiers.map((tier, index) => (
               <div key={tier.name} className="flex-1 max-w-[362px] mx-auto lg:mx-0 relative pt-6">
                 {(tier.popularTag || tier.bestValueTag) && (
-                  <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 w-full text-center ${tier.popularTag ? 'text-sm' : ''}`}>
-                    <span className={`inline-block px-4 py-1 rounded-full text-sm font-poppins ${
-                      tier.highlight ? 'bg-gradient-to-r from-purple-400 to-blue-500 text-white border-2 border-image-source: linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%);' : 'bg-purple-100 text-purple-600'
-                    }`}>
-                      {tier.popularTag || tier.bestValueTag}
-                    </span>
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2">
+                    <div className="relative w-[184px] h-[42px]">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] rounded-full"></div>
+                      <div className="absolute inset-[1.5px] bg-white rounded-full"></div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className={`text-sm font-semibold ${tier.bestValueTag ? 'text-[#5B16FE]' : 'bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4] bg-clip-text text-transparent'}`}>
+                          {tier.popularTag || tier.bestValueTag}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 )}
                 <div className={`bg-white rounded-3xl p-8 h-full flex flex-col ${
                   tier.highlight ? 'shadow-2xl' : 'border border-gray-200'
                 }`}>
-                  <h2 className={`text-xl font-semibold mb-4 ${
-                    tier.highlight ? 'text-purple-600' : 'text-blue-600'
-                  } font-jakarta`}>
+                  <h2 className={`text-xl font-semibold mb-4 text-[#473BF0] font-jakarta`}>
                     {tier.name}
                   </h2>
                   <div className="mb-2">
@@ -190,12 +192,12 @@ const PricingComponent = () => {
                     ))}
                   </ul>
                   {isClient && (
-                    <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}>
+                    <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, "currency": "USD" }}>
                       <PayPalButtons
                         createOrder={() => handlePayment(tier.price)}
                         onApprove={async (data, actions) => {
                           try {
-                            const trainModelData = JSON.parse(localStorage.getItem('trainModelData'));
+                            const trainModelData = JSON.parse(localStorage.getItem('trainModelData') || '{}');
                             console.log('Payment approved:', { orderID: data.orderID, trainModelData });
                             
                             const response = await fetch('/astria/paypal', {

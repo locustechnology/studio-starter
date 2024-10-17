@@ -162,7 +162,7 @@ const TrainModelZone: React.FC = () => {
       });
 
       console.log('Redirecting to summary page');
-      router.push('/summary');
+      router.push('/get-credits');
     } catch (error) {
       console.error('Upload or model training error:', error);
       toast({
@@ -255,7 +255,7 @@ const TrainModelZone: React.FC = () => {
                   <label
                     key={`empty-${index}`}
                     htmlFor="file-upload"
-                    className="border-2 border-dashed border-purple-300 rounded-lg flex items-center justify-center cursor-pointer aspect-square"
+                    className="border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer aspect-square border-purple-500 border-b-blue-500"
                   >
                     <span className="text-5xl text-purple-400">+</span>
                   </label>

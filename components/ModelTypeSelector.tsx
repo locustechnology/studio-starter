@@ -98,29 +98,22 @@ export const ModelTypeSelector: React.FC = () => {
                   className={`
                     cursor-pointer rounded-2xl overflow-hidden transition-all duration-300
                     w-[120px] h-[120px] sm:w-[188px] sm:h-[188px] relative
-                    ${selectedModel === item.value ? 'border-2 border-transparent hover:shadow-[0px_6.58px_65.25px_0px_#11CAE570]' : ''}
+                    ${selectedModel === item.value 
+                      ? 'ring-2 ring-[#11CAE5]' 
+                      : 'hover:ring-2 hover:ring-[#11CAE5]'}
                   `}
-                  style={{
-                    backgroundImage: selectedModel === item.value
-                      ? 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 15.54%, #01C7E4 100%)'
-                      : 'none',
-                    backgroundOrigin: 'border-box',
-                    backgroundClip: 'content-box, border-box',
-                  }}
                 >
-                  <div className={`absolute inset-[2px] rounded-2xl overflow-hidden ${selectedModel === item.value ? 'border-2 border-white' : ''}`}>
-                    <Image 
-                      src={item.imageSrc} 
-                      alt={item.label} 
-                      layout="fill"
-                      objectFit="cover"
-                    />
-                    {selectedModel === item.value && (
-                      <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-white rounded-full p-0.5 sm:p-1">
-                        <Check className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
-                      </div>
-                    )}
-                  </div>
+                  <Image 
+                    src={item.imageSrc} 
+                    alt={item.label} 
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                  {selectedModel === item.value && (
+                    <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-white rounded-full p-0.5 sm:p-1">
+                      <Check className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
+                    </div>
+                  )}
                 </div>
                 <div className="mt-2 text-center text-sm sm:text-sm font-medium font-jakarta">
                   {item.label}

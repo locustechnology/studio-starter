@@ -9,6 +9,7 @@ import wome from "@/public/testimonial/wome.svg"
 import girl from "@/public/testimonial/girl.svg"
 import boy from "@/public/testimonial/boy.svg"
 import young from "@/public/testimonial/young.svg"
+import correct from "@/public/correct.svg"
 
 import Ber from "@/public/logo/Ber.svg";
 import Box from "@/public/logo/Box.svg";
@@ -148,12 +149,13 @@ const ReviewPage = () => {
                   className="w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
-                <div className="absolute top-2 right-3 sm:top-2 sm:right-1 bg-[rgba(228,228,231,0.8)] backdrop-blur-[8px] rounded-full px-1 py-0.5 sm:px-2 sm:py-1 flex items-center space-x-1">
-                  <div className="w-3 h-3 sm:w-5 sm:h-5 rounded-full bg-gradient-to-br from-blue-400 to-cyan-300 flex items-center justify-center">
-                    <span className="text-white text-[8px] sm:text-xs">✦</span>
-                  </div>
-                  <span className="text-[8px] sm:text-sm font-semibold text-gray-700 font-jakarta">GoStudio.ai</span>
-                </div>
+                <Image
+                  src={correct}
+                  alt="GoStudio.ai logo"
+                  width={60}
+                  height={24}
+                  className="absolute top-2 right-2 sm:top-3 sm:right-3 w-[60px] h-[24px] sm:w-[109px] sm:h-[32px]"
+                />
                 <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 text-white">
                   <h3 className="font-semibold text-xs sm:text-lg font-jakarta mb-0.5 sm:mb-1">{review.name}</h3>
                   <p className="text-[8px] sm:text-sm text-gray-200 mb-1 sm:mb-2 line-clamp-2">{review.comment}</p>

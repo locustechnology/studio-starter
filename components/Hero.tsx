@@ -7,7 +7,7 @@ import mdi from "@/public/logo/mdi.svg"
 import tick from "@/public/logo/tick.svg"
 import AI  from "@/public/logo/AI.svg"
 import { Sparkles } from 'lucide-react'; // Import the Sparkles icon or use an appropriate icon from your icon set
-
+import Overlay  from "@/public/Overlay.svg"
 interface HeadshotCardProps {
   imageUrl: string;
 }
@@ -72,7 +72,7 @@ export default function AIHeadshotsLandingPage() {
 
   return (
     <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] flex flex-col items-center justify-between bg-gray-100 px-4 py-8 sm:px-6 lg:px-8 font-poppins">
-      <div className="inline-flex items-center w-[408px] h-[44px] rounded-[148px] text-[#0085FF] relative overflow-hidden font-poppins">
+      <div className="flex items-center w-[408px] h-[44px] rounded-[148px] bg-[#ECF9FF] relative overflow-hidden font-poppins">
         <div className="absolute inset-0 rounded-[148px]" style={{
           border: '1px solid transparent',
           backgroundImage: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
@@ -81,23 +81,20 @@ export default function AIHeadshotsLandingPage() {
           WebkitMaskComposite: 'destination-out',
           maskComposite: 'exclude',
         }}></div>
-        <div className="flex items-center space-x-[10px] px-3 py-2 bg-[#ECF9FF] w-full h-full">
-          <div className="flex items-center justify-center bg-[#3B82F6] rounded-full w-7 h-7 flex-shrink-0">
-            <Image src={mdi} alt="mdi icon" width={18} height={18} className="w-4.5 h-4.5" />
-          </div>
-          <div className="w-[341px] h-[20px] overflow-hidden">
-            <p className="text-xs leading-5 font-medium">
-              We just upgraded our 
-              <span className="font-bold" style={{
-                background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}>
-                HeadShot Quality
-              </span> 
-              with Flux Model!
-            </p>
-          </div>
+        <div className="flex items-center space-x-[10px] px-3 py-2 w-full h-full">
+          <Image src={Overlay} alt="Sparkle icon" width={28} height={28} className="flex-shrink-0" />
+          <p className="text-sm whitespace-nowrap font-medium" style={{
+            background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}>
+            We just upgraded our Headshot Quality with{' '}
+            <span className="font-bold text-[#01C7E4]" style={{
+              WebkitTextFillColor: '#01C7E4',
+            }}>
+              Flux Model!
+            </span>
+          </p>
         </div>
       </div>
       
