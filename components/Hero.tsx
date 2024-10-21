@@ -33,7 +33,7 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ Icon, text }) => (
   </div>
 );
 
-export default function AIHeadshotsLandingPage() {
+export default function Hero() {
   const headshots = [
     "/Carosal/image1.svg",
     "/Carosal/image2.svg",
@@ -72,7 +72,7 @@ export default function AIHeadshotsLandingPage() {
 
   return (
     <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] flex flex-col items-center justify-between bg-gray-100 px-4 py-8 sm:px-6 lg:px-8 font-poppins">
-      <div className="flex items-center w-[408px] h-[44px] rounded-[148px] bg-[#ECF9FF] relative overflow-hidden font-poppins">
+      <div className="flex items-center w-full max-w-[408px] h-[44px] rounded-[148px] bg-[#ECF9FF] relative overflow-hidden font-poppins">
         <div className="absolute inset-0 rounded-[148px]" style={{
           border: '1px solid transparent',
           backgroundImage: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
@@ -81,7 +81,7 @@ export default function AIHeadshotsLandingPage() {
           WebkitMaskComposite: 'destination-out',
           maskComposite: 'exclude',
         }}></div>
-        <div className="flex items-center space-x-[10px] px-3 py-2 w-full h-full">
+        <div className="flex items-center space-x-[10px] px-2 py-2 w-full h-full">
           <Image src={Overlay} alt="Sparkle icon" width={28} height={28} className="flex-shrink-0" />
           <p className="text-sm whitespace-nowrap font-medium" style={{
             background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
@@ -99,23 +99,23 @@ export default function AIHeadshotsLandingPage() {
       </div>
       
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight font-jakarta">
+        <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight font-jakarta px-4">
           Professional Headshots using your Selfies
         </h1>
-        <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed max-w-[800px]">
+        <p className="text-sm sm:text-base lg:text-xl text-gray-600 leading-relaxed max-w-[800px] px-4">
           Stand out on LinkedIn, Twitter, with recruiters. Upload your selfies and
           receive hundreds of professional headshots—all from the comfort of home.
         </p>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-4 sm:gap-8 w-full max-w-[967px] mt-6 sm:mt-8">
+      <div className="flex flex-wrap justify-center gap-4 sm:gap-8 w-full max-w-[967px] mt-6 sm:mt-8 px-4">
         <FeatureItem Icon={mdi} text="150+ styles and outfits" />
         <FeatureItem Icon={circul} text="Results within 1 hour" />
         <FeatureItem Icon={lock} text="Strict Data Protection" />
         <FeatureItem Icon={tick} text="Moneyback Guarantee" />
       </div>
       
-      <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 w-full mt-6 sm:mt-8">
+      <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 w-full mt-6 sm:mt-8 px-4">
         <button className="w-full sm:w-[269px] h-[48px] rounded-[50px] bg-[#5B16FE] text-white font-semibold hover:bg-[linear-gradient(0deg,#5B16FE,#5B16FE),linear-gradient(0deg,rgba(0,0,0,0.1),rgba(0,0,0,0.1))] transition-colors duration-300 px-6 sm:px-[25px] py-3 sm:py-[12px] flex items-center justify-center gap-2 sm:gap-[10px] text-sm sm:text-base">
           Get Started
           <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">

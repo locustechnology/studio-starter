@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from "/public/98.png";
+import final_Logo from "@/public/final_Logo.svg";
 
 interface FooterColumnProps {
   title: string;
@@ -50,13 +50,12 @@ const Footer: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
             <div className="col-span-1 lg:col-span-2">
               <div className="flex items-center mb-4">
-                <Image src={logo} alt="Studio.ai logo" width={40} height={40} className="rounded-full" />
-                <span className="text-xl font-bold ml-2 font-jakarta">Studio.ai</span>
+                <Image src={final_Logo} alt="Studio.ai logo" width={126.78} height={55.27} className="rounded-full" style={{ padding: '14.12px 11.3px', gap: '4.16px' }} />
               </div>
               <p className="text-sm text-gray-600 max-w-xs">
                 Professional AI Headshots in 4K quality.
                 <br />
-                Get your headshot in under 60 minutes, no photographer needed. Starting from $29.
+                Get your headshot in under 60 minutes, no photographer needed. Starting from $10.
               </p>
             </div>
             <div className="col-span-1 lg:col-span-3">

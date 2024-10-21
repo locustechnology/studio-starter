@@ -63,12 +63,12 @@ export async function POST(request: Request) {
         const { error: insertError } = await supabase
           .from("credits")
           .insert({ user_id: user.id, credits: 0 });
-        
+
         if (insertError) {
           console.error("Error creating credits entry:", insertError);
           return NextResponse.json({ message: "Failed to create credits entry" }, { status: 500 });
         }
-        
+
         return NextResponse.json(
           {
             message: "Not enough credits, please purchase some credits and try again.",
@@ -195,15 +195,15 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-    
+
     const modelId = data?.id;
 
     try {
-      const trainWebhook = `https://${process.env.VERCEL_URL}/astria/train-webhook`;
+      const trainWebhook = `${process.env.VERCEL_URL}/astria/train-webhook`;
       const trainWebhookWithParams = `${trainWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
-      const promptWebhook = `https://${process.env.VERCEL_URL}/astria/prompt-webhook`;
-      const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
+      const promptWebhook = `${process.env.VERCEL_URL}/astria/prompt-webhook`;
+      const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
       const API_KEY = astriaApiKey;
       const DOMAIN = "https://api.astria.ai";

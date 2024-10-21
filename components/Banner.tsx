@@ -4,7 +4,7 @@ import Union from '/public/Union.png'
 
 const Banner = () => {
   return (
-    <div className="w-full max-w-[1276px] mx-auto rounded-[13.64px] sm:rounded-[48px] overflow-hidden mb-6 sm:mb-12 font-poppins">
+    <div className="w-full max-w-[1276px] mx-auto rounded-[13.64px] sm:rounded-[48px] overflow-hidden mb-4 sm:mb-8 font-poppins">
       <div className="w-full h-[149px] sm:h-[459px] relative" style={{background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 15.54%, #01C7E4 100%)'}}>
         <div className="absolute inset-0 backdrop-blur-sm"></div>
         <div className="flex flex-row h-full relative z-10">
@@ -31,12 +31,12 @@ const Banner = () => {
             <p className="text-xs sm:text-xl text-white mb-3 sm:mb-8">
               Get studio-quality, 4K images in a variety of outfits & settings in less than an hour.
             </p>
-            <button className="w-[200px] sm:w-[318px] h-[36px] sm:h-[48px] bg-[#5B16FE] text-white text-xs sm:text-lg font-semibold rounded-full sm:rounded-[50px] px-4 sm:px-[25px] py-1 sm:py-[12px] hover:bg-[#5B16FE] transition duration-300 flex items-center justify-center gap-2 sm:gap-[10px]">
-              Get your Headshot Now
-              <svg className="w-3 h-3 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
+            <button className="w-[140px] sm:w-[200px] md:w-[318px] h-[36px] sm:h-[40px] md:h-[48px] bg-[#5B16FE] text-white text-[10px] sm:text-sm md:text-lg font-semibold rounded-full sm:rounded-[50px] px-2 sm:px-4 md:px-[25px] py-1 sm:py-2 md:py-[12px] hover:bg-[#5B16FE] transition duration-300 flex items-center justify-center gap-1 sm:gap-2 md:gap-[10px]">
+    <span className="whitespace-nowrap">Get your Headshot Now</span>
+    <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </button>
           </div>
         </div>
       </div>

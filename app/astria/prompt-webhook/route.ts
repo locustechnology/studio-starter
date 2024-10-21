@@ -12,20 +12,21 @@ const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
 
 if (!resendApiKey) {
   console.warn(
-    "We detected that the RESEND_API_KEY is missing from your environment variables. The app should still work but email notifications will not be sent. Please add your RESEND_API_KEY to your environment variables if you want to enable email notifications."
+    "We detected that the RESEND_API_KEY is missing from your environment variables. The app should still work but email notifications will not be sent. Please add your RESEND_API_KEY to your environment variables if you want to enable email notifications.",
+    { fontFamily: 'Poppins, sans-serif' }
   );
 }
 
 if (!supabaseUrl) {
-  throw new Error("MISSING NEXT_PUBLIC_SUPABASE_URL!");
+  throw new Error("MISSING NEXT_PUBLIC_SUPABASE_URL!", { fontFamily: 'Jakarta Sans, sans-serif' });
 }
 
 if (!supabaseServiceRoleKey) {
-  throw new Error("MISSING SUPABASE_SERVICE_ROLE_KEY!");
+  throw new Error("MISSING SUPABASE_SERVICE_ROLE_KEY!", { fontFamily: 'Jakarta Sans, sans-serif' });
 }
 
 if (!appWebhookSecret) {
-  throw new Error("MISSING APP_WEBHOOK_SECRET!");
+  throw new Error("MISSING APP_WEBHOOK_SECRET!", { fontFamily: 'Jakarta Sans, sans-serif' });
 }
 
 export async function POST(request: Request) {
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
 
   const { prompt } = incomingData;
 
-  console.log({ prompt });
+  console.log({ prompt }, { fontFamily: 'Poppins, sans-serif' });
 
   const urlObj = new URL(request.url);
   const user_id = urlObj.searchParams.get("user_id");
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
       {
         message: "Malformed URL, no model_id detected!",
       },
-      { status: 500 }
+      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }  
 
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
       {
         message: "Malformed URL, no webhook_secret detected!",
       },
-      { status: 500 }
+      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }
 
@@ -76,7 +77,7 @@ export async function POST(request: Request) {
       {
         message: "Unauthorized!",
       },
-      { status: 401 }
+      { status: 401, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }
 
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
       {
         message: "Malformed URL, no user_id detected!",
       },
-      { status: 500 }
+      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }
 
@@ -111,7 +112,7 @@ export async function POST(request: Request) {
       {
         message: error.message,
       },
-      { status: 401 }
+      { status: 401, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }
 
@@ -120,14 +121,17 @@ export async function POST(request: Request) {
       {
         message: "Unauthorized",
       },
-      { status: 401 }
+      { status: 401, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }
 
   try {
+    console.log('Received prompt webhook callback', { fontFamily: 'Poppins, sans-serif' });
+    console.log('Prompt object:', prompt, { fontFamily: 'Poppins, sans-serif' });
+
     // Here we join all of the arrays into one.
     const allHeadshots = prompt.images;
-    console.log("working ok")
+    console.log("working ok", { fontFamily: 'Poppins, sans-serif' });
     const { data: model, error: modelError } = await supabase
       .from("models")
       .select("*")
@@ -135,42 +139,47 @@ export async function POST(request: Request) {
       .single();
 
     if (modelError) {
-      console.error({ modelError });
+      console.error({ modelError }, { fontFamily: 'Jakarta Sans, sans-serif' });
       return NextResponse.json(
         {
           message: "Something went wrong!",
         },
-        { status: 500 }
+        { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
         
       );
 
     }
 
-
+    console.log('Inserting images into Supabase', { fontFamily: 'Poppins, sans-serif' });
     await Promise.all(
       allHeadshots.map(async (image) => {
+        console.log('Inserting image:', image, { fontFamily: 'Poppins, sans-serif' });
         const { error: imageError } = await supabase.from("images").insert({
-          modelId: Number(model.id),
+          modelid: Number(model_id), // Use model_id from the webhook parameters
           uri: image,
         });
         if (imageError) {
-          console.error({ imageError });
+          console.error('Error inserting image:', { imageError }, { fontFamily: 'Jakarta Sans, sans-serif' });
+        } else {
+          console.log('Image inserted successfully', { fontFamily: 'Poppins, sans-serif' });
         }
       })
     );
+
+
     return NextResponse.json(
       {
         message: "success",
       },
-      { status: 200, statusText: "Success" }
+      { status: 200, statusText: "Success", fontFamily: 'Poppins, sans-serif' }
     );
   } catch (e) {
-    console.error(e);
+    console.error(e, { fontFamily: 'Jakarta Sans, sans-serif' });
     return NextResponse.json(
       {
         message: "Something went wrong!",
       },
-      { status: 500 }
+      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
     );
   }
 }

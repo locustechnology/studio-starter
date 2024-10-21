@@ -88,13 +88,13 @@ const PricingComponent = () => {
       console.log('PayPal order created:', order);
       return order.id;
     } catch (error) {
-      console.error('Error creating PayPal order:', error);
-      toast.error(`Failed to create order: ${error.message}`);
+      console.error('Error creating PayPal order:', error instanceof Error ? error : new Error(String(error)));
+      toast.error(`Failed to create order: ${error instanceof Error ? error.message : 'Unknown error'}`);
       throw error;
     }
   };
 
-  const handlePaymentSuccess = async (data: { orderID: string }) => {
+  const handlePaymentSuccess = async (data: { orderID: string }, selectedTier: any) => {
     try {
       console.log('Payment approved:', { orderID: data.orderID });
       
@@ -118,19 +118,28 @@ const PricingComponent = () => {
       // Retrieve the model data from localStorage
       const storedModelData = localStorage.getItem('trainModelData');
       let modelData = storedModelData ? JSON.parse(storedModelData) : { modelInfo: {}, imageUrls: [] };
+      
+      // Ensure we're not overwriting the existing modelInfo
       modelData.paymentInfo = {
         orderId: data.orderID,
         captureId: result.captureID,
         status: result.status,
+        selectedTier: selectedTier,
       };
+      
+      // Make sure we're not losing the gender information
+      if (!modelData.modelInfo) {
+        modelData.modelInfo = {};
+      }
+      
       localStorage.setItem('trainModelData', JSON.stringify(modelData));
       console.log('Updated model data in localStorage:', modelData);
 
       toast.success('Payment successful! Redirecting to summary page.');
       router.push('/summary');
     } catch (error) {
-      console.error('Error capturing payment:', error);
-      toast.error(`Failed to process payment: ${error.message}`);
+      console.error('Error capturing payment:', error instanceof Error ? error : new Error(String(error)));
+      toast.error(`Failed to process payment: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
 
@@ -181,43 +190,20 @@ const PricingComponent = () => {
                     ))}
                   </ul>
                   {isClient && (
-                    <PayPalScriptProvider options={{ "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, "currency": "USD" }}>
+                    <PayPalScriptProvider options={{ "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, "currency": "USD" }}>
                       <PayPalButtons
                         createOrder={() => handlePayment(tier.price)}
                         onApprove={async (data, actions) => {
                           try {
-                            const trainModelData = JSON.parse(localStorage.getItem('trainModelData') || '{}');
-                            console.log('Payment approved:', { orderID: data.orderID, trainModelData });
-                            
-                            const response = await fetch('/astria/paypal', {
-                              method: 'PUT',
-                              headers: {
-                                'Content-Type': 'application/json',
-                              },
-                              body: JSON.stringify({
-                                orderID: data.orderID,
-                              }),
-                            });
-
-                            if (!response.ok) {
-                              const errorData = await response.json();
-                              console.error('Error response:', errorData);
-                              throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || 'Unknown error'}`);
-                            }
-
-                            const result = await response.json();
-                            console.log('Payment captured:', result);
-                            toast.success('Payment successful! Redirecting to summary page.');
-                            
-                            router.push('/summary');
+                            await handlePaymentSuccess(data, tier);
                           } catch (error) {
-                            console.error('Error capturing payment:', error);
-                            toast.error(`Failed to process payment: ${error.message}`);
+                            console.error('Error in onApprove:', error instanceof Error ? error : new Error(String(error)));
+                            toast.error(`Failed to process payment: ${error instanceof Error ? error.message : 'Unknown error'}`);
                           }
                         }}
                         onError={(err) => {
-                          console.error('PayPal Checkout onError', err);
-                          toast.error(`Payment error: ${err.message || 'Unknown error'}`);
+                          console.error('PayPal Checkout onError', err instanceof Error ? err : new Error(String(err)));
+                          toast.error(`Payment error: ${err instanceof Error ? err.message : 'Unknown error'}`);
                         }}
                         style={{ layout: "vertical", shape: "rect" }}
                       />

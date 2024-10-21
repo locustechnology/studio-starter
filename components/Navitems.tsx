@@ -1,18 +1,22 @@
 import Link from "next/link";
 
-export default function NavItems() {
+export default function NavItems({ isMobile = false }) {
+  const linkClass = `text-gray-700 font-semibold text-sm px-3 font-jakarta hover:text-purple-600 transition duration-300 ${
+    isMobile ? 'block py-2' : ''
+  }`;
+
   return (
     <>
-      <Link href="/" className="text-gray-700 font-bold text-lg py-2 px-6 rounded font-jakarta hover:bg-gray-100 transition duration-300">
+      <Link href="/" className={linkClass}>
         AI Headshots
       </Link>
-      <Link href="/#testimonial" className="text-gray-700 font-bold text-lg py-2 px-6 rounded font-jakarta hover:bg-gray-100 transition duration-300">
+      <Link href="/#testimonial" className={linkClass}>
         Testimonial
       </Link>
-      <Link href="/#pricing" className="text-gray-700 font-bold text-lg py-2 px-6 rounded font-jakarta hover:bg-gray-100 transition duration-300">
+      <Link href="/#pricing" className={linkClass}>
         Pricing
       </Link>
-      <Link href="/#faq" className="text-gray-700 font-bold text-lg py-2 px-6 rounded font-jakarta hover:bg-gray-100 transition duration-300">
+      <Link href="/#faq" className={linkClass}>
         FAQ
       </Link>
     </>

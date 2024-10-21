@@ -35,7 +35,7 @@ export default function ClientSideModelsList({
           const samples = await supabase
             .from("samples")
             .select("*")
-            .eq("modelId", payload.new.id);
+            .eq("modelid", payload.new.id);
 
           const newModel: modelRowWithSamples = {
             ...payload.new,
@@ -59,13 +59,13 @@ export default function ClientSideModelsList({
   const trainModelUrl = "/overview/models/train/corporate-headshots?step=gender";
 
   return (
-    <div id="train-model-container" className="w-full" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
+    <div id="train-model-container" className="w-full" style={{ fontFamily: 'Poppins, sans-serif' }}>
       {models && models.length > 0 && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-4 w-full justify-between items-center text-center" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
-            <h1 className="font-bold text-lg">Your models</h1>
+            <h1 className="font-bold text-lg marginTop: '20px'">Your models</h1>
             <Link href={trainModelUrl} className="w-fit">
-              <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontSize: '16px', fontFamily: 'Jakarta Sans, sans-serif' }}>
+              <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontSize: '16px', fontFamily: 'Jakarta Sans, sans-serif', marginTop: '20px' }}>
                 Train model
               </Button>
             </Link>

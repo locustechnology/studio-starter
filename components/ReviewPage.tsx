@@ -10,7 +10,7 @@ import girl from "@/public/testimonial/girl.svg"
 import boy from "@/public/testimonial/boy.svg"
 import young from "@/public/testimonial/young.svg"
 import correct from "@/public/correct.svg"
-
+import Luke from "@/public/Luke.svg"
 import Ber from "@/public/logo/Ber.svg";
 import Box from "@/public/logo/Box.svg";
 import Dell from "@/public/logo/Dell.svg";
@@ -22,11 +22,11 @@ import Shp from "@/public/logo/Shp.svg";
 
 const reviews = [
   { name: "Caleb Wright", comment: "These AI headshots are next level.", rating: 5, image: old},
-  { name: "Luke Anderson", comment: "Blown away. The future of photography is here.", rating: 5, image: oldmen },
+  { name: "Luke Anderson", comment: "Blown away. The future of photography is here.", rating: 5, image: Luke },
   { name: "Andrew Robins", comment: "Effective, fast, and easy. Great service!", rating: 5, image: wome },
-  { name: "Owen Harris", comment: "Professional photos in minutes. Amazing!", rating: 5, image: girl},
-  { name: "Cherry Cho", comment: "GoStudio.ai is now my go-to for professional photos.", rating: 5, image: boy },
-  { name: "Amalia Müller", comment: "Very satisfied with the quick service and quality.", rating: 5, image: young },
+  { name: "Hannah Lee", comment: "Professional photos in minutes. Amazing!", rating: 5, image: girl},
+  { name: "Owen Harris", comment: "GoStudio.ai is now my go-to for professional photos.", rating: 5, image: boy },
+  { name: "Cherry Cho", comment: "Very satisfied with the quick service and quality.", rating: 5, image: young },
   { name: "Hannah Lee", comment: "Quick, easy, and surprisingly professional.", rating: 5, image: old },
   { name: "Mia Yang", comment: "Go studio.ai is now my go-to site for professional photo.", rating: 5, image: wome },
   { name: "Jenny Brown", comment: "Very affordable and amazed by the results.", rating: 5, image: girl },

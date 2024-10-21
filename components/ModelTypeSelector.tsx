@@ -52,6 +52,9 @@ export const ModelTypeSelector: React.FC = () => {
           user_id: user.id,
         }));
 
+        // Save the gender in localStorage
+        localStorage.setItem('gender', selectedModel);
+
         router.push(`/overview/models/train/corporate-headshots?step=img-upload`);
       } catch (error) {
         console.error('Unexpected error:', error);
@@ -99,7 +102,7 @@ export const ModelTypeSelector: React.FC = () => {
                     cursor-pointer rounded-2xl overflow-hidden transition-all duration-300
                     w-[120px] h-[120px] sm:w-[188px] sm:h-[188px] relative
                     ${selectedModel === item.value 
-                      ? 'ring-2 ring-[#11CAE5] shadow-blue' 
+                      ? 'ring-2 ring-[#11CAE5] shadow-[0px_6.58px_65.25px_0px_#11CAE570]' 
                       : 'hover:ring-2 hover:ring-[#11CAE5]'}
                   `}
                 >
@@ -111,7 +114,7 @@ export const ModelTypeSelector: React.FC = () => {
                   />
                   {selectedModel === item.value && (
                     <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-white rounded-full p-0.5 sm:p-1">
-                      <Check className="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
+                      <Check className="h-3 w-3 sm:h-4 sm:w-4 text-[#11CAE5]" />
                     </div>
                   )}
                 </div>

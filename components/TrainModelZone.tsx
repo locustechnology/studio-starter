@@ -161,20 +161,66 @@ const TrainModelZone: React.FC = () => {
         </div>
 
         {/* Right side - Upload functionality */}
-        <div className="w-full lg:w-[580px] rounded-3xl p-6 lg:p-8 flex flex-col justify-between bg-white lg:border-4 lg:border-purple-400 lg:shadow-[0px_8px_48px_0px_#00000026]">
-          <div className="space-y-6 text-center">
-            <h2 className="text-xl font-semibold text-black">Start Uploading photos</h2>
-            <p className="text-sm text-black">
-              Select at least 4 of your best photos. Good photos help our AI to give you amazing results!
-            </p>
-            
-            {files.length === 0 ? (
-              <div className="w-full border-2 border-dashed border-purple-300 rounded-2xl p-4 sm:p-8 flex flex-col items-center justify-center gap-4 mb-8 bg-white">
-                <label htmlFor="file-upload" className="cursor-pointer w-full lg:w-auto">
-                  <div className="bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] text-white font-semibold rounded-full flex items-center justify-center text-base sm:text-lg px-4 sm:px-8 py-3 hover:opacity-90 transition-opacity lg:px-6 lg:py-2 lg:w-auto lg:mx-auto">
-                    <Upload size={20} className="mr-2" />
-                    <span>Upload files</span>
+        <div className="w-full lg:w-[580px] rounded-3xl p-[3px] bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">
+          <div className="bg-white rounded-3xl p-6 lg:p-8 flex flex-col justify-between h-full">
+            <div className="space-y-6 text-center">
+              <h2 className="text-xl font-semibold text-black">Start Uploading photos</h2>
+              <p className="text-sm text-black">
+                Select at least 4 of your best photos. Good photos help our AI to give you amazing results!
+              </p>
+              
+              {/* File upload area */}
+              {files.length === 0 ? (
+                <div className="w-full border-2 border-dashed border-purple-300 rounded-2xl p-4 sm:p-8 flex flex-col items-center justify-center gap-4 mb-8 bg-white">
+                  <label htmlFor="file-upload" className="cursor-pointer w-full lg:w-auto">
+                    <div className="bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] text-white font-semibold rounded-full flex items-center justify-center text-base sm:text-lg px-4 sm:px-8 py-3 hover:opacity-90 transition-opacity lg:px-6 lg:py-2 lg:w-auto lg:mx-auto">
+                      <Upload size={20} className="mr-2" />
+                      <span>Upload files</span>
+                    </div>
+                    <input 
+                      id="file-upload" 
+                      type="file" 
+                      className="hidden"
+                      multiple 
+                      onChange={handleFileUpload} 
+                      accept="image/*" 
+                    />
+                  </label>
+                  <div className="w-full sm:w-[195px] h-[32px] flex flex-col justify-center mx-auto">
+                    <p className="text-xs leading-4 text-gray-500 font-normal text-center">
+                      Click to upload or drag and drop
+                    </p>
+                    <p className="text-xs leading-4 text-gray-500 font-normal text-center">
+                      PNG, JPG, HEIC up to 120MB
+                    </p>
                   </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-8">
+                  {files.map(({ file, preview }, index) => (
+                    <div key={index} className="relative group aspect-square">
+                      <img
+                        src={preview}
+                        alt={file.name}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                      <button
+                        onClick={() => handleRemoveFile({ file, preview })}
+                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 size={20} />
+                      </button>
+                    </div>
+                  ))}
+                  {Array.from({ length: Math.max(0, 10 - files.length) }).map((_, index) => (
+                    <label
+                      key={`empty-${index}`}
+                      htmlFor="file-upload"
+                      className="border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer aspect-square border-purple-500 border-b-blue-500"
+                    >
+                      <span className="text-5xl text-purple-400">+</span>
+                    </label>
+                  ))}
                   <input 
                     id="file-upload" 
                     type="file" 
@@ -183,67 +229,24 @@ const TrainModelZone: React.FC = () => {
                     onChange={handleFileUpload} 
                     accept="image/*" 
                   />
-                </label>
-                <div className="w-full sm:w-[195px] h-[32px] flex flex-col justify-center mx-auto">
-                  <p className="text-xs leading-4 text-gray-500 font-normal text-center">
-                    Click to upload or drag and drop
-                  </p>
-                  <p className="text-xs leading-4 text-gray-500 font-normal text-center">
-                    PNG, JPG, HEIC up to 120MB
-                  </p>
                 </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-8">
-                {files.map(({ file, preview }, index) => (
-                  <div key={index} className="relative group aspect-square">
-                    <img
-                      src={preview}
-                      alt={file.name}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                    <button
-                      onClick={() => handleRemoveFile({ file, preview })}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <Trash2 size={20} />
-                    </button>
-                  </div>
-                ))}
-                {Array.from({ length: Math.max(0, 10 - files.length) }).map((_, index) => (
-                  <label
-                    key={`empty-${index}`}
-                    htmlFor="file-upload"
-                    className="border-2 border-dashed rounded-lg flex items-center justify-center cursor-pointer aspect-square border-purple-500 border-b-blue-500"
-                  >
-                    <span className="text-5xl text-purple-400">+</span>
-                  </label>
-                ))}
-                <input 
-                  id="file-upload" 
-                  type="file" 
-                  className="hidden"
-                  multiple 
-                  onChange={handleFileUpload} 
-                  accept="image/*" 
-                />
-              </div>
-            )}
-            
-            <p className="text-xs text-gray-500 font-normal leading-[16px] text-center px-4 sm:px-0 mb-6 hidden lg:block">
-              By using our AI Tools, you agree to and accept our <a href="#" className="text-blue-500 hover:underline">Terms of Use</a>
-            </p>
-            <button 
-              className={`w-full lg:w-auto lg:px-12 py-2 sm:py-3 rounded-full font-semibold text-base sm:text-lg text-white transition-colors ${
-                files.length >= 4 && !isLoading
-                  ? 'bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] hover:opacity-90'
-                  : 'bg-gray-400 cursor-not-allowed'
-              } lg:mx-auto lg:block`}
-              onClick={handleContinue}
-              disabled={files.length < 4 || isLoading}
-            >
-              {isLoading ? 'Uploading...' : 'Continue →'}
-            </button>
+              )}
+              
+              <p className="text-xs text-gray-500 font-normal leading-[16px] text-center px-4 sm:px-0 mb-6 hidden lg:block">
+                By using our AI Tools, you agree to and accept our <a href="#" className="text-blue-500 hover:underline">Terms of Use</a>
+              </p>
+              <button 
+                className={`w-full lg:w-auto lg:px-12 py-2 sm:py-3 rounded-full font-semibold text-base sm:text-lg text-white transition-colors ${
+                  files.length >= 4 && !isLoading
+                    ? 'bg-[linear-gradient(90deg,#8371FF_-39.48%,#A077FE_32.07%,#01C7E4_100%)] hover:opacity-90'
+                    : 'bg-gray-400 cursor-not-allowed'
+                } lg:mx-auto lg:block`}
+                onClick={handleContinue}
+                disabled={files.length < 4 || isLoading}
+              >
+                {isLoading ? 'Uploading...' : 'Continue →'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
