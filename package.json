@@ -48,6 +48,7 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^4.1.0",
+    "debug": "^4.3.7",
     "disposable-email-domains": "^1.0.62",
     "formidable": "^3.5.1",
     "lucide-react": "^0.274.0",

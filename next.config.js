@@ -4,17 +4,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true
   },
-  staticPageGenerationTimeout: 1000,
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: '/astria/packs',
-          destination: '/api/astria/packs'
-        }
-      ]
-    }
-  }
+  staticPageGenerationTimeout: 3000,
 }
 
 module.exports = nextConfig
