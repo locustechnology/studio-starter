@@ -340,8 +340,7 @@ export async function POST(request: Request) {
       }
       return NextResponse.json(
         {
-          message: "Something went wrong!",
-          error: e.message,
+          message: "Something went wrong!"
         },
         { status: 500 }
       );
@@ -350,8 +349,7 @@ export async function POST(request: Request) {
     console.error("Error in train-model route:", e);
     return NextResponse.json(
       {
-        message: "Something went wrong!",
-        error: e.message,
+        message: "Something went wrong!"
       },
       { status: 500 }
     );

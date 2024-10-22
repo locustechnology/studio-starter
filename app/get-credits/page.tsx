@@ -4,9 +4,10 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PricingComponent from '@/components/PricingSection';
+import { User } from '@supabase/supabase-js';
 
 export default function GetCreditsPage() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const supabase = createClientComponentClient();
 
@@ -27,5 +28,5 @@ export default function GetCreditsPage() {
     return null; // or a loading spinner
   }
 
-  return <PricingComponent user={user} />;
+  return <PricingComponent />;
 }
