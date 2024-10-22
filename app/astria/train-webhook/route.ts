@@ -45,6 +45,8 @@ export async function POST(request: Request) {
   const incomingData = (await request.json()) as { tune: TuneData };
 
   const { tune } = incomingData;
+  console.log('Received train webhook callback');
+  console.log('Tune object:', tune);
 
   const urlObj = new URL(request.url);
   const user_id = urlObj.searchParams.get("user_id");
@@ -59,7 +61,6 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
-  
 
   if (!webhook_secret) {
     return NextResponse.json(
@@ -100,10 +101,7 @@ export async function POST(request: Request) {
     }
   );
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.admin.getUserById(user_id);
+  const { data: { user }, error } = await supabase.auth.admin.getUserById(user_id);
 
   if (error) {
     return NextResponse.json(
@@ -123,25 +121,37 @@ export async function POST(request: Request) {
     );
   }
 
-  try {
-    if (resendApiKey) {
+  if (resendApiKey) {
+    try {
       const resend = new Resend(resendApiKey);
       await resend.emails.send({
         from: "noreply@headshots.tryleap.ai",
         to: user?.email ?? "",
         subject: "Your model was successfully trained!",
-        html: `<h2>We're writing to notify you that your model training was successful! 1 credit has been used from your account.</h2>`,
+        html: `<h2 style="font-family: 'Poppins', sans-serif;">We're writing to notify you that your model training was successful! 1 credit has been used from your account.</h2>`,
       });
+    } catch (e) {
+      console.error(e);
+      return NextResponse.json(
+        {
+          message: "Something went wrong!",
+        },
+        { status: 500 }
+      );
     }
+  }
 
+  try {
+    console.log('Updating model status to finished');
     const { data: modelUpdated, error: modelUpdatedError } = await supabase
       .from("models")
       .update({
-        modelId: `${tune.id}`,
         status: "finished",
       })
-      .eq("id", model_id)
+      .eq("id", parseInt(model_id, 10))
       .select();
+
+    console.log('Model update result:', { modelUpdated, modelUpdatedError });
 
     if (modelUpdatedError) {
       console.error({ modelUpdatedError });
@@ -155,7 +165,12 @@ export async function POST(request: Request) {
 
     if (!modelUpdated) {
       console.error("No model updated!");
-      console.error({ modelUpdated });
+      return NextResponse.json(
+        {
+          message: "No model updated!",
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json(

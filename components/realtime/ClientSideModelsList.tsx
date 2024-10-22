@@ -35,7 +35,7 @@ export default function ClientSideModelsList({
           const samples = await supabase
             .from("samples")
             .select("*")
-            .eq("modelId", payload.new.id);
+            .eq("modelid", payload.new.id);
 
           const newModel: modelRowWithSamples = {
             ...payload.new,
@@ -56,14 +56,16 @@ export default function ClientSideModelsList({
     };
   }, [supabase, models, setModels]);
 
+  const trainModelUrl = "/overview/models/train/corporate-headshots?step=gender";
+
   return (
-    <div id="train-model-container" className="w-full">
+    <div id="train-model-container" className="w-full" style={{ fontFamily: 'Poppins, sans-serif' }}>
       {models && models.length > 0 && (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-4 w-full justify-between items-center text-center">
-            <h1>Your models</h1>
-            <Link href={packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune"} className="w-fit">
-              <Button size={"sm"}>
+          <div className="flex flex-row gap-4 w-full justify-between items-center text-center" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
+            <h1 className="font-bold text-lg marginTop: '20px'">Your models</h1>
+            <Link href={trainModelUrl} className="w-fit">
+              <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontSize: '16px', fontFamily: 'Jakarta Sans, sans-serif', marginTop: '20px' }}>
                 Train model
               </Button>
             </Link>
@@ -72,14 +74,14 @@ export default function ClientSideModelsList({
         </div>
       )}
       {models && models.length === 0 && (
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col gap-4 items-center" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
           <FaImages size={64} className="text-gray-500" />
-          <h1 className="text-2xl">
+          <h1 className="text-2xl font-bold" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
             Get started by training your first model.
           </h1>
           <div>
-            <Link href={packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune"}>
-              <Button size={"lg"}>Train model</Button>
+            <Link href={trainModelUrl}>
+              <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontFamily: 'Jakarta Sans, sans-serif' }}>Train model</Button>
             </Link>
           </div>
         </div>

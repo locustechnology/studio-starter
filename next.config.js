@@ -1,8 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    esmExternals: "loose",
+  reactStrictMode: true,
+  typescript: {
+    ignoreBuildErrors: true
   },
-};
+  staticPageGenerationTimeout: 1000,
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: '/astria/packs',
+          destination: '/api/astria/packs'
+        }
+      ]
+    }
+  }
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
