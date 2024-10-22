@@ -10,7 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "update-types": "npx supabase gen types typescript --project-id \"hzcgbsakzagvgfuektjb\" > types/supabase.ts"
+    "update-types": "npx supabase gen types typescript --project-id \"hzcgbsakzagvgfuektjb\" > types/supabase.ts",
+    "vercel-build": "npm install --no-optional && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
@@ -78,10 +79,12 @@
     "@types/paypal__checkout-server-sdk": "^1.0.8",
     "@types/react": "^18.2.12",
     "@types/react-dom": "18.2.5",
-    "encoding": "^0.1.13"
+    "encoding": "^0.1.13",
+    "node-gyp": "^9.0.0",
+    "node-pre-gyp": "^0.17.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "16.x"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.3"
