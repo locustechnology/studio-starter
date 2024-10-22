@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "update-types": "npx supabase gen types typescript --project-id \"hzcgbsakzagvgfuektjb\" > types/supabase.ts",
-    "vercel-build": "npm install --no-optional --ignore-scripts && npm run build"
+    "vercel-build": "npm install --no-optional && npm run build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
@@ -84,10 +84,10 @@
     "node-pre-gyp": "^0.17.0"
   },
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "optionalDependencies": {
-    "bufferutil": "4.0.3",
-    "utf-8-validate": "5.0.5"
+    "bufferutil": "^4.0.7",
+    "utf-8-validate": "^5.0.10"
   }
 }
