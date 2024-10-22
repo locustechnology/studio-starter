@@ -27,6 +27,7 @@ const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 //   );
 // };
 
+
 const Page = ({ params }: { params: { pack: string } }) => {
   const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState('');
@@ -46,9 +47,9 @@ const Page = ({ params }: { params: { pack: string } }) => {
   const renderStep = () => {
     switch (currentStep) {
       case 'img-upload':
-        return <TrainModelZone packSlug={params.pack} onContinue={() => navigateToNextStep('next-step')} />;
+        return <TrainModelZone />;
       default:
-        return <ModelTypeSelector packSlug={params.pack} onContinue={() => {}} />;
+        return <ModelTypeSelector />;
     }
   };
 

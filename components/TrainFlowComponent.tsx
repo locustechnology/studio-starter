@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ModelTypeSelector } from '@/components/ModelTypeSelector';
 import TrainModelZone from '@/components/TrainModelZone';
 import GetCreditsPage from '@/app/get-credits/page';
@@ -8,7 +8,6 @@ import GetCreditsPage from '@/app/get-credits/page';
 const TrainFlowComponent: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
   const [currentStep, setCurrentStep] = useState('img-upload');
   const [hasEnoughCredits, setHasEnoughCredits] = useState(true);
 

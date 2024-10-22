@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
 import Frame from "@/public/Frame.svg"
 
-const TrainModelZone: React.FC = () => {
+const TrainModelZone: React.FC<{ onContinue: () => Promise<void> }> = ({ onContinue }) => {
   const [files, setFiles] = useState<{ file: File; preview: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
@@ -126,7 +126,7 @@ const TrainModelZone: React.FC = () => {
       console.error('Upload error:', error);
       toast({
         title: "Process failed",
-        description: error.message || "There was an error processing your request. Please try again.",
+        description: "There was an error processing your request. Please try again.",
         duration: 5000,
       });
     } finally {

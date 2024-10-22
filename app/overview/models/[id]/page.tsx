@@ -19,7 +19,7 @@ export default async function ModelPage({ params }: { params: { id: string } }) 
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return <Login params={{ slug: params.id }} />;
+    return <Login />;
   }
 
   const { data: model } = await supabase

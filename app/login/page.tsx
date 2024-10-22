@@ -17,7 +17,7 @@ export default function Page({
 
   return (
     <div className="flex flex-col flex-1 w-full h-[calc(100vh-73px)]">
-      <LoginPage host={host} searchParams={searchParams} />
+      <LoginPage/>
     </div>
   );
 }

@@ -18,15 +18,15 @@ if (!resendApiKey) {
 }
 
 if (!supabaseUrl) {
-  throw new Error("MISSING NEXT_PUBLIC_SUPABASE_URL!", { fontFamily: 'Jakarta Sans, sans-serif' });
+  throw new Error("MISSING NEXT_PUBLIC_SUPABASE_URL!");
 }
 
 if (!supabaseServiceRoleKey) {
-  throw new Error("MISSING SUPABASE_SERVICE_ROLE_KEY!", { fontFamily: 'Jakarta Sans, sans-serif' });
+  throw new Error("MISSING SUPABASE_SERVICE_ROLE_KEY!");
 }
 
 if (!appWebhookSecret) {
-  throw new Error("MISSING APP_WEBHOOK_SECRET!", { fontFamily: 'Jakarta Sans, sans-serif' });
+  throw new Error("MISSING APP_WEBHOOK_SECRET!");
 }
 
 export async function POST(request: Request) {
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       {
         message: "Malformed URL, no model_id detected!",
       },
-      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 500 }
     );
   }  
 
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
       {
         message: "Malformed URL, no webhook_secret detected!",
       },
-      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 500}
     );
   }
 
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
       {
         message: "Unauthorized!",
       },
-      { status: 401, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 401}
     );
   }
 
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       {
         message: "Malformed URL, no user_id detected!",
       },
-      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 500}
     );
   }
 
@@ -112,7 +112,7 @@ export async function POST(request: Request) {
       {
         message: error.message,
       },
-      { status: 401, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 401}
     );
   }
 
@@ -121,7 +121,7 @@ export async function POST(request: Request) {
       {
         message: "Unauthorized",
       },
-      { status: 401, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 401}
     );
   }
 
@@ -144,7 +144,7 @@ export async function POST(request: Request) {
         {
           message: "Something went wrong!",
         },
-        { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
+        { status: 500}
         
       );
 
@@ -155,7 +155,7 @@ export async function POST(request: Request) {
       allHeadshots.map(async (image) => {
         console.log('Inserting image:', image, { fontFamily: 'Poppins, sans-serif' });
         const { error: imageError } = await supabase.from("images").insert({
-          modelid: Number(model_id), // Use model_id from the webhook parameters
+          modelId: Number(model_id), // Use model_id from the webhook parameters
           uri: image,
         });
         if (imageError) {
@@ -171,7 +171,7 @@ export async function POST(request: Request) {
       {
         message: "success",
       },
-      { status: 200, statusText: "Success", fontFamily: 'Poppins, sans-serif' }
+      { status: 200, statusText: "Success"}
     );
   } catch (e) {
     console.error(e, { fontFamily: 'Jakarta Sans, sans-serif' });
@@ -179,7 +179,7 @@ export async function POST(request: Request) {
       {
         message: "Something went wrong!",
       },
-      { status: 500, fontFamily: 'Jakarta Sans, sans-serif' }
+      { status: 500}
     );
   }
 }
