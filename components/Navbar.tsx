@@ -8,14 +8,24 @@ import Image from "next/image";
 import NavItems from "./Navitems";
 import UserMenu from "./UserMenu";
 import final_Logo from "@/public/final_Logo.svg";
+import { User } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types/supabase';
 
-export default function Navbar() {
-  const [user, setUser] = useState(null);
-  const [credits, setCredits] = useState(null);
+// Add this interface to match what UserMenu expects
+interface UserMenuProps {
+  user: {
+    email: string;
+  };
+  credits: number;
+}
+
+const Navbar: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [credits, setCredits] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   const isHomePage = pathname === '/';
 
@@ -23,35 +33,68 @@ export default function Navbar() {
     const checkUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
+      
+      if (user && pathname === '/login') {
+        router.push('/overview');
+      }
+      
+      if (!user && pathname && pathname.includes('/overview')) {
+        router.push('/login');
+      }
+
       if (user) {
-        const { data: creditsData } = await supabase.from('credits').select('credits').eq('user_id', user.id).single();
-        setCredits(creditsData?.credits ?? 0);
+        const { data: creditsData, error } = await supabase
+          .from('credits')
+          .select('credits')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching credits:', error);
+        } else {
+          setCredits(creditsData?.credits ?? 0);
+        }
       }
     };
 
     checkUser();
-  }, [supabase]);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/');
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        router.push('/overview');
+      } else if (event === 'SIGNED_OUT') {
+        router.push('/');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase, router, pathname]);
+
+  const getUserMenuProps = (user: User | null, credits: number | null): UserMenuProps | null => {
+    if (!user || !user.email) return null;
+    return {
+      user: { email: user.email },
+      credits: credits ?? 0
+    };
   };
 
   return (
     <div className="mt-1">
-      <nav className="bg-white shadow-sm font-poppins mx-auto px-4 flex flex-col sm:flex-row items-center justify-between" style={{
-        maxWidth: '1276px',
-        minHeight: '61px',
-        borderRadius: '64px',
-      }}>
+      <nav className="bg-white shadow-sm font-poppins mx-auto px-4 flex flex-col sm:flex-row items-center justify-between" 
+        style={{
+          maxWidth: '1276px',
+          minHeight: '61px',
+          borderRadius: '64px',
+        }}>
         <div className="flex items-center justify-between w-full sm:w-auto">
-          <Link href="/" className="flex-shrink-0">
+          <Link href={user ? '/overview' : '/'} className="flex-shrink-0">
             <div className="mr-2">
               <Image src={final_Logo} alt="Studio.ai logo" width={120} height={40} className="rounded-sm" />
             </div>
           </Link>
           
-          {/* Mobile menu button */}
           <button 
             className="sm:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -66,10 +109,13 @@ export default function Navbar() {
 
         <div className="hidden sm:flex items-center space-x-4">
           {user ? (
-            <UserMenu user={user} credits={credits ?? 0} handleLogout={handleLogout} />
+            (() => {
+              const userMenuProps = getUserMenuProps(user, credits);
+              return userMenuProps ? <UserMenu {...userMenuProps} /> : null;
+            })()
           ) : (
             <Link href="/login">
-              <button className="bg-[#5B16FE] text-white font-bold text-lg py-2 px-6 rounded-full font-jakarta hover:bg-[#5B16FE] transition duration-300">
+              <button className="bg-[#5B16FE] text-white font-bold text-lg py-2 px-6 rounded-full font-jakarta hover:bg-[#5B16FE]/90 transition duration-300">
                 Login / Sign Up
               </button>
             </Link>
@@ -77,18 +123,22 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
       {isMenuOpen && (
         <div className="sm:hidden bg-white shadow-md mt-2 py-4 px-6 rounded-b-[24px]">
           {isHomePage && <NavItems isMobile />}
           {user ? (
-            <div className="mt-4 flex flex-col items-center">
-              <UserMenu user={user} credits={credits ?? 0} handleLogout={handleLogout} />
-            </div>
+            (() => {
+              const userMenuProps = getUserMenuProps(user, credits);
+              return userMenuProps ? (
+                <div className="mt-4">
+                  <UserMenu {...userMenuProps} />
+                </div>
+              ) : null;
+            })()
           ) : (
             <div className="mt-4 flex justify-center">
               <Link href="/login">
-                <button className="w-full bg-purple-600 text-white font-bold text-lg py-2 px-6 rounded-full font-jakarta hover:bg-purple-700 transition duration-300">
+                <button className="w-full bg-[#5B16FE] text-white font-bold text-lg py-2 px-6 rounded-full font-jakarta hover:bg-[#5B16FE]/90 transition duration-300">
                   Login / Sign Up
                 </button>
               </Link>
@@ -99,3 +149,5 @@ export default function Navbar() {
     </div>
   );
 }
+
+export default Navbar;

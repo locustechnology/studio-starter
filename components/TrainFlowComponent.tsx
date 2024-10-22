@@ -1,21 +1,25 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ModelTypeSelector } from '@/components/ModelTypeSelector';
 import TrainModelZone from '@/components/TrainModelZone';
 import GetCreditsPage from '@/app/get-credits/page';
 
-const TrainFlowComponent: React.FC = () => {
+interface TrainModelSectionProps {
+  packSlug: string;
+  onContinue: () => void;
+}
+
+const TrainModelSection: React.FC<TrainModelSectionProps> = ({ packSlug, onContinue }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
-  const [currentStep, setCurrentStep] = useState('img-upload');
-  const [hasEnoughCredits, setHasEnoughCredits] = useState(true);
+  const [currentStep, setCurrentStep] = useState<string>('img-upload');
+  const [hasEnoughCredits, setHasEnoughCredits] = useState<boolean>(true);
 
   useEffect(() => {
-    const step = searchParams.get('step');
+    const step = searchParams?.get('step') ?? 'img-upload';
     console.log('Current URL step parameter:', step);
-    setCurrentStep(step || 'img-upload');
+    setCurrentStep(step);
 
     // Check credits when component mounts
     checkCredits();
@@ -32,7 +36,6 @@ const TrainFlowComponent: React.FC = () => {
           checkCredits: true,
         }),
       });
-      const data = await response.json();
       setHasEnoughCredits(response.ok);
       
       if (response.status === 402) {
@@ -53,12 +56,12 @@ const TrainFlowComponent: React.FC = () => {
   if (currentStep === 'img-upload') {
     return (
       <TrainModelZone 
+        packSlug={packSlug}
         onContinue={async () => {
           await checkCredits();
           if (hasEnoughCredits) {
-            // If user has enough credits, proceed with model training
-            // Add your model training logic here
             console.log('Proceeding with model training');
+            onContinue(); // Call the onContinue prop here
           } else {
             navigateToNextStep('get-credits');
           }
@@ -68,14 +71,14 @@ const TrainFlowComponent: React.FC = () => {
   }
 
   if (currentStep === 'get-credits') {
-    return <GetCreditsPage onCreditsPurchased={() => {
-      setHasEnoughCredits(true);
-      navigateToNextStep('img-upload');
-    }} />;
+    return <GetCreditsPage />;
   }
 
   // If no step or unknown step, show ModelTypeSelector
-  return <ModelTypeSelector onContinue={() => navigateToNextStep('img-upload')} />;
+  return <ModelTypeSelector onContinue={() => {
+    navigateToNextStep('img-upload');
+    onContinue(); // Call the onContinue prop here as well
+  }} />;
 };
 
-export default TrainFlowComponent;
+export default TrainModelSection;

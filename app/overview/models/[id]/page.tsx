@@ -1,4 +1,4 @@
-import Login from "@/app/login/components/Login";
+import Login from "../../../login/components/Login";
 import { Icons } from "@/components/icons";
 import ClientSideModel from "@/components/realtime/ClientSideModel";
 import { Badge } from "@/components/ui/badge";
@@ -19,7 +19,7 @@ export default async function ModelPage({ params }: { params: { id: string } }) 
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return <Login params={{ slug: params.id }} />;
+    return <Login params={{ slug: params.id }} host={null} />;
   }
 
   const { data: model } = await supabase

@@ -13,7 +13,7 @@ import HeadshotContainer from "@/components/Banner";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
+export default async function Home() {
   const supabase = createServerComponentClient({ cookies });
 
   const {
@@ -38,7 +38,7 @@ export default async function HomePage() {
           </div>
           <MoneyBackGuarantee />
           <div id="pricing">
-            <PricingSection />
+            <PricingSection user={user} />
           </div>
           <DataSecuritySection />
           <div id="faq">

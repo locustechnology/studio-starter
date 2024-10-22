@@ -22,7 +22,11 @@ const modelTypes: ModelOption[] = [
   { value: 'man', label: 'Male', imageSrc: malegender },
 ];
 
-export const ModelTypeSelector: React.FC = () => {
+interface ModelTypeSelectorProps {
+  onContinue: () => void;
+}
+
+export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue }) => {
   const [name, setName] = useState('');
   const [selectedModel, setSelectedModel] = useState<ModelType | null>(null);
   const [error, setError] = useState<string | null>(null);

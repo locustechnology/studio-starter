@@ -1,78 +1,48 @@
 'use client'
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import ModelTypeSelector from "@/components/ModelTypeSelector";
 import TrainModelZone from "@/components/TrainModelZone";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
 
-const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
+interface PageProps {
+  params: { pack: string }
+}
 
-// Remove this interface and component as they're not being used
-// interface TrainModelZoneProps {
-//   packSlug: string;
-// }
-
-// const TrainModelZoneComponent: React.FC<TrainModelZoneProps> = ({ packSlug }) => {
-//   // ... component logic ...
-
-//   return (
-//     <div>
-//       {/* Your component JSX goes here */}
-//       <p>Train Model Zone for pack: {packSlug}</p>
-//     </div>
-//   );
-// };
-
-const Page = ({ params }: { params: { pack: string } }) => {
-  const searchParams = useSearchParams();
+export default function TrainModelPage({ params }: PageProps) {
   const [currentStep, setCurrentStep] = useState('');
+  const searchParams = useSearchParams();
 
-  useEffect(() => {
-    const step = searchParams.get('step');
-    console.log('Current step:', step);
-    setCurrentStep(step || '');
+  const getStep = useCallback(() => {
+    const step = searchParams?.get('step');
+    return step || '';
   }, [searchParams]);
 
-  const navigateToNextStep = (nextStep: string) => {
-    // Implement navigation logic here
-    console.log(`Navigating to ${nextStep}`);
-    setCurrentStep(nextStep);
+  useEffect(() => {
+    const step = getStep();
+    console.log('Current step:', step);
+    setCurrentStep(step);
+  }, [getStep]);
+
+  const handleContinue = () => {
+    // Add your logic here for what should happen when continue is clicked
+    console.log('Continuing to next step');
+    // For example, you might want to update the current step:
+    setCurrentStep('img-upload');
   };
 
   const renderStep = () => {
     switch (currentStep) {
       case 'img-upload':
-        return <TrainModelZone packSlug={params.pack} onContinue={() => navigateToNextStep('next-step')} />;
+        return <TrainModelZone packSlug={params.pack} onContinue={handleContinue} />;
       default:
-        return <ModelTypeSelector packSlug={params.pack} onContinue={() => {}} />;
+        return <ModelTypeSelector onContinue={handleContinue} />;
     }
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div
-        id="train-model-container"
-        className="flex flex-1 flex-col gap-2 px-2"
-      >
-        {packsIsEnabled && (
-          <Link href="/overview/packs" className="text-sm w-fit">
-            <Button variant="outline">
-              <FaArrowLeft className="mr-2" />
-              Go Back
-            </Button>
-          </Link>
-        )}
-        
-        <div className="mt-6">
-          {renderStep()}
-        </div>
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      {renderStep()}
     </div>
   );
-};
-
-export default Page;
+}

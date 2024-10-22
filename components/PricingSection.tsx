@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { User } from '@supabase/auth-helpers-nextjs';
 
 const PayPalScriptProvider = dynamic(
   () => import('@paypal/react-paypal-js').then(mod => mod.PayPalScriptProvider),
@@ -14,7 +15,11 @@ const PayPalButtons = dynamic(
   { ssr: false }
 );
 
-const PricingComponent = () => {
+interface PricingComponentProps {
+  user: User | null;
+}
+
+const PricingComponent: React.FC<PricingComponentProps> = ({ user }) => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
@@ -190,7 +195,7 @@ const PricingComponent = () => {
                     ))}
                   </ul>
                   {isClient && (
-                    <PayPalScriptProvider options={{ "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID, "currency": "USD" }}>
+                    <PayPalScriptProvider options={{ "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '', "currency": "USD" }}>
                       <PayPalButtons
                         createOrder={() => handlePayment(tier.price)}
                         onApprove={async (data, actions) => {

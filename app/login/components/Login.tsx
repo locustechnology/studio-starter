@@ -14,11 +14,19 @@ import { WaitingForMagicLink } from './WaitingForMagicLink';
 import { useRouter } from 'next/navigation';
 import final_Logo from "/public/final_Logo.svg";
 
-type Inputs = {
-  email: string;
-};
+interface LoginPageProps {
+  host?: string | null;  // Make host optional
+  searchParams?: { [key: string]: string | string[] | undefined };
+  params?: { slug: string };  // Add this line
+}
 
-const LoginPage: React.FC = () => {
+// Define the Inputs interface
+interface Inputs {
+  email: string;
+  password: string;
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ host, searchParams, params }) => {
   const supabase = createClientComponentClient<Database>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWaiting, setShowWaiting] = useState(false);

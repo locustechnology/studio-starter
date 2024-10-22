@@ -1,17 +1,19 @@
 'use client';
 
+import React from 'react';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PricingComponent from '@/components/PricingSection';
+import { User } from '@supabase/supabase-js';
 
-export default function GetCreditsPage() {
-  const [user, setUser] = useState(null);
+const GetCreditsPage: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const supabase = createClientComponentClient();
 
   useEffect(() => {
-    const checkUser = async () => {
+    const fetchUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
@@ -20,12 +22,18 @@ export default function GetCreditsPage() {
       }
     };
 
-    checkUser();
+    fetchUser();
   }, [supabase, router]);
 
   if (!user) {
     return null; // or a loading spinner
   }
 
-  return <PricingComponent user={user} />;
-}
+  return (
+    <div>
+      <PricingComponent user={user} />
+    </div>
+  );
+};
+
+export default GetCreditsPage;

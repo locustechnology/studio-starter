@@ -62,6 +62,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "resend": "^3.2.0",
+    "sharp": "^0.33.5",
     "stripe": "^13.6.0",
     "supports-color": "^9.4.0",
     "tailwind-merge": "^1.14.0",
@@ -73,9 +74,9 @@
   },
   "devDependencies": {
     "@types/busboy": "^1.5.0",
-    "@types/node": "20.3.1",
+    "@types/node": "^20.3.1",
     "@types/paypal__checkout-server-sdk": "^1.0.8",
-    "@types/react": "18.2.12",
+    "@types/react": "^18.2.12",
     "@types/react-dom": "18.2.5",
     "encoding": "^0.1.13"
   }

@@ -1,4 +1,4 @@
-import Login from '@/app/login/components/Login';  // Adjust the import path as needed
+import Login from '../login/components/Login';  // Make sure this import is correct
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
@@ -16,7 +16,7 @@ export default async function RootLayout({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return <Login />;
+    return <Login host={null} />;  // Provide the host prop, even if it's null
   }
 
   return <div className="flex w-full flex-col px-4 lg:px-40">{children}</div>;

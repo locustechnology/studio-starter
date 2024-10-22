@@ -2,7 +2,7 @@ import { Database } from "@/types/supabase";
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import paypal from '@paypal/checkout-server-sdk';
 
 export const dynamic = "force-dynamic";
@@ -27,7 +27,7 @@ if (paypalIsConfigured) {
   client = new paypal.core.PayPalHttpClient(environment);
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   console.log("Train model route hit");
   try {
     const payload = await request.json();
@@ -341,7 +341,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           message: "Something went wrong!",
-          error: e.message,
+          error: e instanceof Error ? e.message : String(e),
         },
         { status: 500 }
       );
@@ -351,7 +351,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         message: "Something went wrong!",
-        error: e.message,
+        error: e instanceof Error ? e.message : String(e),
       },
       { status: 500 }
     );

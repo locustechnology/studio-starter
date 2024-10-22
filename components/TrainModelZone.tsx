@@ -6,7 +6,12 @@ import { useRouter } from "next/navigation";
 import { upload } from "@vercel/blob/client";
 import Frame from "@/public/Frame.svg"
 
-const TrainModelZone: React.FC = () => {
+interface TrainModelZoneProps {
+  packSlug: string;
+  onContinue: () => void;
+}
+
+const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue }) => {
   const [files, setFiles] = useState<{ file: File; preview: string }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(true);
@@ -113,7 +118,10 @@ const TrainModelZone: React.FC = () => {
         imageUrls: blobUrls
       };
       localStorage.setItem('trainModelData', JSON.stringify(dataToSave));
-      console.log('Data saved in TrainModelZone:', JSON.parse(localStorage.getItem('trainModelData')));
+      
+      // Safely parse and log the saved data
+      const savedData = localStorage.getItem('trainModelData');
+      console.log('Data saved in TrainModelZone:', savedData ? JSON.parse(savedData) : null);
 
       toast({
         title: "Upload successful",
@@ -122,11 +130,18 @@ const TrainModelZone: React.FC = () => {
       });
 
       router.push('/get-credits');
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Upload error:', error);
+      
+      let errorMessage = "There was an error processing your request. Please try again.";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Process failed",
-        description: error.message || "There was an error processing your request. Please try again.",
+        description: errorMessage,
         duration: 5000,
       });
     } finally {

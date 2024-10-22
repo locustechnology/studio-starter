@@ -5,6 +5,19 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import Image from 'next/image';
 
+// Define the PricingTier interface
+interface PricingTier {
+  name: string;
+  price: string;
+  originalPrice: string;
+  features: string[];
+  buttonText: string;
+  highlight?: boolean;
+  popularTag?: string;
+  bestValueTag?: string;
+}
+
+// Define the ModelData interface
 interface ModelData {
   modelInfo: {
     name: string;
@@ -13,17 +26,15 @@ interface ModelData {
   };
   imageUrls: string[];
   paymentInfo: {
-    selectedTier: {
-      name: string;
-      price: string;
-      originalPrice: string;
-      features: string[];
-    };
+    orderId: string;
+    captureId: string;
+    status: string;
+    selectedTier: PricingTier;
   };
 }
 
-const SummaryPage = () => {
-  const [modelData, setModelData] = useState<any>(null);
+const SummaryPage: React.FC = () => {
+  const [modelData, setModelData] = useState<ModelData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -68,10 +79,16 @@ const SummaryPage = () => {
     }
   };
 
-  // Add this function to get the appropriate checkmark
   const getCheckmark = () => (
     <span className="mr-2 text-green-500">✓</span>
   );
+
+  const getGenderDisplay = (gender: string | undefined) => {
+    if (!gender || gender === 'Not specified') {
+      return 'Not specified';
+    }
+    return gender.charAt(0).toUpperCase() + gender.slice(1);
+  };
 
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading...</div>;
@@ -91,13 +108,6 @@ const SummaryPage = () => {
       </div>
     );
   }
-
-  const getGenderDisplay = (gender: string) => {
-    if (!gender || gender === 'Not specified') {
-      return 'Not specified';
-    }
-    return gender.charAt(0).toUpperCase() + gender.slice(1);
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-8 font-poppins">
