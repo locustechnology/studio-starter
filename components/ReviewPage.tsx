@@ -26,7 +26,7 @@ const reviews = [
   { name: "Andrew Robins", comment: "Effective, fast, and easy. Great service!", rating: 5, image: wome },
   { name: "Hannah Lee", comment: "Professional photos in minutes. Amazing!", rating: 5, image: girl},
   { name: "Owen Harris", comment: "GoStudio.ai is now my go-to for professional photos.", rating: 5, image: boy },
-  { name: "Cherry Cho", comment: "Very satisfied with the quick service and quality.", rating: 5, image: young },
+  { name: "Cherry ", comment: "Very satisfied with the quick service and quality.", rating: 5, image: young },
   { name: "Hannah Lee", comment: "Quick, easy, and surprisingly professional.", rating: 5, image: old },
   { name: "Mia Yang", comment: "Go studio.ai is now my go-to site for professional photo.", rating: 5, image: wome },
   { name: "Jenny Brown", comment: "Very affordable and amazed by the results.", rating: 5, image: girl },

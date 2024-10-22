@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "next start",
     "update-types": "npx supabase gen types typescript --project-id \"hzcgbsakzagvgfuektjb\" > types/supabase.ts",
-"vercel-build": "npm install --no-optional --ignore-scripts && npm run build"  },
+    "vercel-build": "npm install --platform=linux --arch=x64 sharp && npm install && next build"
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.3.1",
     "@paddle/paddle-js": "^1.2.1",
@@ -51,9 +52,7 @@
     "formidable": "^3.5.1",
     "lucide-react": "^0.274.0",
     "next": "^14.2.13",
-    "node": "^18.20.0",
     "node-fetch": "2",
-    "npm": "^10.5.0",
     "postcss": "8.4.24",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -62,7 +61,7 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.11.0",
     "resend": "^3.2.0",
-    "sharp": "^0.33.5",
+    "sharp": "0.32.6",
     "stripe": "^13.6.0",
     "supports-color": "^9.4.0",
     "tailwind-merge": "^1.14.0",
@@ -78,15 +77,9 @@
     "@types/paypal__checkout-server-sdk": "^1.0.8",
     "@types/react": "^18.2.12",
     "@types/react-dom": "18.2.5",
-    "encoding": "^0.1.13",
-    "node-gyp": "^9.0.0",
-    "node-pre-gyp": "^0.17.0"
+    "encoding": "^0.1.13"
   },
   "engines": {
     "node": "18.x"
-  },
-  "optionalDependencies": {
-    "bufferutil": "4.0.3",
-    "utf-8-validate": "5.0.5"
   }
 }
