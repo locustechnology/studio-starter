@@ -83,7 +83,7 @@
     "node-pre-gyp": "^0.17.0"
   },
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "optionalDependencies": {
     "bufferutil": "4.0.3",
