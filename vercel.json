@@ -12,5 +12,16 @@
       "env": {
         "SHARP_IGNORE_GLOBAL_LIBVIPS": "1"
       }
+    },
+    "regions": ["iad1"],
+    "functions": {
+      "app/api/**/*.ts": {
+        "memory": 1024,
+        "maxDuration": 10
+      },
+      "app/astria/**/*.ts": {
+        "memory": 1024,
+        "maxDuration": 10
+      }
     }
   }
