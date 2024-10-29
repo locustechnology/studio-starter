@@ -59,10 +59,10 @@ export default function ClientSideModelsList({
   const trainModelUrl = packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune";
 
   return (
-    <div id="train-model-container" className="w-full" style={{ fontFamily: 'Poppins, sans-serif' }}>
+    <div id="train-model-container" className="w-full">
       {models && models.length > 0 && (
         <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-4 w-full justify-between items-center text-center" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
+          <div className="flex flex-row gap-4 w-full justify-between items-center text-center">
             <h1 className="font-bold text-lg marginTop: '20px'">Your models</h1>
             <Link href={trainModelUrl} className="w-fit">
               <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontSize: '16px', fontFamily: 'Jakarta Sans, sans-serif', marginTop: '20px' }}>
@@ -74,9 +74,9 @@ export default function ClientSideModelsList({
         </div>
       )}
       {models && models.length === 0 && (
-        <div className="flex flex-col gap-4 items-center" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
+        <div className="flex flex-col gap-4 items-center">
           <FaImages size={64} className="text-gray-500" />
-          <h1 className="text-2xl font-bold" style={{ fontFamily: 'Jakarta Sans, sans-serif' }}>
+          <h1 className="text-2xl font-bold">
             Get started by training your first model.
           </h1>
           <div>
