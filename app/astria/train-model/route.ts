@@ -16,7 +16,7 @@ if (!astriaApiDomain) {
   throw new Error("MISSING ASTRIA_API_DOMAIN!");
 }
 
-const packsIsEnabled = astriaApiDomain ? false : process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
+const packsIsEnabled = !process.env.ASTRIA_TEST_MODE && process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
 const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
 
@@ -32,8 +32,13 @@ export async function POST(request: Request) {
 
   const modelInfo = payload.modelInfo;
   const images = payload.imageUrls;
-  const type = modelInfo.gender;
-  const pack = modelInfo.pack;
+  const pack = payload.selectedPack;
+  // Extract model type, gender, packId, and packSlug from modelInfo
+  
+  const type = modelInfo.type;
+  const gender = modelInfo.type;
+  const packId = pack.id
+  const packSlug = pack.slug
   const name = modelInfo.name;
 
   const supabase = createRouteHandlerClient<Database>({ cookies });
@@ -202,14 +207,26 @@ export async function POST(request: Request) {
 
     console.log("Pack Body", JSON.stringify(packBody));
 
-    const response = await axios.post(
-      DOMAIN + (packsIsEnabled ? `/p/${pack}/tunes` : "/tunes"),
-      packsIsEnabled ? packBody : tuneBody,
+    const apiUrl = DOMAIN + (packsIsEnabled ? `/p/${packId}/tunes` : "/tunes");
+    const requestBody = packsIsEnabled ? packBody : tuneBody;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    };
+
+    console.log('API Request Details:', {
+      url: apiUrl,
+      method: 'POST',
+      headers,
+      body: requestBody
+    });
+
+    const response = await fetch(
+      apiUrl,
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestBody)
       }
     );
 
