@@ -12,7 +12,7 @@ import logo from "/public/98.png";
 import login from "/public/login.svg";
 import { WaitingForMagicLink } from './WaitingForMagicLink';
 import { useRouter } from 'next/navigation';
-import final_Logo from "/public/final_Logo.svg";
+import final_Logo from "/public/new_logo.svg";
 
 interface LoginPageProps {
   host?: string | null;  // Make host optional

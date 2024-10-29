@@ -32,7 +32,7 @@ const MoneyBackGuarantee = () => {
             </h2>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4 font-jakarta">Guarantee</h3>
             <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-              Try Gostudio.ai with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
+              Try Gostud.io with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
             </p>
             <div className="flex justify-center">
               <button className="bg-[#5B16FE] text-white w-full sm:w-[287px] h-[48px] rounded-[50px] px-[25px] py-[12px] font-semibold hover:bg-[#5B16FE] transition duration-300 text-sm sm:text-base flex items-center justify-center gap-[10px]">
