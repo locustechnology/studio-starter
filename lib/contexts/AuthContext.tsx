@@ -18,7 +18,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [credits, setCredits] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
   const supabase = createClientComponentClient()
 
   const refreshCredits = async () => {
@@ -49,16 +48,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null)
         if (session?.user) {
           await refreshCredits()
-          router.push('/overview')
         } else {
           setCredits(null)
-          router.push('/')
         }
       }
     )
 
     return () => subscription.unsubscribe()
-  }, [supabase, router])
+  }, [supabase])
 
   const signOut = async () => {
     await supabase.auth.signOut()

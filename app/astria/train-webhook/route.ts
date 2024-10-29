@@ -1,4 +1,3 @@
-'use client'
 import { Database } from "@/types/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
@@ -44,17 +43,17 @@ export async function POST(request: Request) {
   };
 
   const incomingData = (await request.json()) as { tune: TuneData };
+  console.log("Incoming Data", JSON.stringify(incomingData));
 
-  const { tune } = incomingData;
-  console.log('Received train webhook callback');
-  console.log('Tune object:', tune);
+  const tune = incomingData;
 
   const urlObj = new URL(request.url);
   const user_id = urlObj.searchParams.get("user_id");
   const model_id = urlObj.searchParams.get("model_id");
   const webhook_secret = urlObj.searchParams.get("webhook_secret");
 
-  if (!model_id) {
+  if (!model_id) {    
+    console.error("No model_id detected!");
     return NextResponse.json(
       {
         message: "Malformed URL, no model_id detected!",
@@ -62,8 +61,10 @@ export async function POST(request: Request) {
       { status: 500 }
     );
   }
+  
 
   if (!webhook_secret) {
+    console.error("No webhook_secret detected!");
     return NextResponse.json(
       {
         message: "Malformed URL, no webhook_secret detected!",
@@ -73,6 +74,7 @@ export async function POST(request: Request) {
   }
 
   if (webhook_secret.toLowerCase() !== appWebhookSecret?.toLowerCase()) {
+    console.error("Unauthorized!");
     return NextResponse.json(
       {
         message: "Unauthorized!",
@@ -82,6 +84,7 @@ export async function POST(request: Request) {
   }
 
   if (!user_id) {
+    console.error("No user_id detected!");
     return NextResponse.json(
       {
         message: "Malformed URL, no user_id detected!",
@@ -102,9 +105,13 @@ export async function POST(request: Request) {
     }
   );
 
-  const { data: { user }, error } = await supabase.auth.admin.getUserById(user_id);
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.admin.getUserById(user_id);
 
   if (error) {
+    console.error("Error fetching user", { error });
     return NextResponse.json(
       {
         message: error.message,
@@ -114,6 +121,7 @@ export async function POST(request: Request) {
   }
 
   if (!user) {
+    console.error("Unauthorized");
     return NextResponse.json(
       {
         message: "Unauthorized",
@@ -122,40 +130,28 @@ export async function POST(request: Request) {
     );
   }
 
-  if (resendApiKey) {
-    try {
+  try {
+    if (resendApiKey) {
       const resend = new Resend(resendApiKey);
       await resend.emails.send({
         from: "noreply@headshots.tryleap.ai",
         to: user?.email ?? "",
         subject: "Your model was successfully trained!",
-        html: `<h2 style="font-family: 'Poppins', sans-serif;">We're writing to notify you that your model training was successful! 1 credit has been used from your account.</h2>`,
+        html: `<h2>We're writing to notify you that your model training was successful! 1 credit has been used from your account.</h2>`,
       });
-    } catch (e) {
-      console.error(e);
-      return NextResponse.json(
-        {
-          message: "Something went wrong!",
-        },
-        { status: 500 }
-      );
     }
-  }
 
-  try {
-    console.log('Updating model status to finished');
     const { data: modelUpdated, error: modelUpdatedError } = await supabase
       .from("models")
       .update({
+        modelId: String(incomingData.tune.id),
         status: "finished",
       })
-      .eq("id", parseInt(model_id, 10))
+      .eq("id", model_id)
       .select();
 
-    console.log('Model update result:', { modelUpdated, modelUpdatedError });
-
     if (modelUpdatedError) {
-      console.error({ modelUpdatedError });
+      console.error("Error updating model", { modelUpdatedError });
       return NextResponse.json(
         {
           message: "Something went wrong!",
@@ -166,12 +162,6 @@ export async function POST(request: Request) {
 
     if (!modelUpdated) {
       console.error("No model updated!");
-      return NextResponse.json(
-        {
-          message: "No model updated!",
-        },
-        { status: 500 }
-      );
     }
 
     return NextResponse.json(
