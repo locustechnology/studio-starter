@@ -21,8 +21,13 @@ interface PricingTier {
 interface ModelData {
   modelInfo: {
     name: string;
-    pack: string;
     gender: string;
+  };
+  selectedPack: {
+    id: string;
+    title: string;
+    cover_url: string;
+    slug: string;
   };
   imageUrls: string[];
   paymentInfo: {
@@ -40,9 +45,22 @@ const SummaryPage: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const storedData = localStorage.getItem('trainModelData');
-    if (storedData) {
-      setModelData(JSON.parse(storedData));
+    try {
+      const storedTrainData = localStorage.getItem('trainModelData');
+      const storedPackData = localStorage.getItem('selectedPack');
+      
+      if (storedTrainData && storedPackData) {
+        const trainData = JSON.parse(storedTrainData);
+        const packData = JSON.parse(storedPackData);
+        
+        setModelData({
+          ...trainData,
+          selectedPack: packData
+        });
+      }
+    } catch (error) {
+      console.error('Error loading stored data:', error);
+      toast.error('Failed to load model data');
     }
     setIsLoading(false);
   }, []);
@@ -69,8 +87,10 @@ const SummaryPage: React.FC = () => {
       const result = await response.json();
       console.log('Model training initiated:', result);
 
+      // Clean up all stored data
       localStorage.removeItem('trainModelData');
       localStorage.removeItem('modelInfo');
+      localStorage.removeItem('selectedPack');
 
       toast.success('Model data submitted successfully');
       router.push('/overview');
@@ -171,6 +191,21 @@ const SummaryPage: React.FC = () => {
               />
             </div>
           ))}
+        </div>
+        
+        {/* Pack Selection Section */}
+        <div className="mb-8">
+          <h2 className="text-indigo-600 font-semibold mb-4">SELECTED PACK</h2>
+          <div className="bg-black rounded-md overflow-hidden w-full max-w-sm">
+            <img
+              src={modelData.selectedPack?.cover_url ?? "https://www.astria.ai/assets/logo-b4e21f646fb5879eb91113a70eae015a7413de8920960799acb72c60ad4eaa99.png"}
+              alt={modelData.selectedPack?.title}
+              className="w-full h-48 object-cover"
+            />
+            <div className="text-white w-full p-3 text-md font-bold text-center capitalize leading-tight">
+              {modelData.selectedPack?.title}
+            </div>
+          </div>
         </div>
         
         <div className="flex justify-center">

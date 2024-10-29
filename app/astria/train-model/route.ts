@@ -17,8 +17,6 @@ if (!astriaApiDomain) {
 }
 
 const packsIsEnabled = astriaApiDomain ? false : process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
-// For local development, recommend using an Ngrok tunnel for the domain
-
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
 const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
 
@@ -34,8 +32,6 @@ export async function POST(request: Request) {
 
   const modelInfo = payload.modelInfo;
   const images = payload.imageUrls;
-
-
   const type = modelInfo.gender;
   const pack = modelInfo.pack;
   const name = modelInfo.name;

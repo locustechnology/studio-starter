@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,11 +27,11 @@ interface Inputs {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ host, searchParams, params }) => {
-  const supabase = createClientComponentClient<Database>();
+  const router = useRouter();
+  const supabase = createClientComponentClient();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWaiting, setShowWaiting] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
 
   const {
     register,
@@ -90,16 +90,23 @@ const LoginPage: React.FC<LoginPageProps> = ({ host, searchParams, params }) => 
     }
   };
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        router.push('/overview');
-      }
-    };
+  const handleAuthChange = useCallback(async (event: string, session: any) => {
+    if (event === 'SIGNED_IN' && session) {
+      router.push('/overview');
+    } else if (event === 'SIGNED_OUT') {
+      router.push('/');
+    }
+  }, [router]);
 
-    checkSession();
-  }, [router, supabase.auth]);
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(handleAuthChange);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase.auth, handleAuthChange]);
 
   if (showWaiting) {
     return <WaitingForMagicLink toggleState={() => setShowWaiting(false)} />;
