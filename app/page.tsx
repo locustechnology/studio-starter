@@ -26,7 +26,7 @@ export default async function Home() {
 
   return (
     <div className="w-full bg-[#F4F7FA] min-h-screen font-poppins">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[82px] pt-10">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-[82px]">
         <div className="w-full max-w-[1276px] mx-auto space-y-12">
           <div id="ai-headshots">
             <AIHeadshotsLandingPage />

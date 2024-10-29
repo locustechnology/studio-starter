@@ -21,7 +21,7 @@ const Banner = () => {
           {/* Content */}
           <div className="w-full sm:w-3/5 p-4 sm:p-12 flex flex-col justify-center">
             <div className="relative mb-2 sm:mb-6">
-              <span className="bg-white text-[#8371FF] text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full absolute -top-3 sm:-top-6 right-0 sm:right-12 whitespace-nowrap">on average</span>
+              {/* <span className="bg-white text-[#8371FF] text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full absolute -top-3 sm:-top-6 right-0 sm:right-12 whitespace-nowrap">on average</span> */}
             </div>
             <h1 className="text-lg sm:text-4xl font-bold text-white leading-tight mb-2 sm:mb-6 font-jakarta">
               Save 87% on your professional photos.
