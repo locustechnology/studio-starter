@@ -121,10 +121,10 @@ const SummaryPage: React.FC = () => {
         <h1 className="text-2xl font-bold mb-4">No Model Data</h1>
         <p className="mb-4">No model data was found. Please go back and create a model first.</p>
         <button 
-          onClick={() => router.push('/overview/models/train/corporate-headshots')} 
+          onClick={() => router.push('/overview')} 
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          Create Model
+          Generate Headshots
         </button>
       </div>
     );
