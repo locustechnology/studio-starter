@@ -1,7 +1,7 @@
 import { Database } from "@/types/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+// import { Resend } from "resend";
 
 export const dynamic = "force-dynamic";
 
@@ -131,15 +131,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    if (resendApiKey) {
-      const resend = new Resend(resendApiKey);
-      await resend.emails.send({
-        from: "noreply@headshots.tryleap.ai",
-        to: user?.email ?? "",
-        subject: "Your model was successfully trained!",
-        html: `<h2>We're writing to notify you that your model training was successful! 1 credit has been used from your account.</h2>`,
-      });
-    }
+  //   if (resendApiKey) {
+  //     const resend = new Resend(resendApiKey);
+  //     await resend.emails.send({
+  //       from: "noreply@headshots.tryleap.ai",
+  //       to: user?.email ?? "",
+  //       subject: "Your model was successfully trained!",
+  //       html: `<h2>We're writing to notify you that your model training was successful! 1 credit has been used from your account.</h2>`,
+  //     });
+  //   }
 
     const { data: modelUpdated, error: modelUpdatedError } = await supabase
       .from("models")
