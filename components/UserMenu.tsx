@@ -1,22 +1,31 @@
 "use client";
 
 import { useState } from 'react';
-import { useAuth } from '@/lib/contexts/AuthContext';
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from 'next/navigation';
 
-export default function UserMenu() {
+interface UserMenuProps {
+  user: {
+    email: string;
+  };
+  credits: number;
+}
+
+export default function UserMenu({ user, credits }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, credits, signOut } = useAuth();
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const handleLogout = async () => {
     try {
-      await signOut();
+      await supabase.auth.signOut();
       setIsOpen(false);
+      router.refresh();
+      // No need to call router.push('/') here as it's handled by the auth state change listener in Navbar
     } catch (error) {
       console.error('Error logging out:', error);
     }
   };
-
-  if (!user) return null;
 
   return (
     <div className="relative">

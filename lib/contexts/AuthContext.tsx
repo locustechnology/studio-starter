@@ -3,7 +3,6 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from 'next/navigation'
 import { User } from '@supabase/supabase-js'
-import { Database } from '@/types/supabase'
 
 interface AuthContextType {
   user: User | null
@@ -11,8 +10,6 @@ interface AuthContextType {
   loading: boolean
   signOut: () => Promise<void>
   refreshCredits: () => Promise<void>
-  signInWithEmail: (email: string) => Promise<{ error: Error | null }>
-  signInWithGoogle: () => Promise<{ error: Error | null }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -22,7 +19,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [credits, setCredits] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClientComponentClient()
 
   const refreshCredits = async () => {
     if (!user) return
@@ -35,38 +32,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!error) {
       setCredits(data?.credits ?? 0)
     }
-  }
-
-  const signInWithEmail = async (email: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-      return { error }
-    } catch (error) {
-      return { error: error as Error }
-    }
-  }
-
-  const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-      return { error }
-    } catch (error) {
-      return { error: error as Error }
-    }
-  }
-
-  const signOut = async () => {
-    await supabase.auth.signOut()
   }
 
   useEffect(() => {
@@ -84,25 +49,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(session?.user ?? null)
         if (session?.user) {
           await refreshCredits()
+          router.push('/overview')
         } else {
           setCredits(null)
+          router.push('/')
         }
       }
     )
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase, router])
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+  }
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      credits, 
-      loading, 
-      signOut, 
-      refreshCredits,
-      signInWithEmail,
-      signInWithGoogle
-    }}>
+    <AuthContext.Provider value={{ user, credits, loading, signOut, refreshCredits }}>
       {children}
     </AuthContext.Provider>
   )
