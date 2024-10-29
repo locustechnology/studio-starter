@@ -18,6 +18,8 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
   const [modelInfo, setModelInfo] = useState<{ name: string; type: string; user_id: string } | null>(null);
   const { toast } = useToast();
   const router = useRouter();
+  const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
+  const nextStep = stripeIsConfigured ? "/get-credits" : "/summary";
 
   useEffect(() => {
     const storedModelInfo = localStorage.getItem('modelInfo');
@@ -129,7 +131,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
         duration: 5000,
       });
 
-      router.push('/get-credits');
+      router.push(nextStep);
     } catch (error: unknown) {
       console.error('Upload error:', error);
       

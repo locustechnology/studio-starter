@@ -6,6 +6,8 @@ import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import FooterWrapper from "@/components/FooterWrapper";
+import { SessionProvider } from '@/components/SessionProvider';
+
 
 export const metadata = {
   title: "Headshots AI",
@@ -18,7 +20,9 @@ export default function RootLayout({ children }: any) {
       <body className="flex flex-col bg-[#F4F7FA] min-h-screen w-full overflow-x-hidden font-[Poppins]">
         <Navbar />
         <main className="flex-1 flex flex-col w-full">
+        <SessionProvider>
           {children}
+          </SessionProvider>
         </main>
         <FooterWrapper />
         <Toaster />

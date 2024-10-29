@@ -56,7 +56,7 @@ export default function ClientSideModelsList({
     };
   }, [supabase, models, setModels]);
 
-  const trainModelUrl = "/overview/models/train/corporate-headshots?step=gender";
+  const trainModelUrl = packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune";
 
   return (
     <div id="train-model-container" className="w-full" style={{ fontFamily: 'Poppins, sans-serif' }}>

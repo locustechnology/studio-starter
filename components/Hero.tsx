@@ -72,7 +72,7 @@ export default function Hero() {
 
   return (
     <div className="w-screen relative left-1/2 right-1/2 -mx-[50vw] flex flex-col items-center justify-between bg-gray-100 px-4 py-8 sm:px-6 lg:px-8 font-poppins">
-      <div className="flex items-center w-full max-w-[408px] h-[44px] rounded-[148px] bg-[#ECF9FF] relative overflow-hidden font-poppins">
+      {/* <div className="flex items-center w-full max-w-[408px] h-[44px] rounded-[148px] bg-[#ECF9FF] relative overflow-hidden font-poppins">
         <div className="absolute inset-0 rounded-[148px]" style={{
           border: '1px solid transparent',
           backgroundImage: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
@@ -96,11 +96,11 @@ export default function Hero() {
             </span>
           </p>
         </div>
-      </div>
+      </div> */}
       
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
         <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight font-jakarta px-4">
-          Professional Headshots using your Selfies
+          Professional Headshots using Selfies
         </h1>
         <p className="text-sm sm:text-base lg:text-xl text-gray-600 leading-relaxed max-w-[800px] px-4">
           Stand out on LinkedIn, Twitter, with recruiters. Upload your selfies and

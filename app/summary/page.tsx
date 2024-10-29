@@ -21,8 +21,8 @@ interface PricingTier {
 interface ModelData {
   modelInfo: {
     name: string;
-    type: string;
-    gender?: string;
+    pack: string;
+    gender: string;
   };
   imageUrls: string[];
   paymentInfo: {
@@ -36,6 +36,7 @@ interface ModelData {
 const SummaryPage: React.FC = () => {
   const [modelData, setModelData] = useState<ModelData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [stripeIsConfigured, setStripeIsConfigured] = useState(process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true");
   const router = useRouter();
 
   useEffect(() => {
@@ -118,6 +119,7 @@ const SummaryPage: React.FC = () => {
           headshot with manual edits or get a redo if the initial uploads were wrong.
         </p>
         
+        {stripeIsConfigured && (
         <div className="bg-white shadow-md rounded-[40px] p-6 mb-8">
           <h2 className="text-indigo-600 font-semibold mb-4">{modelData.paymentInfo.selectedTier.name} PACK</h2>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
@@ -135,6 +137,7 @@ const SummaryPage: React.FC = () => {
             </div>
           </div>
         </div>
+         )}
         
         <div className="flex justify-between mb-8">
           <div className="w-1/2 pr-4">

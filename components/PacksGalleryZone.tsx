@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import { Progress } from "./ui/progress";
 import { Loader2 } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 interface Pack {
   id: string;
@@ -17,6 +18,7 @@ export default function PacksGalleryZone() {
   const [packs, setPacks] = useState<Pack[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const router = useRouter();
 
   const fetchPacks = async (): Promise<void> => {
     try {
@@ -46,6 +48,24 @@ export default function PacksGalleryZone() {
     fetchPacks();
   }, []);
 
+  const handlePackSelect = (e: React.MouseEvent, pack: Pack) => {
+    e.preventDefault();
+    
+    try {
+      localStorage.setItem('selectedPack', JSON.stringify(pack));
+      console.log('Pack saved:', pack);
+      
+      router.push(`/overview/models/train/${pack.slug}`);
+    } catch (error) {
+      console.error('Error saving pack to localStorage:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save your selection. Please try again.",
+        duration: 5000,
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center h-64">
@@ -67,7 +87,12 @@ export default function PacksGalleryZone() {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {packs.map((pack) => (
-        <Link href={`/${pack.slug}`} key={pack.id} className="w-full h-70 bg-black rounded-md overflow-hidden transition-transform duration-300 hover:scale-105">
+        <Link 
+          href={`/overview/models/train/${pack.slug}`} 
+          key={pack.id} 
+          className="w-full h-70 bg-black rounded-md overflow-hidden transition-transform duration-300 hover:scale-105"
+          onClick={(e) => handlePackSelect(e, pack)}
+        >
           <img
             src={pack.cover_url ?? "https://www.astria.ai/assets/logo-b4e21f646fb5879eb91113a70eae015a7413de8920960799acb72c60ad4eaa99.png"}
             alt={pack.title}

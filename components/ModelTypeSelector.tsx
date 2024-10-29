@@ -59,7 +59,9 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
         // Save the gender in localStorage
         localStorage.setItem('gender', selectedModel);
 
-        router.push(`/overview/models/train/corporate-headshots?step=img-upload`);
+        // Get current path and append the query parameter
+        const currentPath = window.location.pathname;
+        router.push(`${currentPath}?step=img-upload`);
       } catch (error) {
         console.error('Unexpected error:', error);
         setError('An unexpected error occurred. Please try again.');
