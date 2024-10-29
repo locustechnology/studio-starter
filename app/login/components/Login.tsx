@@ -1,115 +1,58 @@
 'use client'
-import React, { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { Database } from '@/types/supabase';
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { ArrowRight } from "lucide-react";
-import logo from "/public/98.png";
-import login from "/public/login.svg";
-import { WaitingForMagicLink } from './WaitingForMagicLink';
-import { useRouter } from 'next/navigation';
-import final_Logo from "/public/final_Logo.svg";
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { ArrowRight } from "lucide-react"
+import login from "/public/login.svg"
+import { WaitingForMagicLink } from './WaitingForMagicLink'
+import { useAuth } from '@/lib/contexts/AuthContext'
 
-interface LoginPageProps {
-  host?: string | null;  // Make host optional
-  searchParams?: { [key: string]: string | string[] | undefined };
-  params?: { slug: string };  // Add this line
-}
-
-// Define the Inputs interface
 interface Inputs {
-  email: string;
-  password: string;
+  email: string
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ host, searchParams, params }) => {
-  const router = useRouter();
-  const supabase = createClientComponentClient();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showWaiting, setShowWaiting] = useState(false);
-  const { toast } = useToast();
+const LoginPage = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showWaiting, setShowWaiting] = useState(false)
+  const { toast } = useToast()
+  const { signInWithEmail } = useAuth()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>()
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: data.email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
+      const { error } = await signInWithEmail(data.email)
+      if (error) throw error
       
-      if (error) throw error;
-  
-      setShowWaiting(true);
+      setShowWaiting(true)
       toast({
         title: "Email sent",
         description: "Check your inbox for a magic link to sign in.",
         duration: 5000,
-      });
+      })
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Login error:', error)
       toast({
         title: "Login failed",
         description: "Invalid Email Address",
         variant: "destructive",
         duration: 5000,
-      });
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-      if (error) throw error;
-    } catch (error) {
-      console.error('Google sign-in error:', error);
-      toast({
-        title: "Google sign-in failed",
-        variant: "destructive",
-        description: "Please try again. If the problem persists, contact support.",
-        duration: 5000,
-      });
-    }
-  };
-
-  const handleAuthChange = useCallback(async (event: string, session: any) => {
-    if (event === 'SIGNED_IN' && session) {
-      router.push('/overview');
-    } else if (event === 'SIGNED_OUT') {
-      router.push('/');
-    }
-  }, [router]);
-
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(handleAuthChange);
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase.auth, handleAuthChange]);
+  }
 
   if (showWaiting) {
-    return <WaitingForMagicLink toggleState={() => setShowWaiting(false)} />;
+    return <WaitingForMagicLink toggleState={() => setShowWaiting(false)} />
   }
 
   return (
