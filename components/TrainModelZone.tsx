@@ -18,8 +18,9 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
   const [modelInfo, setModelInfo] = useState<{ name: string; type: string; user_id: string } | null>(null);
   const { toast } = useToast();
   const router = useRouter();
-  const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
-  const nextStep = stripeIsConfigured ? "/get-credits" : "/summary";
+  const nextStep = "/get-credits"; // "/summary" - can have this for testing
+
+  console.log("nextStep", nextStep);
 
   useEffect(() => {
     const storedModelInfo = localStorage.getItem('modelInfo');
@@ -127,11 +128,34 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
 
       toast({
         title: "Upload successful",
-        description: "Your photos and model information have been saved. Proceeding to pricing.",
+        description: "Your photos and model information have been saved. Checking out your credits.",
         duration: 5000,
       });
 
-      router.push(nextStep);
+      // Check for credits 
+        // Call an API to check for credits
+        // If no credits, redirect to /get-credits
+        // If credits, redirect to /summary 
+
+        const response = await fetch('/astria/check-credits');
+    
+    if (!response.ok) {
+      if (response.status === 402) {
+        toast({
+          title: "Insufficient credits",
+          description: "Please purchase credits to continue.",
+          duration: 5000,
+        });
+        router.push('/get-credits');
+        return;
+      }
+      throw new Error('Failed to check credits');
+    }
+
+    const data = await response.json();
+    console.log("Credits data", data);
+
+      router.push('/summary');
     } catch (error: unknown) {
       console.error('Upload error:', error);
       

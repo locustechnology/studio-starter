@@ -18,7 +18,7 @@ if (!astriaApiDomain) {
 
 const packsIsEnabled = !process.env.ASTRIA_TEST_MODE && process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
-const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
+const backendSkipPayment = process.env.SKIP_PAYMENT === "true";
 
 if (!appWebhookSecret) {
   throw new Error("MISSING APP_WEBHOOK_SECRET!");
@@ -75,8 +75,8 @@ export async function POST(request: Request) {
   }
   let _credits = null;
 
-  console.log("Is Stripe Configured?", { stripeIsConfigured });
-  if (stripeIsConfigured) {
+  console.log("Is backendSkipPayment?", { backendSkipPayment });
+  if (!backendSkipPayment) {
     const { error: creditError, data: credits } = await supabase
       .from("credits")
       .select("credits")
@@ -276,7 +276,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (stripeIsConfigured && _credits && _credits.length > 0) {
+    if (!backendSkipPayment && _credits && _credits.length > 0) {
       const subtractedCredits = _credits[0].credits - 1;
       const { error: updateCreditError, data } = await supabase
         .from("credits")

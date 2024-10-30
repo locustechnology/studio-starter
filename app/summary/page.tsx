@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import Image from 'next/image';
+import { redirect } from "next/navigation";
 
 // Define the PricingTier interface
 interface PricingTier {
@@ -41,7 +42,6 @@ interface ModelData {
 const SummaryPage: React.FC = () => {
   const [modelData, setModelData] = useState<ModelData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [stripeIsConfigured, setStripeIsConfigured] = useState(process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true");
   const router = useRouter();
 
   useEffect(() => {
@@ -93,7 +93,10 @@ const SummaryPage: React.FC = () => {
       localStorage.removeItem('selectedPack');
 
       toast.success('Model data submitted successfully');
+      router.refresh();
       router.push('/overview');
+      // redirect('/overview');
+      
     } catch (error) {
       console.error('Error submitting model data:', error);
       toast.error('Failed to submit model data');
@@ -133,13 +136,13 @@ const SummaryPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-8 font-poppins">
       <div className="max-w-[1274px] mx-auto bg-white rounded-[40px] shadow-lg overflow-hidden p-6 sm:p-12">
-        <h1 className="text-3xl font-bold mb-4 text-center">Order Summary</h1>
-        <p className="text-gray-600 text-center mb-8">
+        <h1 className="text-3xl font-bold mb-4 text-center">Payment Success. Confirm Photoshoot details</h1>
+        {/* <p className="text-gray-600 text-center mb-8">
           Save hundreds compared to a photo shoot. Customize your AI professional
           headshot with manual edits or get a redo if the initial uploads were wrong.
-        </p>
+        </p> */}
         
-        {stripeIsConfigured && (
+        {/* {(
         <div className="bg-white shadow-md rounded-[40px] p-6 mb-8">
           <h2 className="text-indigo-600 font-semibold mb-4">{modelData.paymentInfo.selectedTier.name} PACK</h2>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
@@ -158,7 +161,7 @@ const SummaryPage: React.FC = () => {
           </div>
         </div>
          )}
-        
+         */}
         <div className="flex justify-between mb-8">
           <div className="w-1/2 pr-4">
             <h2 className="text-indigo-600 font-semibold mb-2">NAME</h2>

@@ -48,7 +48,8 @@ const TrainModelSection: React.FC<TrainModelSectionProps> = ({ packSlug, onConti
 
   const navigateToNextStep = (nextStep: string) => {
     console.log('Navigating to next step:', nextStep);
-    router.push(`/overview/models/train/corporate-headshots?step=${nextStep}`);
+    const currentPath = window.location.pathname;
+    router.push(`${currentPath}?step=${nextStep}`);
   };
 
   console.log('Rendering component for step:', currentStep);
