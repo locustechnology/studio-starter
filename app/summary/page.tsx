@@ -22,7 +22,7 @@ interface PricingTier {
 interface ModelData {
   modelInfo: {
     name: string;
-    gender: string;
+    type: string;
   };
   selectedPack: {
     id: string;
@@ -91,6 +91,7 @@ const SummaryPage: React.FC = () => {
       localStorage.removeItem('trainModelData');
       localStorage.removeItem('modelInfo');
       localStorage.removeItem('selectedPack');
+      localStorage.removeItem('paymentInfo');
 
       toast.success('Model data submitted successfully');
       router.refresh();
@@ -177,7 +178,7 @@ const SummaryPage: React.FC = () => {
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                 </svg>
               </div>
-              <p className="text-lg font-jakarta">{getGenderDisplay(modelData.modelInfo.gender)}</p>
+              <p className="text-lg font-jakarta">{getGenderDisplay(modelData.modelInfo.type)}</p>
             </div>
           </div>
         </div>
