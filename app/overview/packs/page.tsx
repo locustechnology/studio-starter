@@ -11,27 +11,16 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import { redirect } from "next/navigation";
 
-// Add route segment config for caching
-export const revalidate = 86400; // 24 hours in seconds
-export const fetchCache = 'force-cache';
-export const dynamic = 'force-static';
-
 const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
 export default async function Index() {
-  const generatedAt = new Date().toISOString();
 
-  if(!packsIsEnabled) {
-    redirect('/overview')
-  }
+if(!packsIsEnabled) {
+  redirect('/overview')
+}
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {process.env.NODE_ENV === 'development' && (
-        <div className="bg-gray-100 p-2 text-xs text-gray-600 rounded mb-2">
-          Page generated at: {generatedAt}
-        </div>
-      )}
       <div
         id="train-model-container"
         className="flex flex-1 flex-col gap-2 px-2"
@@ -56,4 +45,4 @@ export default async function Index() {
       </div>
     </div>
   );
-}
+ }
