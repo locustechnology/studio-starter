@@ -1,5 +1,6 @@
 import React from 'react';
 import { DollarSign, Clock, Layers, User } from 'lucide-react';
+import Link from 'next/link';
 
 const ComparisonPage = () => {
   const comparisonData = [
@@ -66,12 +67,14 @@ const ComparisonPage = () => {
         ))}
 
         <div className="flex justify-center mt-6 sm:mt-8">
+          <Link href="/login">
           <button className="w-full sm:w-[287px] h-[48px] rounded-[50px] bg-[#5B16FE] text-white font-semibold text-base flex items-center justify-center px-4 sm:px-[25px] py-3 sm:py-[12px] hover:opacity-90 transition-opacity font-poppins">
             <span>Get Started</span>
             <svg className="ml-2 sm:ml-[10px]" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
+          </Link>
         </div>
       </div>
     </div>

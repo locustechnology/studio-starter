@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       .eq("user_id", user.id);
 
     if (creditError) {
-      console.error("Error fetching credits", { creditError });
+      console.log("Error fetching credits", { creditError });
       return NextResponse.json(
         {
           message: "Something went wrong!",

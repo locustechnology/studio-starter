@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import moneyone from "/public/moneyone.svg";
 import moneytwo from "/public/moneytwo.svg";
+import Link from 'next/link';
 
 const CompositeProfileImage = ({ src, alt }: { src: string; alt: string }) => (
   <div className="hidden md:block w-[186px] h-[495px] rounded-[10px] overflow-hidden">
@@ -35,12 +36,14 @@ const MoneyBackGuarantee = () => {
               Try GoStud.io with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
             </p>
             <div className="flex justify-center">
-              <button className="bg-[#5B16FE] text-white w-full sm:w-[287px] h-[48px] rounded-[50px] px-[25px] py-[12px] font-semibold hover:bg-[#5B16FE] transition duration-300 text-sm sm:text-base flex items-center justify-center gap-[10px]">
-                <span>Get Started For Free</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
+              <Link href="/login">
+                <button className="bg-[#5B16FE] text-white w-full sm:w-[287px] h-[48px] rounded-[50px] px-[25px] py-[12px] font-semibold hover:bg-[#5B16FE] transition duration-300 text-sm sm:text-base flex items-center justify-center gap-[10px]">
+                  <span>Get Started</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </Link>
             </div>
           </div>
           

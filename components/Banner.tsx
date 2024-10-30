@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Union from '/public/Union.png'
+import Link from 'next/link';
 
 const Banner = () => {
   return (
@@ -31,12 +32,14 @@ const Banner = () => {
             <p className="text-xs sm:text-xl text-white mb-3 sm:mb-8">
               Get studio-quality, 4K images in a variety of outfits & settings in less than an hour.
             </p>
+            <Link href="/login">
             <button className="w-[140px] sm:w-[200px] md:w-[318px] h-[36px] sm:h-[40px] md:h-[48px] bg-[#5B16FE] text-white text-[10px] sm:text-sm md:text-lg font-semibold rounded-full sm:rounded-[50px] px-2 sm:px-4 md:px-[25px] py-1 sm:py-2 md:py-[12px] hover:bg-[#5B16FE] transition duration-300 flex items-center justify-center gap-1 sm:gap-2 md:gap-[10px]">
-    <span className="whitespace-nowrap">Get your Headshot Now</span>
-    <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  </button>
+            <span className="whitespace-nowrap">Get your Headshot Now</span>
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            </button>
+          </Link>
           </div>
         </div>
       </div>

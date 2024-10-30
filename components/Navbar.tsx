@@ -50,7 +50,7 @@ const Navbar: React.FC = () => {
           .single();
 
         if (error) {
-          console.error('Error fetching credits:', error);
+          console.log('Error fetching credits:', error);
         } else {
           setCredits(creditsData?.credits ?? 0);
         }

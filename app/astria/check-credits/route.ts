@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       .single();
 
     if (creditError) {
-      console.error("Error fetching credits", { creditError });
+      console.log("Error fetching credits", { creditError });
       return NextResponse.json(
         { message: "Error fetching credits" },
         { status: 500 }
