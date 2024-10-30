@@ -16,9 +16,11 @@ if (!astriaApiDomain) {
   throw new Error("MISSING ASTRIA_API_DOMAIN!");
 }
 
-const packsIsEnabled = !process.env.ASTRIA_TEST_MODE && process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
+const packsIsEnabled = !astriaTestModeIsOn; // Don't use packs on the test mode
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
 const backendSkipPayment = process.env.SKIP_PAYMENT === "true";
+
+console.log("Packs Is Enabled", { packsIsEnabled });
 
 if (!appWebhookSecret) {
   throw new Error("MISSING APP_WEBHOOK_SECRET!");
@@ -76,6 +78,7 @@ export async function POST(request: Request) {
   let _credits = null;
 
   console.log("Is backendSkipPayment?", { backendSkipPayment });
+
   if (!backendSkipPayment) {
     const { error: creditError, data: credits } = await supabase
       .from("credits")
@@ -209,6 +212,11 @@ export async function POST(request: Request) {
 
     const apiUrl = DOMAIN + (packsIsEnabled ? `/p/${packId}/tunes` : "/tunes");
     const requestBody = packsIsEnabled ? packBody : tuneBody;
+
+    console.log("API URL", { apiUrl });
+    console.log("Packs Is Enabled", { packsIsEnabled });
+    console.log("Request Body", { requestBody });
+
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${API_KEY}`,
