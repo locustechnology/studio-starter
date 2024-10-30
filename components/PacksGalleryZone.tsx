@@ -70,7 +70,7 @@ export default function PacksGalleryZone() {
     return (
       <div className="flex flex-col items-center justify-center h-64">
         <Loader2 className="w-8 h-8 animate-spin mb-4" />
-        <Progress className="w-64" value={50} />
+        <Progress className="w-64" />
         <p className="mt-4 text-sm text-gray-500">Loading packs...</p>
       </div>
     );
