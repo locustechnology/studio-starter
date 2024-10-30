@@ -253,7 +253,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
                       </button>
                     </div>
                   ))}
-                  {Array.from({ length: Math.max(0, 10 - files.length) }).map((_, index) => (
+                  {Array.from({ length: Math.max(0, 4 - files.length) }).map((_, index) => (
                     <label
                       key={`empty-${index}`}
                       htmlFor="file-upload"
