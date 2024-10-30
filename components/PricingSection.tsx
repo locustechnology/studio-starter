@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { toast } from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { User } from '@supabase/auth-helpers-nextjs';
 
 const PayPalScriptProvider = dynamic(
@@ -22,10 +22,16 @@ interface PricingComponentProps {
 const PricingComponent: React.FC<PricingComponentProps> = ({ user }) => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleGetStarted = () => {
+    router.push('/overview');
+  };
 
   const pricingTiers = [
     {
@@ -194,25 +200,35 @@ const PricingComponent: React.FC<PricingComponentProps> = ({ user }) => {
                       </li>
                     ))}
                   </ul>
-                  {isClient && (
-                    <PayPalScriptProvider options={{ "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '', "currency": "USD" }}>
-                      <PayPalButtons
-                        createOrder={() => handlePayment(tier.price)}
-                        onApprove={async (data, actions) => {
-                          try {
-                            await handlePaymentSuccess(data, tier);
-                          } catch (error) {
-                            console.error('Error in onApprove:', error instanceof Error ? error : new Error(String(error)));
-                            toast.error(`Failed to process payment: ${error instanceof Error ? error.message : 'Unknown error'}`);
-                          }
-                        }}
-                        onError={(err) => {
-                          console.error('PayPal Checkout onError', err instanceof Error ? err : new Error(String(err)));
-                          toast.error(`Payment error: ${err instanceof Error ? err.message : 'Unknown error'}`);
-                        }}
-                        style={{ layout: "vertical", shape: "rect" }}
-                      />
-                    </PayPalScriptProvider>
+                  {isHomePage ? (
+                    <button
+                      onClick={handleGetStarted}
+                      className="w-full h-[48px] rounded-[50px] bg-[#5B16FE] text-white font-semibold text-base flex items-center justify-center px-4 py-3 hover:opacity-90 transition-opacity font-poppins"
+                    >
+                      Get Started
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </button>
+                  ) : (
+                    isClient && (
+                      <PayPalScriptProvider options={{ "clientId": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || '', "currency": "USD" }}>
+                        <PayPalButtons
+                          createOrder={() => handlePayment(tier.price)}
+                          onApprove={async (data, actions) => {
+                            try {
+                              await handlePaymentSuccess(data, tier);
+                            } catch (error) {
+                              console.error('Error in onApprove:', error instanceof Error ? error : new Error(String(error)));
+                              toast.error(`Failed to process payment: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                            }
+                          }}
+                          onError={(err) => {
+                            console.error('PayPal Checkout onError', err instanceof Error ? err : new Error(String(err)));
+                            toast.error(`Payment error: ${err instanceof Error ? err.message : 'Unknown error'}`);
+                          }}
+                          style={{ layout: "vertical", shape: "rect" }}
+                        />
+                      </PayPalScriptProvider>
+                    )
                   )}
                   <p className="mt-4 text-sm text-center text-gray-500 font-poppins">No subscription required</p>
                 </div>
