@@ -81,7 +81,7 @@ const ReviewPage = () => {
       <div className="w-[358px] sm:w-full max-w-[1276px] mx-auto bg-white rounded-[24px] sm:rounded-[60px] py-[18px] sm:py-20 px-4 sm:px-8 lg:px-10">
         <div className="flex flex-col gap-[5px] sm:gap-[60px]">
           <div>
-            <h2 className="text-center text-xl sm:text-3xl font-bold mb-4 sm:mb-8 font-jakarta" style={{ background: '#0A1727CC', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>TESTIMONIALS</h2>
+          <h2 className="text-center text-gray-500 font-semibold font-jakarta">TESTIMONIALS</h2>
             
             {/* Stats */}
             <div className="flex justify-center space-x-8 sm:space-x-16 mb-4 sm:mb-6">

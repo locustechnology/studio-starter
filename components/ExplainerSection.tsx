@@ -7,7 +7,7 @@ import AI from "@/public/AI.svg"
 const ExplainerSection = () => {
   return (
     <div className="w-full max-w-[1276px] mx-auto bg-white text-black rounded-[24px] px-4 sm:px-6 lg:px-20 py-16 space-y-24 font-poppins">
-      <h2 className="text-2xl sm:text-3xl font-normal font-jakarta text-center mb-16 mx-auto whitespace-nowrap px-4" style={{ opacity: '70%' }}>HOW IT WORKS</h2>      
+      <h2 className="text-center text-gray-500 font-semibold font-jakarta">HOW IT WORKS</h2>
       {/* Section 1: Upload Photos */}
       <section className="relative w-full max-w-[960px] mx-auto pt-8 space-y-8 text-center">
         <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">

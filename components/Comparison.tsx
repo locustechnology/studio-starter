@@ -36,7 +36,7 @@ const ComparisonPage = () => {
   return (
     <div className="w-full max-w-[1276px] mx-auto bg-white rounded-[24px] sm:rounded-[60px] py-8 sm:py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-poppins">
       <div className="w-full sm:w-[992px] flex flex-col gap-4 sm:gap-6 max-w-full sm:max-w-none py-[18px] sm:py-0">
-        <h2 className="text-lg sm:text-2xl font-bold text-center font-jakarta text-gray-600">COMPARE</h2>
+      <h2 className="text-center text-gray-500 font-semibold font-jakarta">COMPARE</h2>
         <h1 className="text-2xl sm:text-4xl font-bold text-center font-jakarta mb-2 sm:mb-2">
           Save Money and Time
         </h1>
@@ -57,10 +57,10 @@ const ComparisonPage = () => {
                 <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full ${item.color} flex items-center justify-center mr-2 sm:mr-3`}>
                   <item.icon className="text-white" size={12} />
                 </div>
-                <span className="font-semibold">{item.label}</span>
+                <span className="font-poppins">{item.label}</span>
               </div>
-              <div className="font-bold">{item.goStudio}</div>
-              <div className="text-gray-400">{item.studio}</div>
+              <div className="font-poppins">{item.goStudio}</div>
+              <div className="text-gray-400 font-poppins">{item.studio}</div>
             </div>
           </div>
         ))}
