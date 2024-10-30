@@ -121,7 +121,7 @@ const SummaryPage: React.FC = () => {
 
   if (!modelData) {
     return (
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4">
         <h1 className="text-2xl font-bold mb-4">No Model Data</h1>
         <p className="mb-4">No model data was found. Please go back and create a model first.</p>
         <button 

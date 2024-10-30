@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-200 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-sm text-gray-600 mb-4 sm:mb-0">
-              Copyright© 2024 <Link href="/" className="text-blue-600 hover:underline">Gostud.io</Link>
+              Copyright© 2024 <Link href="/" className="text-blue-600 hover:underline">GoStud.io</Link>
             </p>
             <div className="flex items-center">
               <span className="text-sm text-gray-600 mr-4">Need help?</span>

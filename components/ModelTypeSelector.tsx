@@ -83,7 +83,7 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
           <div className="text-center space-y-1 sm:space-y-4">
             <h1 className="text-2xl sm:text-4xl font-bold leading-tight font-jakarta">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">Studio-quality</span>{' '}
-              <span className="text-black">Headshots with Gostud.io</span>
+              <span className="text-black">Headshots with GoStud.io</span>
             </h1>
             <p className="text-xs sm:text-lg text-gray-600 px-4 sm:px-0">
               Get studio quality headshot in no time and enhance your professional journey.
