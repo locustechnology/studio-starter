@@ -137,10 +137,9 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
         // If no credits, redirect to /get-credits
         // If credits, redirect to /summary 
 
-        const response = await fetch('/astria/check-credits');
-    
+    const response = await fetch('/astria/check-credits');
     if (!response.ok) {
-      if (response.status === 402) {
+      if (response.status === 402 || response.status === 500) {
         toast({
           title: "Insufficient credits",
           description: "Please purchase credits to continue.",
@@ -149,9 +148,9 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
         router.push('/get-credits');
         return;
       }
-      throw new Error('Failed to check credits');
     }
 
+    // If credits are available, redirect to /summary 
     const data = await response.json();
     console.log("Credits data", data);
 

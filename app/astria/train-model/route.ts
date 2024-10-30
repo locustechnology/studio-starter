@@ -18,7 +18,6 @@ if (!astriaApiDomain) {
 
 const packsIsEnabled = !astriaTestModeIsOn; // Don't use packs on the test mode
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
-const backendSkipPayment = process.env.SKIP_PAYMENT === "true";
 
 console.log("Packs Is Enabled", { packsIsEnabled });
 
@@ -77,9 +76,6 @@ export async function POST(request: Request) {
   }
   let _credits = null;
 
-  console.log("Is backendSkipPayment?", { backendSkipPayment });
-
-  if (!backendSkipPayment) {
     const { error: creditError, data: credits } = await supabase
       .from("credits")
       .select("credits")
@@ -132,7 +128,6 @@ export async function POST(request: Request) {
     } else {
       _credits = credits;
     }
-  }
 
   // create a model row in supabase
   const { error: modelError, data } = await supabase
@@ -284,7 +279,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!backendSkipPayment && _credits && _credits.length > 0) {
+    if (_credits && _credits.length > 0) {
       const subtractedCredits = _credits[0].credits - 1;
       const { error: updateCreditError, data } = await supabase
         .from("credits")
