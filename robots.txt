@@ -1,0 +1,16 @@
+User-agent: *
+# Block indexing of vercel.app domain
+Disallow: /
+Host: *.vercel.app/
+
+# Allow crawling on custom domain
+User-agent: *
+Allow: /
+Host: *.gostud.io
+
+# Block all other domains/subdomains
+User-agent: *
+Disallow: /
+
+# Optional: Sitemap declaration
+# Sitemap: https://gostud.io/sitemap.xml
