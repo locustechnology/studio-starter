@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import Link from "next/link";
-import { Progress } from "./ui/progress";
 import { Loader2 } from "lucide-react";
 import { useRouter } from 'next/navigation';
 
@@ -70,7 +69,6 @@ export default function PacksGalleryZone() {
     return (
       <div className="flex flex-col items-center justify-center h-64">
         <Loader2 className="w-8 h-8 animate-spin mb-4" />
-        <Progress className="w-64" />
         <p className="mt-4 text-sm text-gray-500">Loading packs...</p>
       </div>
     );
