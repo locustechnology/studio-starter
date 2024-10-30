@@ -157,11 +157,11 @@ export async function POST(request: Request) {
 
   try {
 
-    const trainWebhook = `https://${process.env.VERCEL_URL}/astria/train-webhook`;
+    const trainWebhook = `${process.env.NEXT_PUBLIC_DOMAIN}/astria/train-webhook`;
     const trainWebhookWithParams = `${trainWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
     console.log("Train Webhook", { trainWebhookWithParams });
-    const promptWebhook = `https://${process.env.VERCEL_URL}/astria/prompt-webhook`;
+    const promptWebhook = `${process.env.NEXT_PUBLIC_DOMAIN}/astria/prompt-webhook`;
     const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
     console.log("Prompt Webhook", { promptWebhookWithParams });
