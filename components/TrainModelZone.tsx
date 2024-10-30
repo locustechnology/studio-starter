@@ -207,7 +207,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
             <div className="space-y-6 text-center">
               <h2 className="text-xl font-semibold text-black">Start Uploading photos</h2>
               <p className="text-sm text-black">
-                Select at least 4 of your best photos. Good photos help our AI to give you amazing results!
+                Select at least 4 of your best photos. Capture facial features from different angles.
               </p>
               
               {/* File upload area */}
