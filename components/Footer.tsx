@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
             <div className="col-span-1 lg:col-span-2">
               <div className="flex items-center mb-4">
-                <Image src={final_Logo} alt="Studio.ai logo" width={160} height={60} className="rounded-full" style={{ padding: '14.12px 11.3px', gap: '4.16px' }} />
+                <Image src={final_Logo} alt="Studio.ai logo" width={320} height={120} className="rounded-full" style={{ padding: '14.12px 11.3px', gap: '4.16px' }} />
               </div>
               <p className="text-sm text-gray-600 max-w-xs">
                 Professional AI Headshots in 4K quality.
@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-200 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-sm text-gray-600 mb-4 sm:mb-0">
-              Copyright© 2024 <Link href="/" className="text-blue-600 hover:underline">Gostud.io</Link>
+              Copyright© 2024 <Link href="/" className="text-blue-600 hover:underline">GoStud.io</Link>
             </p>
             <div className="flex items-center">
               <span className="text-sm text-gray-600 mr-4">Need help?</span>

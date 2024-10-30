@@ -8,7 +8,10 @@ import { useEffect, useState } from "react";
 import { FaImages } from "react-icons/fa";
 import ModelsTable from "../ModelsTable";
 
-const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
+ /**
+   * Removing packs intentionally - we don't use packs on the test mode
+   */
+// const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
 export const revalidate = 0;
 
@@ -56,7 +59,11 @@ export default function ClientSideModelsList({
     };
   }, [supabase, models, setModels]);
 
-  const trainModelUrl = packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune";
+  /**
+   * Removing packs intentionally - we don't use packs on the test mode
+   */
+  // const trainModelUrl = packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune";
+  const trainModelUrl = "/overview/packs";
 
   return (
     <div id="train-model-container" className="w-full">

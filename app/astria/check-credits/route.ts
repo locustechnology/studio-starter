@@ -23,7 +23,8 @@ export async function GET(req: NextRequest) {
         { status: 401 }
       );
     }
-
+    
+    console.log("User", { user });
     const { error: creditError, data: credits } = await supabase
       .from("credits")
       .select("credits")

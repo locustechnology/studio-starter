@@ -8,8 +8,11 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Image from 'next/image';
 import gender from "@/public/gender.svg"
 import malegender from "@/public/malegenedr.svg"
+import boygender from "@/public/boy.svg"
+import girlgender from "@/public/girl.svg"
+// import doggender from "@/public/dog.svg"
 
-type ModelType = 'woman' | 'man';
+type ModelType = 'woman' | 'man' | 'boy' | 'girl';
 
 interface ModelOption {
   value: ModelType;
@@ -18,8 +21,10 @@ interface ModelOption {
 }
 
 const modelTypes: ModelOption[] = [
-  { value: 'woman', label: 'Female', imageSrc: gender },
   { value: 'man', label: 'Male', imageSrc: malegender },
+  { value: 'woman', label: 'Female', imageSrc: gender },
+  { value: 'boy', label: 'Boy', imageSrc: boygender },
+  { value: 'girl', label: 'Girl', imageSrc: girlgender }
 ];
 
 interface ModelTypeSelectorProps {
@@ -78,7 +83,7 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
           <div className="text-center space-y-1 sm:space-y-4">
             <h1 className="text-2xl sm:text-4xl font-bold leading-tight font-jakarta">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">Studio-quality</span>{' '}
-              <span className="text-black">Headshots with Gostud.io</span>
+              <span className="text-black">Headshots with GoStud.io</span>
             </h1>
             <p className="text-xs sm:text-lg text-gray-600 px-4 sm:px-0">
               Get studio quality headshot in no time and enhance your professional journey.

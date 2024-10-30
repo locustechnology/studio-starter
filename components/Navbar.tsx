@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center justify-between w-full sm:w-auto">
           <Link href={user ? '/overview' : '/'} className="flex-shrink-0">
             <div className="mr-2">
-              <Image src={final_Logo} alt="Studio.ai logo" width={60} height={40} className="rounded-sm" />
+              <Image src={final_Logo} alt="Studio.ai logo" width={120} height={80} className="rounded-sm" />
             </div>
           </Link>
           

@@ -133,7 +133,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ host, searchParams, params }) => 
           <div>
             <div className="flex flex-col items-center mb-8">
               <div className="flex items-center mb-4">
-              <Image src={final_Logo} alt="Studio.ai logo"  className="rounded-sm" />
+              <Image src={final_Logo} width={120} height={80} alt="Studio.ai logo"  className="rounded-sm" />
               </div>
               <h2 className="text-2xl font-semibold text-gray-800 mt-4 font-jakarta">Log in / Sign up</h2>
             </div>
