@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import FooterWrapper from "@/components/FooterWrapper";
+import { CSPostHogProvider } from './providers'
 
 
 export const metadata = {
@@ -22,12 +23,14 @@ export default function RootLayout({ children }: any) {
       </head>
       <body className="flex flex-col bg-[#F4F7FA] min-h-screen w-full overflow-x-hidden font-[Poppins]">
         <Navbar />
+        <CSPostHogProvider>
         <main className="flex-1 flex flex-col w-full">
           {children}
         </main>
+        </CSPostHogProvider>
         <FooterWrapper />
         <Toaster />
-        <Analytics />
+        <Analytics />        
       </body>
     </html>
   );
