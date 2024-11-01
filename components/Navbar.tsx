@@ -34,21 +34,14 @@ const Navbar: React.FC = () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
       
-      if (user && pathname === '/login') {
-        router.push('/overview');
-      }
-      
-      if (!user && pathname && pathname.includes('/overview')) {
-        router.push('/login');
-      }
-
+      // Only fetch credits if user exists
       if (user) {
         const { data: creditsData, error } = await supabase
           .from('credits')
           .select('credits')
           .eq('user_id', user.id)
           .single();
-
+  
         if (error) {
           console.log('Error fetching credits:', error);
         } else {
@@ -56,21 +49,9 @@ const Navbar: React.FC = () => {
         }
       }
     };
-
+  
     checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        router.push('/overview');
-      } else if (event === 'SIGNED_OUT') {
-        router.push('/');
-      }
-    });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase, router, pathname]);
+  }, [supabase]);
 
   const getUserMenuProps = (user: User | null, credits: number | null): UserMenuProps | null => {
     if (!user || !user.email) return null;
