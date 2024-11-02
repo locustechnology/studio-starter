@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
 import FooterWrapper from "@/components/FooterWrapper";
 import { CSPostHogProvider } from './providers'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 
 export const metadata = {
@@ -30,7 +31,8 @@ export default function RootLayout({ children }: any) {
         </CSPostHogProvider>
         <FooterWrapper />
         <Toaster />
-        <Analytics />        
+        <Analytics />    
+        <SpeedInsights />    
       </body>
     </html>
   );
