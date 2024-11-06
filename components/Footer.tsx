@@ -52,10 +52,10 @@ const Footer: React.FC = () => {
               <div className="flex items-center mb-4">
                 <Image src={final_Logo} alt="Studio.ai logo" width={320} height={120} className="rounded-full" style={{ padding: '14.12px 11.3px', gap: '4.16px' }} />
               </div>
-              <p className="text-sm text-gray-600 max-w-xs">
-                Professional AI Headshots in 4K quality.
+              <p className="text-xs text-gray-500 max-w-xs leading-tight">
+                Premium Professional Headshots, Simplified
                 <br />
-                Get your headshot in under 60 minutes, no photographer needed. Starting from $10.
+                Achieve studio-quality professional headshots without the studio price. Our AI delivers pristine 4K results within the hour, starting at just $10.
               </p>
             </div>
             <div className="col-span-1 lg:col-span-3">
