@@ -17,7 +17,7 @@ interface HeadshotCardProps {
 const HeadshotCard: React.FC<HeadshotCardProps> = ({ imageUrl }) => (
   <div className="w-[120px] h-[180px] sm:w-[162px] sm:h-[246px] rounded-[12px] sm:rounded-[18.69px] overflow-hidden flex-shrink-0 relative">
     <Image src={imageUrl} alt="AI Headshot" layout="fill" objectFit="cover" />
-    <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3">
+    <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
       <Image src={AI} alt="AI Logo" width={60} height={16} className="w-[60px] h-[16px] sm:w-[90px] sm:h-[25px]" />
     </div>
   </div>
@@ -101,12 +101,20 @@ export default function Hero() {
       </div> */}
       
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
-        <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight font-jakarta px-4">
-          Professional Headshots using Selfies
+        <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight font-jakarta px-4 whitespace-nowrap">
+          Elevate Your Brand with{' '}
+          <span style={{
+            background: 'linear-gradient(90deg, #4C6FFF 0%, #62CDFF 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
+            AI-Generated Photos
+          </span>
         </h1>
         <p className="text-sm sm:text-base lg:text-xl text-gray-600 leading-relaxed max-w-[800px] px-4">
-          Stand out on LinkedIn, Twitter, with recruiters. Upload your selfies and
-          receive hundreds of professional headshots—all from the comfort of home.
+         Create stunning product images with our AI-powered platform. 
+         Save time, reduce costs, and stand out with custom, high-quality visuals.
         </p>
       </div>
       

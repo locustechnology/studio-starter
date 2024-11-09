@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import AI  from "@/public/logo/AI.svg"
 
 
 
@@ -157,10 +158,13 @@ const ReviewCard = ({ review }: { review: Testimonial }) => {
               layout="fill"
               objectFit="cover"
             />
-            <div className="absolute top-4 left-4 bg-white rounded-full px-3 py-1.5 text-sm flex items-center gap-2 shadow-sm">
+            {/* <div className="absolute top-4 left-4 bg-white rounded-full px-3 py-1.5 text-sm flex items-center gap-2 shadow-sm">
               <div className="w-1.5 h-1.5 bg-[#2B87FF] rounded-full"></div>
               <span className="text-[13px] font-medium">GoStudio.ai</span>
-            </div>
+            </div> */}
+            <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
+      <Image src={AI} alt="AI Logo" width={60} height={16} className="w-[60px] h-[16px] sm:w-[90px] sm:h-[25px]" />
+    </div>
           </div>
         ) : null}
         
