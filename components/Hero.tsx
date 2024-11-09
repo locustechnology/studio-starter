@@ -37,14 +37,14 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ Icon, text }) => (
 
 export default function Hero() {
   const headshots = [
-    "/Carosal/image1.svg",
-    "/Carosal/image2.svg",
-    "/Carosal/image3.svg",
-    "/Carosal/image4.svg",
-    "/Carosal/image5.svg",
-    "/Carosal/image6.svg",
-    "/Carosal/image7.svg",
-    "/Carosal/image8.svg",
+    "/product-carousel/image1.png",
+    "/product-carousel/image2.png",
+    "/product-carousel/image3.png",
+    "/product-carousel/image4.png",
+    "/product-carousel/image5.png",
+    "/product-carousel/image6.png",
+    "/product-carousel/image7.png",
+    // "/product-carousel/image8.png",
   ];
 
   const carouselRef = useRef<HTMLDivElement>(null);
