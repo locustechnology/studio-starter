@@ -14,13 +14,9 @@ import Image from 'next/image';
 
 const testimonials: Testimonial[] = [
   {
-    image: '/reviews/oil.png',
+    image: '/reviews/juice.png',
     rating: 5,
     text: 'The results are stunning and tailored—this AI knows what looks good for my products.'
-  },
-  {
-    text: 'Great range of styles. I love how the platform gives several options after uploading a single image. It\'s easy to pick a style or background that matches my aesthetic. Still, the convenience of multiple results and the overall quality are worth it! It\'s a time-saver, especially if you need variety for social media.',
-    rating: 5
   },
   {
     image: '/reviews/sunscreen.jpeg',
@@ -28,18 +24,36 @@ const testimonials: Testimonial[] = [
     text: 'A must-have tool for e-commerce!'
   },
   {
-    image: '/reviews/juice.png',
+    text: 'Great range of styles. I love how the platform gives several options after uploading a single image. It\'s easy to pick a style or background that matches my aesthetic. Still, the convenience of multiple results and the overall quality are worth it! It\'s a time-saver, especially if you need variety for social media.',
+    rating: 5
+  },
+  {
+    image: '/reviews/seed.jpeg',
+    rating: 5,
+    text: 'Great for quick product photos!'
+  },
+  {
+    text: 'Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.',
+    rating: 5
+  },
+  {
+    image: '/reviews/bottle.png',
+    rating: 5,
+    text: 'A must-have tool for e-commerce!'
+  },
+  {
+    image: '/reviews/oil.png',
     rating: 5,
     text: 'Upload once, and you get so many options to pick from.'
+  },
+  {
+    text: 'Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.',
+    rating: 5
   },
   {
     image: '/reviews/skincare.png',
     rating: 5,
     text: 'The AI is incredibly smart at generating diverse images. It\'s like having a mini photo studio!'
-  },
-  {
-    text: 'Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.',
-    rating: 5
   },
   {
     image: '/reviews/perfume.png',
@@ -50,12 +64,8 @@ const testimonials: Testimonial[] = [
     image: '/reviews/drink.png',
     rating: 5,
     text: 'Great for quick product photos!'
-  },
-  {
-    image: '/reviews/bottle.png',
-    rating: 5,
-    text: 'A must-have tool for e-commerce!'
   }
+  
 ];
 
 
@@ -138,7 +148,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
   // Update the ReviewCard component to explicitly pass the rating
 const ReviewCard = ({ review }: { review: Testimonial }) => {
     return (
-      <div className="rounded-[20px] border border-[rgba(10,23,39,0.1)] overflow-hidden h-auto">
+      <div className="break-inside-avoid mb-6 rounded-[20px] border border-[rgba(10,23,39,0.1)] overflow-hidden bg-white">
         {review.image ? (
           <div className="relative aspect-square w-full">
             <Image
@@ -154,7 +164,7 @@ const ReviewCard = ({ review }: { review: Testimonial }) => {
           </div>
         ) : null}
         
-        <div className="p-4 space-y-2 bg-white">
+        <div className="p-4 space-y-2">
           <div className="flex gap-[2px]">
             {[...Array(review.rating || 5)].map((_, i) => (
               <svg 
@@ -198,8 +208,8 @@ const ReviewCard = ({ review }: { review: Testimonial }) => {
             </p>
           </div>
   
-          {/* Reviews Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto">
+          {/* Reviews Grid - using columns-3 for masonry layout */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6">
             {testimonials.map((review, index) => (
               <ReviewCard key={index} review={review} />
             ))}
