@@ -25,7 +25,7 @@ const reviews = [
   { name: "Luke Anderson", comment: "Blown away. The future of photography is here.", rating: 5, image: Luke },
   { name: "Andrew Robins", comment: "Effective, fast, and easy. Great service!", rating: 5, image: wome },
   { name: "Hannah Lee", comment: "Professional photos in minutes. Amazing!", rating: 5, image: girl},
-  { name: "Owen Harris", comment: "GoStud.io is now my go-to for professional photos.", rating: 5, image: boy },
+  { name: "Owen Harris", comment: "GoStudio is now my go-to for professional photos.", rating: 5, image: boy },
   { name: "Cherry ", comment: "Very satisfied with the quick service and quality.", rating: 5, image: young },
   { name: "Hannah Lee", comment: "Quick, easy, and surprisingly professional.", rating: 5, image: old },
   { name: "Mia Yang", comment: "Go studio.ai is now my go-to site for professional photo.", rating: 5, image: wome },
@@ -151,7 +151,7 @@ const ReviewPage = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                 <Image
                   src={correct}
-                  alt="GoStud.io logo"
+                  alt="GoStudio logo"
                   width={60}
                   height={24}
                   className="absolute top-2 right-2 sm:top-3 sm:right-3 w-[60px] h-[24px] sm:w-[109px] sm:h-[32px]"

@@ -140,12 +140,12 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
           </div>
 
           <div className="text-center space-y-3 sm:space-y-4 mt-4 sm:mt-6 px-4 sm:px-0">
-            <p className="text-[10px] sm:text-xs text-gray-500">
+            {/* <p className="text-[10px] sm:text-xs text-gray-500">
               By using our AI Tools, you agree to and accept our{' '}
               <Link href="/terms" className="text-purple-500 hover:underline">
                 Terms of Use
               </Link>
-            </p>
+            </p> */}
             <div className="flex justify-center">
               <Button 
                 onClick={handleContinue}

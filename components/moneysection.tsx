@@ -33,7 +33,7 @@ const MoneyBackGuarantee = () => {
             </h2>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-4 font-jakarta">Guarantee</h3>
             <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">
-              Try GoStud.io with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
+              Try GoStudio with confidence. Not completely satisfied? Let us know within 7 days of purchase for a full refund.
             </p>
             <div className="flex justify-center">
               <Link href="/login">

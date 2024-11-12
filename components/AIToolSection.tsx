@@ -32,7 +32,7 @@ const AIToolSection = () => {
       <div className="text-center space-y-4">
         <h2 className="text-gray-500 font-semibold font-jakarta">AI TOOL</h2>
         <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold font-jakarta">
-          Select from 50+ templates or create you own and start creating your photos
+          Templates to Create Your Photos
         </h1>
         <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-3xl mx-auto">
           Generate scenes and background to create new assets from existing photos.

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Upload } from 'lucide-react';
+import Link from 'next/link';
 
 
 const ArrowSVG = () => (
@@ -34,19 +35,22 @@ const AIBackgroundSection = () => {
         {/* Left side - Upload Box */}
         <div className="bg-white rounded-2xl p-6 border border-gray-200">
           <div className="space-y-2">
-            <h3 className="text-lg font-semibold text-gray-900 font-jakarta">AI TOOLS</h3>
-            <h2 className="text-2xl font-bold text-gray-900 font-jakarta">Try Go Studio</h2>
+            {/* <h3 className="text-lg font-semibold text-gray-900 font-jakarta">AI TOOLS</h3> */}
+            <h2 className="text-2xl font-bold text-gray-900 font-jakarta">Try GoStudio</h2>
             <p className="text-gray-600">AI powered creative tools to generate product photos easily.</p>
           </div>
           
           <div className="mt-8 border-2 border-dashed border-gray-200 rounded-xl p-8">
             <div className="flex flex-col items-center justify-center space-y-4">
-              <button className="bg-gradient-to-r from-[#8371FF] to-[#01C7E4] text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2">
-                Upload photos
+              <Link 
+                href="/login" 
+                className="bg-gradient-to-r from-[#8371FF] to-[#01C7E4] text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2"
+              >
+                Upload Image
                 <Upload className="w-5 h-5" />
-              </button>
-              <p className="text-sm text-gray-500">Click to upload or drag and drop</p>
-              <p className="text-xs text-gray-400">PNG, JPG, HEIC up to 120MB</p>
+              </Link>
+              <p className="text-sm text-gray-500">Sign in to start creating</p>
+              <p className="text-xs text-gray-400">Your data is private and secure</p>
             </div>
           </div>
         </div>

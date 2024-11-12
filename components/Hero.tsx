@@ -16,7 +16,7 @@ interface HeadshotCardProps {
 
 const HeadshotCard: React.FC<HeadshotCardProps> = ({ imageUrl }) => (
   <div className="w-[120px] h-[180px] sm:w-[162px] sm:h-[246px] rounded-[12px] sm:rounded-[18.69px] overflow-hidden flex-shrink-0 relative">
-    <Image src={imageUrl} alt="AI Headshot" layout="fill" objectFit="cover" />
+    <Image src={imageUrl} alt="AI Product Photo" layout="fill" objectFit="cover" />
     <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
       <Image src={AI} alt="AI Logo" width={60} height={16} className="w-[60px] h-[16px] sm:w-[90px] sm:h-[25px]" />
     </div>
@@ -102,14 +102,14 @@ export default function Hero() {
       
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
         <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight font-jakarta px-4 whitespace-nowrap">
-          Elevate Your Brand with{' '}
+          Studio for {' '}
           <span style={{
             background: 'linear-gradient(90deg, #4C6FFF 0%, #62CDFF 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            AI-Generated Photos
+            Product Photos 
           </span>
         </h1>
         <p className="text-sm sm:text-base lg:text-xl text-gray-600 leading-relaxed max-w-[800px] px-4">

@@ -7,29 +7,29 @@ const ComparisonPage = () => {
     { 
       label: 'Value for money', 
       icon: DollarSign, 
-      goStudio: '$19', 
-      studio: '$200', 
+      goStudio: '$10', 
+      studio: '$500+', 
       color: 'bg-green-500' 
     },
     { 
       label: 'Save time', 
       icon: Clock, 
       goStudio: '30 minutes', 
-      studio: '2-3 days', 
+      studio: '1-2 days', 
       color: 'bg-gray-500' 
     },
     { 
       label: 'Variety', 
       icon: Layers, 
-      goStudio: '30 headshots', 
-      studio: '4-5 headshots', 
+      goStudio: '20 product shots', 
+      studio: '5-8 shots', 
       color: 'bg-red-400' 
     },
     { 
       label: 'More choices', 
       icon: User, 
-      goStudio: '20 styles', 
-      studio: '1 style', 
+      goStudio: '50+ Packs to choose from', 
+      studio: '2-3 setups', 
       color: 'bg-purple-500' 
     },
   ];

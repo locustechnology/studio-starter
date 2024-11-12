@@ -17,56 +17,55 @@ const testimonials: Testimonial[] = [
   {
     image: '/reviews/juice.png',
     rating: 5,
-    text: 'The results are stunning and tailored—this AI knows what looks good for my products.'
+    text: 'Took photos with my iPhone, uploaded them and wow! The lighting looks so professional. Saved me hundreds on product photography for my new juice line 📸'
   },
   {
     image: '/reviews/sunscreen.jpeg',
     rating: 5,
-    text: 'A must-have tool for e-commerce!'
+    text: '¡Increíble servicio! Mis productos de skincare se ven súper profesionales. Perfecto para mi tienda Shopify 🌟' // Spanish: "Amazing service! My skincare products look super professional. Perfect for my Shopify store"
   },
   {
-    text: 'Great range of styles. I love how the platform gives several options after uploading a single image. It\'s easy to pick a style or background that matches my aesthetic. Still, the convenience of multiple results and the overall quality are worth it! It\'s a time-saver, especially if you need variety for social media.',
+    text: 'Been selling handmade jewelry for 3 years, always struggled with photos. Found this last month and honestly cant believe how much time & money Im saving. My Etsy sales are up 40% since updating product pics!',
     rating: 5
   },
   {
     image: '/reviews/seed.jpeg',
     rating: 5,
-    text: 'Great for quick product photos!'
+    text: 'すごく便利です！商品写真の品質が劇的に良くなって、Amazonでの売上が上がりました。時間も節約できて助かります。' // Japanese: "So convenient! Product photo quality improved dramatically, increased our Amazon sales. Really helps save time."
   },
   {
-    text: 'Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.',
+    text: 'Started using this for my vintage shop last week. The lighting and shadows look completely natural - my customers keep asking which photography studio I use 😅 Not telling them its all done from my phone!',
     rating: 5
   },
   {
     image: '/reviews/bottle.png',
     rating: 5,
-    text: 'A must-have tool for e-commerce!'
+    text: 'Finally found a solution for my small business that doesnt break the bank. Used to spend $200/product for professional shots, this is a game changer 🙌'
   },
   {
     image: '/reviews/oil.png',
     rating: 5,
-    text: 'Upload once, and you get so many options to pick from.'
+    text: 'Photographed 30 essential oils in different settings within an hour. Studio quoted me $1500 and 2 weeks for the same job. No brainer really!'
   },
   {
-    text: 'Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.Perfect for my online store! As an online retailer, high-quality product images are crucial. I uploaded a few photos of my jewelry, and the AI generated multiple stunning options that showcased the pieces beautifully. The variety allowed me to select different backgrounds and angles to highlight my products effectively.',
+    text: 'Running a small cosmetics brand is tough - marketing costs eat up all profits. This tool changed everything. Shot entire product line in one afternoon, got tons of options for social media. Photos look better than competitors who spend thousands on professional shoots.',
     rating: 5
   },
   {
     image: '/reviews/skincare.png',
     rating: 5,
-    text: 'The AI is incredibly smart at generating diverse images. It\'s like having a mini photo studio!'
+    text: 'Tried everything for my skincare line - lightbox, ring lights, pro photographer. Nothing came close to these results. Plus the time saved on editing is massive.'
   },
   {
     image: '/reviews/perfume.png',
     rating: 5,
-    text: 'Amazing Product Photo generator site ever!'
+    text: 'Incroyable ! Mes photos de parfums sont maintenant au niveau des grandes marques. Rapport qualité-prix imbattable 💫' // French: "Incredible! My perfume photos are now on par with big brands. Unbeatable value for money"
   },
   {
     image: '/reviews/drink.png',
     rating: 5,
-    text: 'Great for quick product photos!'
+    text: 'Shot my entire beverage line in one go. The reflections and lighting on the bottles look totally pro. Already got questions from stockists about our "new photographer" 😂'
   }
-  
 ];
 
 

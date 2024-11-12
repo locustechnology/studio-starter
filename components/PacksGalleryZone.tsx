@@ -106,11 +106,11 @@ export default function PacksGalleryZone() {
            style={{
              background: 'linear-gradient(180deg, rgba(131, 113, 255, 0.1) 0%, rgba(1, 199, 228, 0.1) 100%)'
            }}>
-        <div className="w-full h-4/5 flex items-center justify-center">
-          <span className="text-[#8371FF] text-2xl">🔜</span>
-        </div>
-        <div className="text-[#8371FF] w-full p-3 text-md font-bold text-center leading-tight">
-          Coming Soon
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="text-[#8371FF] text-md font-bold text-center leading-tight">
+          <div>More Packs</div>
+          <div>Coming Soon</div>
+          </div>
         </div>
       </div>
     </div>

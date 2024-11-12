@@ -5,18 +5,29 @@ import final_Logo from "@/public/new-logo.png";
 
 interface FooterColumnProps {
   title: string;
-  items: string[];
+  items: React.ReactNode[];
+}
+
+interface FooterColumnProps {
+  title: string;
+  items: (string | JSX.Element)[];
 }
 
 const FooterColumn: React.FC<FooterColumnProps> = ({ title, items }) => (
   <div className="mb-6 sm:mb-0">
     <h3 className="font-semibold text-sm mb-4 font-jakarta">{title}</h3>
     <ul className="space-y-2">
-      {items.map((item) => (
-        <li key={item}>
-          <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
-            {item}
-          </Link>
+      {items.map((item, index) => (
+        <li key={index}>
+          {typeof item === 'string' ? (
+            <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
+              {item}
+            </Link>
+          ) : (
+            <span className="text-sm text-gray-600 hover:text-gray-900">
+              {item}
+            </span>
+          )}
         </li>
       ))}
     </ul>
@@ -27,19 +38,21 @@ const Footer: React.FC = () => {
   const columns: FooterColumnProps[] = [
     {
       title: 'Features',
-      items: ['AI Headshot Generator']
+      items: ['AI Product Photos']
     },
     {
       title: 'Resources',
-      items: ['Support', 'Pricing']
+      items: ['Pricing']
     },
     {
       title: 'Company',
-      items: ['About Us', 'Contact Us']
+      items: [
+        <a href="mailto:hello@gostudio.ai">Contact Us</a>
+      ]
     },
     {
       title: 'Legal',
-      items: ['Terms & Conditions', 'Refund Policy', 'Privacy Policy']
+      items: ['Terms Policy', 'Privacy Policy']
     }
   ];
 
@@ -53,9 +66,9 @@ const Footer: React.FC = () => {
                 <Image src={final_Logo} alt="Studio.ai logo" width={320} height={120} className="rounded-full" style={{ padding: '14.12px 11.3px', gap: '4.16px' }} />
               </div>
               <p className="text-xs text-gray-500 max-w-xs leading-tight">
-                Premium Professional Headshots, Simplified
+                Premium Product Photography, Simplified
                 <br />
-                Achieve studio-quality professional headshots without the studio price. Our AI delivers pristine 4K results within the hour, starting at just $10.
+                Transform your products with studio-quality professional photos without the studio price. Our AI delivers pristine 4K product shots within the hour, starting at just $29.
               </p>
             </div>
             <div className="col-span-1 lg:col-span-3">
@@ -70,11 +83,11 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-200 py-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <p className="text-sm text-gray-600 mb-4 sm:mb-0">
-              Copyright© 2024 <Link href="/" className="text-blue-600 hover:underline">GoStud.io</Link>
+              Copyright© 2024 <Link href="/" className="text-blue-600 hover:underline">GoStudio.ai</Link>
             </p>
             <div className="flex items-center">
               <span className="text-sm text-gray-600 mr-4">Need help?</span>
-              <Link href="/" className="text-sm text-blue-600 hover:underline">Contact Us</Link>
+              <a href="mailto:hello@gostudio.ai" className="text-sm text-blue-600 hover:underline">Contact Us</a>
             </div>
           </div>
         </div>
