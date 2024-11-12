@@ -101,6 +101,18 @@ export default function PacksGalleryZone() {
           </div>
         </Link>
       ))}
+      {/* Coming Soon Card */}
+      <div className="w-full h-70 rounded-md overflow-hidden transition-transform duration-300 hover:scale-105"
+           style={{
+             background: 'linear-gradient(180deg, rgba(131, 113, 255, 0.1) 0%, rgba(1, 199, 228, 0.1) 100%)'
+           }}>
+        <div className="w-full h-4/5 flex items-center justify-center">
+          <span className="text-[#8371FF] text-2xl">🔜</span>
+        </div>
+        <div className="text-[#8371FF] w-full p-3 text-md font-bold text-center leading-tight">
+          Coming Soon
+        </div>
+      </div>
     </div>
   );
 }

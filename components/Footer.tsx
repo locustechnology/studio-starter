@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import final_Logo from "@/public/new_logo.svg";
+import final_Logo from "@/public/new-logo.png";
 
 interface FooterColumnProps {
   title: string;

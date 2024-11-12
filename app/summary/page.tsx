@@ -42,6 +42,7 @@ interface ModelData {
 const SummaryPage: React.FC = () => {
   const [modelData, setModelData] = useState<ModelData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -66,11 +67,11 @@ const SummaryPage: React.FC = () => {
   }, []);
 
   const handleSubmit = async () => {
-    if (!modelData) {
-      toast.error('No model data found');
+    if (!modelData || isSubmitting) {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       const response = await fetch("/astria/train-model", {
         method: "POST",
@@ -101,6 +102,7 @@ const SummaryPage: React.FC = () => {
     } catch (error) {
       console.error('Error submitting model data:', error);
       toast.error('Failed to submit model data');
+      setIsSubmitting(false);
     }
   };
 
@@ -171,7 +173,7 @@ const SummaryPage: React.FC = () => {
             </div>
           </div>
           <div className="w-1/2 pl-4">
-            <h2 className="text-indigo-600 font-semibold mb-2">GENDER</h2>
+            <h2 className="text-indigo-600 font-semibold mb-2">TYPE</h2>
             <div className="flex items-center">
               <div className="bg-gray-100 rounded-lg p-3 border border-gray-300 mr-2">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -215,17 +217,32 @@ const SummaryPage: React.FC = () => {
         <div className="flex justify-center">
           <button 
             onClick={handleSubmit} 
-            className="px-8 py-3 rounded-full text-white font-bold text-lg focus:outline-none focus:shadow-outline font-jakarta"
+            disabled={isSubmitting}
+            className={`px-8 py-3 rounded-full text-white font-bold text-lg focus:outline-none focus:shadow-outline font-jakarta transition-all duration-300 ${
+              isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+            }`}
             style={{
-              background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
+              background: isSubmitting 
+                ? 'linear-gradient(90deg, #01C7E4 0%, #A077FE 50%, #8371FF 100%)' 
+                : 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)',
+              backgroundSize: isSubmitting ? '200% 100%' : '100% 100%',
+              animation: isSubmitting ? 'gradient 2s linear infinite' : 'none',
             }}
           >
-            Start Training
+            {isSubmitting ? 'Processing...' : 'Start Training'}
           </button>
         </div>
       </div>
     </div>
   );
 };
+
+// Add this CSS animation either in your global CSS or as a style tag in the component
+const gradientAnimation = `
+  @keyframes gradient {
+    0% { background-position: 100% 0%; }
+    100% { background-position: -100% 0%; }
+  }
+`;
 
 export default SummaryPage;

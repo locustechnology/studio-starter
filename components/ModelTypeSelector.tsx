@@ -6,13 +6,18 @@ import { ArrowRight, Check } from "lucide-react";
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Image from 'next/image';
-import gender from "@/public/gender.svg"
-import malegender from "@/public/malegenedr.svg"
-import boygender from "@/public/boy.svg"
+
+
+
+import furniture from "@/public/product-types/furniture.png";
+import lifestyle from "@/public/product-types/lifestyle.png";
+
+
 import girlgender from "@/public/girl.svg"
 // import doggender from "@/public/dog.svg"
 
-type ModelType = 'woman' | 'man' | 'boy' | 'girl';
+
+type ModelType = 'furniture' | 'lifestyle';
 
 interface ModelOption {
   value: ModelType;
@@ -21,10 +26,8 @@ interface ModelOption {
 }
 
 const modelTypes: ModelOption[] = [
-  { value: 'man', label: 'Male', imageSrc: malegender },
-  { value: 'woman', label: 'Female', imageSrc: gender },
-  { value: 'boy', label: 'Boy', imageSrc: boygender },
-  { value: 'girl', label: 'Girl', imageSrc: girlgender }
+  { value: 'furniture', label: 'Furniture', imageSrc: furniture },
+  { value: 'lifestyle', label: 'Lifestyle', imageSrc: lifestyle },
 ];
 
 interface ModelTypeSelectorProps {
@@ -72,7 +75,7 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
         setError('An unexpected error occurred. Please try again.');
       }
     } else {
-      setError('Please enter your name and select a model type before continuing.');
+      setError('Please enter name and select a model type before continuing.');
     }
   }, [selectedModel, name, supabase, router]);
 
@@ -83,7 +86,7 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
           <div className="text-center space-y-1 sm:space-y-4">
             <h1 className="text-2xl sm:text-4xl font-bold leading-tight font-jakarta">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">Studio-quality</span>{' '}
-              <span className="text-black">Headshots with GoStud.io</span>
+              <span className="text-black">Product Photos with GoStudio.ai</span>
             </h1>
             <p className="text-xs sm:text-lg text-gray-600 px-4 sm:px-0">
               Get studio quality headshot in no time and enhance your professional journey.
@@ -99,7 +102,7 @@ export const ModelTypeSelector: React.FC<ModelTypeSelectorProps> = ({ onContinue
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
+              placeholder="Enter name"
               className="w-full h-[50px] rounded-[16px] border-[1px] border-gray-300 focus:border-purple-500 focus:ring-purple-500 text-base sm:text-base py-2 px-4"
             />
           </div>

@@ -2,9 +2,10 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AIHeadshotsLandingPage from "@/components/Hero";
-import ExplainerSection from "@/components/ExplainerSection";
+import AIToolSection from "@/components/AIToolSection";
+import AIBackgroundSection from '@/components/AIBackgroundSection';
 import ComparisonPage from "@/components/Comparison";
-import ReviewPage from "@/components/ReviewPage";
+import ReviewSection from "@/components/ReviewSection";
 import PricingSection from "@/components/PricingSection";
 import MoneyBackGuarantee from "@/components/moneysection";
 import DataSecuritySection from "@/components/container";
@@ -31,12 +32,13 @@ export default async function Home() {
           <div id="ai-headshots">
             <AIHeadshotsLandingPage />
           </div>
-          <ExplainerSection />
+          <AIToolSection />
+          <AIBackgroundSection />
           <ComparisonPage />
           <div id="testimonial">
-            <ReviewPage />
+          <ReviewSection />
           </div>
-          <MoneyBackGuarantee />
+          {/* <MoneyBackGuarantee /> */}
           <div id="pricing">
             <PricingSection user={user} />
           </div>

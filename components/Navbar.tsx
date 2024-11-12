@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import NavItems from "./Navitems";
 import UserMenu from "./UserMenu";
-import final_Logo from "@/public/new_logo.svg";
+import final_Logo from "@/public/new-logo.png";
 import { User } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/types/supabase';
 

@@ -182,7 +182,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
     <div className="flex justify-center items-center min-h-screen font-poppins bg-gray-100 p-4 lg:p-0">
       <div className="w-full max-w-md lg:max-w-none lg:w-[1276px] lg:h-[672px] bg-white rounded-2xl p-6 lg:p-[84px_60px] flex flex-col lg:flex-row gap-8 shadow-lg">
         {/* Left side - Photo guidelines */}
-        <div className="w-full lg:w-[468px] rounded-3xl lg:p-6 flex flex-col gap-8 bg-[#F2F2F7] shadow-[0px_8px_48px_0px_#00000026]">
+        {/* <div className="w-full lg:w-[468px] rounded-3xl lg:p-6 flex flex-col gap-8 bg-[#F2F2F7] shadow-[0px_8px_48px_0px_#00000026]">
           <div className="flex justify-between items-center lg:hidden" onClick={toggleDropdown}>
             <h2 className="text-xl font-semibold font-jakarta">Photo of yourself (Do's & Don't)</h2>
             {isDropdownOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
@@ -198,7 +198,7 @@ const TrainModelZone: React.FC<TrainModelZoneProps> = ({ packSlug, onContinue })
               </p>
             </>
           )}
-        </div>
+        </div> */}
 
         {/* Right side - Upload functionality */}
         <div className="w-full lg:w-[580px] rounded-3xl p-[3px] bg-gradient-to-r from-[#8371FF] via-[#A077FE] to-[#01C7E4]">
