@@ -102,7 +102,7 @@ export default function Hero() {
       
       <div className="text-center w-full max-w-[982px] flex flex-col justify-center items-center gap-4 sm:gap-6 mt-6 sm:mt-8">
         <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold leading-tight font-jakarta px-4 whitespace-nowrap">
-          Studio for {' '}
+          AI Studio for {' '}
           <span style={{
             background: 'linear-gradient(90deg, #4C6FFF 0%, #62CDFF 100%)',
             WebkitBackgroundClip: 'text',
