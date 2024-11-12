@@ -134,12 +134,12 @@ export default function Hero() {
           </svg>
         </button>
         </Link>
-        <button className="w-full sm:w-[269px] h-[48px] rounded-[50px] bg-white text-indigo-600 font-semibold border border-indigo-600 hover:bg-indigo-50 transition-colors duration-300 px-6 sm:px-[25px] py-3 sm:py-[12px] flex items-center justify-center gap-2 sm:gap-[10px] text-sm sm:text-base">
+        {/* <button className="w-full sm:w-[269px] h-[48px] rounded-[50px] bg-white text-indigo-600 font-semibold border border-indigo-600 hover:bg-indigo-50 transition-colors duration-300 px-6 sm:px-[25px] py-3 sm:py-[12px] flex items-center justify-center gap-2 sm:gap-[10px] text-sm sm:text-base">
           Watch Video Demo
           <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
           </svg>
-        </button>
+        </button> */}
       </div>
       
       <div className="relative w-screen overflow-hidden mt-8 sm:mt-12">

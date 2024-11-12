@@ -5,11 +5,6 @@ import final_Logo from "@/public/new-logo.png";
 
 interface FooterColumnProps {
   title: string;
-  items: React.ReactNode[];
-}
-
-interface FooterColumnProps {
-  title: string;
   items: (string | JSX.Element)[];
 }
 
