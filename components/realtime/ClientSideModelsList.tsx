@@ -8,7 +8,10 @@ import { useEffect, useState } from "react";
 import { FaImages } from "react-icons/fa";
 import ModelsTable from "../ModelsTable";
 
-const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
+ /**
+   * Removing packs intentionally - we don't use packs on the test mode
+   */
+// const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
 export const revalidate = 0;
 
@@ -35,7 +38,7 @@ export default function ClientSideModelsList({
           const samples = await supabase
             .from("samples")
             .select("*")
-            .eq("modelId", payload.new.id);
+            .eq("modelid", payload.new.id);
 
           const newModel: modelRowWithSamples = {
             ...payload.new,
@@ -56,14 +59,20 @@ export default function ClientSideModelsList({
     };
   }, [supabase, models, setModels]);
 
+  /**
+   * Removing packs intentionally - we don't use packs on the test mode
+   */
+  // const trainModelUrl = packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune";
+  const trainModelUrl = "/overview/packs";
+
   return (
     <div id="train-model-container" className="w-full">
       {models && models.length > 0 && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-4 w-full justify-between items-center text-center">
-            <h1>Your models</h1>
-            <Link href={packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune"} className="w-fit">
-              <Button size={"sm"}>
+            <h1 className="font-bold text-lg marginTop: '20px'">Your models</h1>
+            <Link href={trainModelUrl} className="w-fit">
+              <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontSize: '16px', fontFamily: 'Jakarta Sans, sans-serif', marginTop: '20px' }}>
                 Train model
               </Button>
             </Link>
@@ -74,12 +83,12 @@ export default function ClientSideModelsList({
       {models && models.length === 0 && (
         <div className="flex flex-col gap-4 items-center">
           <FaImages size={64} className="text-gray-500" />
-          <h1 className="text-2xl">
+          <h1 className="text-2xl font-bold">
             Get started by training your first model.
           </h1>
           <div>
-            <Link href={packsIsEnabled ? "/overview/packs" : "/overview/models/train/raw-tune"}>
-              <Button size={"lg"}>Train model</Button>
+            <Link href={trainModelUrl}>
+              <Button size={"lg"} style={{ background: 'linear-gradient(90deg, #8371FF -39.48%, #A077FE 32.07%, #01C7E4 100%)', fontFamily: 'Jakarta Sans, sans-serif' }}>Train model</Button>
             </Link>
           </div>
         </div>

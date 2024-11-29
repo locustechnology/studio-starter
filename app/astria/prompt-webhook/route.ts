@@ -44,9 +44,9 @@ export async function POST(request: Request) {
   
   const incomingData = (await request.json()) as { prompt: PromptData };
 
-  const { prompt } = incomingData;
+  const prompt = incomingData.prompt;
 
-  console.log({ prompt });
+  console.log("Incoming Data", JSON.stringify(incomingData));
 
   const urlObj = new URL(request.url);
   const user_id = urlObj.searchParams.get("user_id");
@@ -54,6 +54,7 @@ export async function POST(request: Request) {
   const webhook_secret = urlObj.searchParams.get("webhook_secret");
 
   if (!model_id) {
+    console.log("No model_id detected!");
     return NextResponse.json(
       {
         message: "Malformed URL, no model_id detected!",
@@ -63,6 +64,7 @@ export async function POST(request: Request) {
   }  
 
   if (!webhook_secret) {
+    console.log("No webhook_secret detected!");
     return NextResponse.json(
       {
         message: "Malformed URL, no webhook_secret detected!",
@@ -72,6 +74,7 @@ export async function POST(request: Request) {
   }
 
   if (webhook_secret.toLowerCase() !== appWebhookSecret?.toLowerCase()) {
+    console.log("Unauthorized!");
     return NextResponse.json(
       {
         message: "Unauthorized!",
@@ -81,6 +84,7 @@ export async function POST(request: Request) {
   }
 
   if (!user_id) {
+    console.log("No user_id detected!");
     return NextResponse.json(
       {
         message: "Malformed URL, no user_id detected!",
@@ -107,6 +111,7 @@ export async function POST(request: Request) {
   } = await supabase.auth.admin.getUserById(user_id);
 
   if (error) {
+    console.log("Error fetching user", { error });
     return NextResponse.json(
       {
         message: error.message,
@@ -116,6 +121,7 @@ export async function POST(request: Request) {
   }
 
   if (!user) {
+    console.log("Unauthorized");
     return NextResponse.json(
       {
         message: "Unauthorized",
@@ -127,6 +133,7 @@ export async function POST(request: Request) {
   try {
     // Here we join all of the arrays into one.
     const allHeadshots = prompt.images;
+    console.log("All Headshots", allHeadshots);
     
     const { data: model, error: modelError } = await supabase
       .from("models")
@@ -135,7 +142,7 @@ export async function POST(request: Request) {
       .single();
 
     if (modelError) {
-      console.error({ modelError });
+      console.error("Error fetching model", { modelError });
       return NextResponse.json(
         {
           message: "Something went wrong!",
@@ -151,7 +158,7 @@ export async function POST(request: Request) {
           uri: image,
         });
         if (imageError) {
-          console.error({ imageError });
+          console.error("Error inserting image", { imageError });
         }
       })
     );
@@ -162,7 +169,7 @@ export async function POST(request: Request) {
       { status: 200, statusText: "Success" }
     );
   } catch (e) {
-    console.error(e);
+    console.error("Error inserting images", e);
     return NextResponse.json(
       {
         message: "Something went wrong!",

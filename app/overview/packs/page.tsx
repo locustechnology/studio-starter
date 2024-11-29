@@ -11,13 +11,17 @@ import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import { redirect } from "next/navigation";
 
-const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
+/**
+ * 
+ * @returns Removing this code intentionally - we don't use packs on the test mode
+ */
+// const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
 
 export default async function Index() {
 
-  if(!packsIsEnabled) {
-    redirect('/overview')
-  }
+// if(!packsIsEnabled) {
+//   redirect('/overview')
+// }
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -45,4 +49,4 @@ export default async function Index() {
       </div>
     </div>
   );
-}
+ }

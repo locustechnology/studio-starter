@@ -41,19 +41,19 @@ export interface Database {
         Row: {
           created_at: string
           id: number
-          modelId: number
+          modelid: number
           uri: string
         }
         Insert: {
           created_at?: string
           id?: number
-          modelId: number
+          modelid: number
           uri: string
         }
         Update: {
           created_at?: string
           id?: number
-          modelId?: number
+          modelid?: number
           uri?: string
         }
         Relationships: [
@@ -144,4 +144,11 @@ export interface Database {
       [_ in never]: never
     }
   }
+}
+
+export interface Image {
+  id?: number;
+  created_at?: string;
+  modelid: number; // Change this to lowercase 'modelid'
+  uri: string;
 }

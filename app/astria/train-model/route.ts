@@ -7,70 +7,82 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 
 const astriaApiKey = process.env.ASTRIA_API_KEY;
+const astriaApiDomain = process.env.ASTRIA_API_DOMAIN;
 const astriaTestModeIsOn = process.env.ASTRIA_TEST_MODE === "true";
-const packsIsEnabled = process.env.NEXT_PUBLIC_TUNE_TYPE === "packs";
-// For local development, recommend using an Ngrok tunnel for the domain
 
+
+// Add validation check
+if (!astriaApiDomain) {
+  throw new Error("MISSING ASTRIA_API_DOMAIN!");
+}
+
+const packsIsEnabled = !astriaTestModeIsOn; // Don't use packs on the test mode
 const appWebhookSecret = process.env.APP_WEBHOOK_SECRET;
-const stripeIsConfigured = process.env.NEXT_PUBLIC_STRIPE_IS_ENABLED === "true";
+
+console.log("Packs Is Enabled", { packsIsEnabled });
 
 if (!appWebhookSecret) {
   throw new Error("MISSING APP_WEBHOOK_SECRET!");
 }
 
 export async function POST(request: Request) {
+  console.log('Starting model training process');
+  
   const payload = await request.json();
-  const images = payload.urls;
-  const type = payload.type;
-  const pack = payload.pack;
-  const name = payload.name;
+  console.log('Received payload', { payload });
+
+  const modelInfo = payload.modelInfo;
+  const images = payload.imageUrls;
+  const pack = payload.selectedPack;
+  // Extract model type, gender, packId, and packSlug from modelInfo
+  
+  const type = modelInfo.type;
+  const gender = modelInfo.type;
+  const packId = pack.id
+  const packSlug = pack.slug
+  const name = modelInfo.name;
 
   const supabase = createRouteHandlerClient<Database>({ cookies });
+  console.log('Supabase client created');
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
+    console.log('Unauthorized access attempt');
     return NextResponse.json(
-      {
-        message: "Unauthorized",
-      },
+      { message: "Unauthorized" },
       { status: 401 }
     );
   }
 
   if (!astriaApiKey) {
+    console.log('Missing Astria API Key configuration');
     return NextResponse.json(
       {
-        message:
-          "Missing API Key: Add your Astria API Key to generate headshots",
+        message: "Missing API Key: Add your Astria API Key to generate headshots",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 
   if (images?.length < 4) {
+    console.log("Insufficient images provided", { count: images?.length });
     return NextResponse.json(
-      {
-        message: "Upload at least 4 sample images",
-      },
+      { message: "Upload at least 4 sample images" },
       { status: 500 }
     );
   }
   let _credits = null;
 
-  console.log({ stripeIsConfigured });
-  if (stripeIsConfigured) {
     const { error: creditError, data: credits } = await supabase
       .from("credits")
       .select("credits")
       .eq("user_id", user.id);
 
     if (creditError) {
-      console.error({ creditError });
+      console.error("Error fetching credits", { creditError });
       return NextResponse.json(
         {
           message: "Something went wrong!",
@@ -89,7 +101,7 @@ export async function POST(request: Request) {
         });
 
       if (errorCreatingCredits) {
-        console.error({ errorCreatingCredits });
+        console.error("Error Creating Credits", { errorCreatingCredits });
         return NextResponse.json(
           {
             message: "Something went wrong!",
@@ -116,7 +128,6 @@ export async function POST(request: Request) {
     } else {
       _credits = credits;
     }
-  }
 
   // create a model row in supabase
   const { error: modelError, data } = await supabase
@@ -130,7 +141,7 @@ export async function POST(request: Request) {
     .single();
 
   if (modelError) {
-    console.error("modelError: ", modelError);
+    console.error("Error Creating Model", { modelError });
     return NextResponse.json(
       {
         message: "Something went wrong!",
@@ -144,14 +155,16 @@ export async function POST(request: Request) {
 
   try {
 
-    const trainWebhook = `https://${process.env.VERCEL_URL}/astria/train-webhook`;
+    const trainWebhook = `${process.env.NEXT_PUBLIC_DOMAIN}/astria/train-webhook`;
     const trainWebhookWithParams = `${trainWebhook}?user_id=${user.id}&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
-    const promptWebhook = `https://${process.env.VERCEL_URL}/astria/prompt-webhook`;
+    console.log("Train Webhook", { trainWebhookWithParams });
+    const promptWebhook = `${process.env.NEXT_PUBLIC_DOMAIN}/astria/prompt-webhook`;
     const promptWebhookWithParams = `${promptWebhook}?user_id=${user.id}&&model_id=${modelId}&webhook_secret=${appWebhookSecret}`;
 
+    console.log("Prompt Webhook", { promptWebhookWithParams });
     const API_KEY = astriaApiKey;
-    const DOMAIN = "https://api.astria.ai";
+    const DOMAIN = astriaApiDomain;
 
     // Create a fine tuned model using Astria tune API
     const tuneBody = {
@@ -170,15 +183,12 @@ export async function POST(request: Request) {
             text: `portrait of ohwx ${type} wearing a business suit, professional photo, white background, Amazing Details, Best Quality, Masterpiece, dramatic lighting highly detailed, analog photo, overglaze, 80mm Sigma f/1.4 or any ZEISS lens`,
             callback: promptWebhookWithParams,
             num_images: 8,
-          },
-          {
-            text: `8k close up linkedin profile picture of ohwx ${type}, professional jack suite, professional headshots, photo-realistic, 4k, high-resolution image, workplace settings, upper body, modern outfit, professional suit, business, blurred background, glass building, office window`,
-            callback: promptWebhookWithParams,
-            num_images: 8,
-          },
+          }
         ],
       },
     };
+
+    console.log("Tune Body", JSON.stringify(tuneBody));
 
     // Create a fine tuned model using Astria packs API
     const packBody = {
@@ -193,18 +203,38 @@ export async function POST(request: Request) {
       },
     };
 
-    const response = await axios.post(
-      DOMAIN + (packsIsEnabled ? `/p/${pack}/tunes` : "/tunes"),
-      packsIsEnabled ? packBody : tuneBody,
+    console.log("Pack Body", JSON.stringify(packBody));
+
+    const apiUrl = DOMAIN + (packsIsEnabled ? `/p/${packId}/tunes` : "/tunes");
+    const requestBody = packsIsEnabled ? packBody : tuneBody;
+
+    console.log("API URL", { apiUrl });
+    console.log("Packs Is Enabled", { packsIsEnabled });
+    console.log("Request Body", { requestBody });
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    };
+
+    console.log('API Request Details:', {
+      url: apiUrl,
+      method: 'POST',
+      headers,
+      body: requestBody
+    });
+
+    const response = await fetch(
+      apiUrl,
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
+        method: 'POST',
+        headers,
+        body: JSON.stringify(requestBody)
       }
     );
 
     const { status } = response;
+    console.log("Response", { response });
 
     if (status !== 201) {
       console.error({ status });
@@ -239,6 +269,7 @@ export async function POST(request: Request) {
     );
 
     if (samplesError) {
+      console.log("Error Creating Samples", { samplesError });
       console.error("samplesError: ", samplesError);
       return NextResponse.json(
         {
@@ -248,7 +279,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (stripeIsConfigured && _credits && _credits.length > 0) {
+    if (_credits && _credits.length > 0) {
       const subtractedCredits = _credits[0].credits - 1;
       const { error: updateCreditError, data } = await supabase
         .from("credits")
@@ -260,6 +291,7 @@ export async function POST(request: Request) {
       console.log({ subtractedCredits });
 
       if (updateCreditError) {
+        console.log("Error Updating Credits", { updateCreditError });
         console.error({ updateCreditError });
         return NextResponse.json(
           {
@@ -270,7 +302,7 @@ export async function POST(request: Request) {
       }
     }
   } catch (e) {
-    console.error(e);
+      console.log("Error Training Model", { e });
     // Rollback: Delete the created model if something goes wrong
     if (modelId) {
       await supabase.from("models").delete().eq("id", modelId);

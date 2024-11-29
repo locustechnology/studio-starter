@@ -1,22 +1,39 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import StripePricingTable from "@/components/stripe/StripeTable";
+'use client';
 
-export const dynamic = "force-dynamic";
+import React from 'react';
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import PricingComponent from '@/components/PricingSection';
+import { User } from '@supabase/supabase-js';
 
-export default async function Index() {
-  const supabase = createServerComponentClient({ cookies });
+const GetCreditsPage: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUser(user);
+      } else {
+        router.push('/login');
+      }
+    };
+
+    fetchUser();
+  }, [supabase, router]);
 
   if (!user) {
-    return redirect("/login");
+    return null; // or a loading spinner
   }
 
   return (
-    <StripePricingTable user={user} />
+    <div>
+      <PricingComponent user={user} />
+    </div>
   );
-}
+};
+
+export default GetCreditsPage;

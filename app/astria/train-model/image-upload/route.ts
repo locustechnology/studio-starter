@@ -11,11 +11,12 @@ export async function POST(request: Request): Promise<NextResponse> {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
+    
   try {
     const jsonResponse = await handleUpload({
       body,
       request,
+      token: process.env.GOSTUDIO_WEB_READ_WRITE_TOKEN, // Add this line
       onBeforeGenerateToken: async (
         pathname: string
         /* clientPayload?: string, */
